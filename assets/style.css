@@ -1462,3 +1462,13 @@ html[lang="en"] .site-brand-en{
     font-size:38px;
   }
 }
+
+/* ==================================================
+   v21 — Experience landing order
+================================================== */
+.experience-landing-grid{
+  display:flex !important;
+  flex-direction:column !important;
+}
+.experience-academic{order:1}
+.experience-education{order:2}
