@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{{ page.description | default: site.description }}">
   <title>{{ page.title | default: site.title }}</title>
-  <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ site.github.url }}/assets/style.css">
 </head>
 <body>
 <header class="site-header">
-  <a class="site-brand" href="{% if page.lang == 'en' %}{{ '/en/' | relative_url }}{% else %}{{ '/' | relative_url }}{% endif %}">
+  <a class="site-brand" href="{% if page.lang == 'en' %}{{ site.github.url }}/en/{% else %}{{ site.github.url }}/{% endif %}">
     {% if page.lang == 'en' %}
       <span class="site-brand-zh">ZHANG JIAN, Yun-Yi@Taiwan</span>
     {% else %}
@@ -19,44 +19,44 @@
   <button class="mobile-toggle" aria-expanded="false" aria-label="Toggle navigation">Menu</button>
   <nav class="top-nav" aria-label="Primary navigation">
   {% if page.lang == 'en' %}
-    <a class="{% if page.nav == 'home' %}active{% endif %}" href="{{ '/en/' | relative_url }}">Home</a>
-    <a class="{% if page.nav == 'about' %}active{% endif %}" href="{{ '/en/about.html' | relative_url }}">About</a>
+    <a class="{% if page.nav == 'home' %}active{% endif %}" href="{{ site.github.url }}/en/">Home</a>
+    <a class="{% if page.nav == 'about' %}active{% endif %}" href="{{ site.github.url }}/en/about.html">About</a>
 
     <div class="nav-dropdown {% if page.nav == 'experience' %}active{% endif %}">
       <button class="nav-dropdown-trigger" type="button" aria-haspopup="true" aria-expanded="false">
         Experience <span class="nav-caret">⌄</span>
       </button>
       <div class="nav-dropdown-menu" role="menu">
-        <a href="{{ '/en/academic-experience.html' | relative_url }}" role="menuitem">Academic Experience</a>
-        <a href="{{ '/en/education-experience.html' | relative_url }}" role="menuitem">Education Experience</a>
+        <a href="{{ site.github.url }}/en/academic-experience.html" role="menuitem">Academic Experience</a>
+        <a href="{{ site.github.url }}/en/education-experience.html" role="menuitem">Education Experience</a>
       </div>
     </div>
 
-    <a class="{% if page.nav == 'publications' %}active{% endif %}" href="{{ '/en/publications.html' | relative_url }}">Publications</a>
-    <a class="{% if page.nav == 'tools' %}active{% endif %}" href="{{ '/en/tools.html' | relative_url }}">Learning Tools</a>
-    <a class="language-switch" href="{{ page.zh_url | default: '/' | relative_url }}">中文</a>
+    <a class="{% if page.nav == 'publications' %}active{% endif %}" href="{{ site.github.url }}/en/publications.html">Publications</a>
+    <a class="{% if page.nav == 'tools' %}active{% endif %}" href="{{ site.github.url }}/en/tools.html">Learning Tools</a>
+    <a class="language-switch" href="{% if page.zh_url %}{{ site.github.url }}{{ page.zh_url }}{% else %}{{ site.github.url }}/{% endif %}">中文</a>
   {% else %}
-    <a class="{% if page.nav == 'home' %}active{% endif %}" href="{{ '/' | relative_url }}">首頁</a>
-    <a class="{% if page.nav == 'about' %}active{% endif %}" href="{{ '/about.html' | relative_url }}">關於我</a>
+    <a class="{% if page.nav == 'home' %}active{% endif %}" href="{{ site.github.url }}/">首頁</a>
+    <a class="{% if page.nav == 'about' %}active{% endif %}" href="{{ site.github.url }}/about.html">關於我</a>
 
     <div class="nav-dropdown {% if page.nav == 'experience' %}active{% endif %}">
       <button class="nav-dropdown-trigger" type="button" aria-haspopup="true" aria-expanded="false">
         經歷 <span class="nav-caret">⌄</span>
       </button>
       <div class="nav-dropdown-menu" role="menu">
-        <a href="{{ '/academic-experience.html' | relative_url }}" role="menuitem">學術經歷</a>
-        <a href="{{ '/education-experience.html' | relative_url }}" role="menuitem">教育經歷</a>
+        <a href="{{ site.github.url }}/academic-experience.html" role="menuitem">學術經歷</a>
+        <a href="{{ site.github.url }}/education-experience.html" role="menuitem">教育經歷</a>
       </div>
     </div>
 
-    <a class="{% if page.nav == 'publications' %}active{% endif %}" href="{{ '/publications.html' | relative_url }}">發表</a>
-    <a class="{% if page.nav == 'tools' %}active{% endif %}" href="{{ '/tools.html' | relative_url }}">學習工具</a>
-    <a class="language-switch" href="{{ page.en_url | default: '/en/' | relative_url }}">EN</a>
+    <a class="{% if page.nav == 'publications' %}active{% endif %}" href="{{ site.github.url }}/publications.html">發表</a>
+    <a class="{% if page.nav == 'tools' %}active{% endif %}" href="{{ site.github.url }}/tools.html">學習工具</a>
+    <a class="language-switch" href="{% if page.en_url %}{{ site.github.url }}{{ page.en_url }}{% else %}{{ site.github.url }}/en/{% endif %}">EN</a>
   {% endif %}
   </nav>
 </header>
 {{ content }}
 <footer class="site-footer"><div class="footer-inner"><span>© {{ 'now' | date: '%Y' }} ZHANG JIAN, Yun-Yi</span></div></footer>
-<script src="{{ '/assets/site.js' | relative_url }}"></script>
+<script src="{{ site.github.url }}/assets/site.js"></script>
 </body>
 </html>

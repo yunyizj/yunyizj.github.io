@@ -4,12 +4,12 @@ layout: default
 <main class="page">
   <section class="detail-head">
     {% if page.lang == 'en' %}
-      <a class="back" href="{% if page.category == 'physics' %}{{ '/en/physics-research.html' | relative_url }}{% else %}{{ '/en/science-education.html' | relative_url }}{% endif %}">← Back to experience</a>
+      <a class="back" href="{% if page.category == 'physics' %}{{ site.github.url }}/en/physics-research.html{% else %}{{ site.github.url }}/en/science-education.html{% endif %}">← Back to experience</a>
       <span class="kicker">{{ page.year }} · Experience</span>
       <h1 class="detail-title">{{ page.title_en | default: page.title }}</h1>
       <div class="detail-meta"><span>{{ page.date_en | default: page.date_text }}</span><span>{{ page.location_en | default: page.location }}</span></div>
     {% else %}
-      <a class="back" href="{% if page.category == 'physics' %}{{ '/physics-research.html' | relative_url }}{% else %}{{ '/science-education.html' | relative_url }}{% endif %}">← 回到經歷</a>
+      <a class="back" href="{% if page.category == 'physics' %}{{ site.github.url }}/physics-research.html{% else %}{{ site.github.url }}/science-education.html{% endif %}">← 回到經歷</a>
       <span class="kicker">{{ page.year }} · Experience</span>
       <h1 class="detail-title">{{ page.title }}</h1>
       <div class="detail-meta"><span>{{ page.date_text }}</span><span>{{ page.location }}</span></div>
