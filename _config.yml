@@ -1,0 +1,29 @@
+title: "張簡雲翊 | ZHANG JIAN, Yun-Yi"
+description: "Personal academic and teaching website of ZHANG JIAN, Yun-Yi"
+url: ""
+baseurl: ""
+markdown: kramdown
+permalink: /articles/:year/:month/:day/:title/
+collections:
+  experiences:
+    output: true
+    permalink: /experience/:name/
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+      lang: zh
+  - scope:
+      path: "en"
+    values:
+      layout: default
+      lang: en
+  - scope:
+      path: ""
+      type: experiences
+    values:
+      layout: experience
+exclude:
+  - README.md
+  - zhangjian-personal-site.zip

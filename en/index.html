@@ -1,0 +1,14 @@
+---
+layout: default
+lang: en
+nav: home
+title: "ZHANG JIAN, Yun-Yi | Home"
+zh_url: /
+---
+<main><div class="page">
+<section class="hero">
+  <div class="hero-photo"><img src="{{ '/assets/profile.jpg' | relative_url }}" alt="Portrait of ZHANG JIAN, Yun-Yi"></div>
+  <div><span class="kicker">Hello</span><h1 class="hero-title"><a href="{{ '/en/about.html' | relative_url }}">Hi! I’m<br>ZHANG JIAN, Yun-Yi</a></h1><div class="hero-role-en" style="font-size:18px;margin-top:24px;color:var(--ink)">A science teacher</div><div class="hero-email">email: <a href="mailto:z0920041281@gmail.com">z0920041281@gmail.com</a></div><div class="social-row"><a class="social-btn" href="https://www.facebook.com/zhang.jian.yun.yi.2025" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a><a class="social-btn" href="https://www.linkedin.com/in/yunyizj" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">in</a></div></div>
+</section>
+<section class="section"><div class="section-head"><div><span class="kicker">Writing</span><h2 class="section-title">Articles</h2></div><a class="text-link" href="{{ '/en/articles.html' | relative_url }}">View all <span>→</span></a></div><div class="editorial-grid">{% assign en_posts = site.posts | where: 'lang', 'en' %}{% if en_posts.size > 0 %}{% for post in en_posts limit:3 %}<a class="editorial-card" href="{{ post.url | relative_url }}"><div class="meta">{{ post.date | date:'%Y.%m.%d' }} · {{ post.category }}</div><h3>{{ post.title }}</h3><p>{{ post.excerpt | strip_html | truncate:90 }}</p><span class="arrow">Read →</span></a>{% endfor %}{% else %}<div class="editorial-card"><div class="meta">Coming soon</div><h3>Articles coming soon</h3><p>New Markdown posts can be added directly to the _posts folder.</p></div>{% endif %}</div></section>
+</div></main>

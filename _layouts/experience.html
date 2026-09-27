@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<main class="page">
+  <section class="detail-head">
+    {% if page.lang == 'en' %}
+      <a class="back" href="{% if page.category == 'physics' %}{{ '/en/physics-research.html' | relative_url }}{% else %}{{ '/en/science-education.html' | relative_url }}{% endif %}">← Back to experience</a>
+      <span class="kicker">{{ page.year }} · Experience</span>
+      <h1 class="detail-title">{{ page.title_en | default: page.title }}</h1>
+      <div class="detail-meta"><span>{{ page.date_en | default: page.date_text }}</span><span>{{ page.location_en | default: page.location }}</span></div>
+    {% else %}
+      <a class="back" href="{% if page.category == 'physics' %}{{ '/physics-research.html' | relative_url }}{% else %}{{ '/science-education.html' | relative_url }}{% endif %}">← 回到經歷</a>
+      <span class="kicker">{{ page.year }} · Experience</span>
+      <h1 class="detail-title">{{ page.title }}</h1>
+      <div class="detail-meta"><span>{{ page.date_text }}</span><span>{{ page.location }}</span></div>
+    {% endif %}
+  </section>
+  <section class="detail-body">
+    <div class="detail-copy">
+      {% if page.lang == 'en' %}<p>{{ page.description_en | default: 'Coming soon.' }}</p>{% else %}<p>{{ page.description | default: 'Coming soon' }}</p>{% endif %}
+    </div>
+    <div class="detail-photo"><div class="photo-placeholder">Photo coming soon</div></div>
+  </section>
+</main>

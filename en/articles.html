@@ -1,0 +1,7 @@
+---
+layout: default
+lang: en
+title: "Articles | ZHANG JIAN, Yun-Yi"
+zh_url: /articles.html
+---
+<main class="page"><section class="about-intro"><span class="kicker">Writing</span><h1 class="about-name">Articles</h1><div class="about-summary">Markdown-based writing archive.</div></section><section class="publication-list">{% assign en_posts = site.posts | where:'lang','en' %}{% if en_posts.size > 0 %}{% for post in en_posts %}<a class="publication" href="{{ post.url | relative_url }}"><div class="publication-year">{{ post.date | date:'%Y' }}</div><div><h3>{{ post.title }}</h3><p>{{ post.date | date:'%Y.%m.%d' }} · {{ post.category }}</p></div></a>{% endfor %}{% else %}<div class="empty-state">Coming soon</div>{% endif %}</section></main>
