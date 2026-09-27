@@ -1312,3 +1312,39 @@ html[lang="en"] .experience-card-label{
     font-size:12px;
   }
 }
+
+/* ==================================================
+   v16 — bilingual site brand
+================================================== */
+.site-brand{
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  line-height:1;
+}
+.site-brand-en{
+  display:block;
+  margin-top:6px;
+  color:var(--muted);
+  font-size:8px;
+  font-weight:500;
+  letter-spacing:.13em;
+  white-space:nowrap;
+}
+
+/* Keep both language lines visible on English pages too */
+html[lang="en"] .site-brand-en{
+  display:block;
+}
+
+@media(max-width:780px){
+  .site-brand{
+    align-items:flex-start !important;
+  }
+  .site-brand-en{
+    display:block !important;
+    margin-top:5px;
+    font-size:7px;
+    letter-spacing:.11em;
+  }
+}

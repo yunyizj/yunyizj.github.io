@@ -10,11 +10,8 @@
 <body>
 <header class="site-header">
   <a class="site-brand" href="{% if page.lang == 'en' %}/en/{% else %}/{% endif %}">
-    {% if page.lang == 'en' %}
-      <span class="site-brand-zh">ZHANG JIAN, Yun-Yi@Taiwan</span>
-    {% else %}
-      <span class="site-brand-zh">張簡雲翊@Taiwan</span>
-    {% endif %}
+    <span class="site-brand-zh">張簡雲翊@Taiwan</span>
+    <span class="site-brand-en">ZHANG JIAN, Yun-Yi</span>
   </a>
 
   <button class="mobile-toggle" aria-expanded="false" aria-label="Toggle navigation">Menu</button>
