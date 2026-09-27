@@ -4,6 +4,7 @@ lang: zh
 nav: experience
 title: "教育經歷 | 張簡雲翊"
 en_url: /en/education-experience.html
+permalink: /education-experience.html
 ---
 <main class="page"><section class="about-intro"><span class="kicker">Experience · Education</span><h1 class="about-name">教育經歷</h1><div class="about-summary">由新到舊整理教學、課程設計、資優教育、國內外交流、教學助理與教師專業成長相關經歷。</div></section><section class="timeline">
 {% assign items0 = site.experiences | where:'category','science' %}{% assign items = items0 | where:'lang','zh' | sort:'sort_date' | reverse %}{% assign lastyear = '' %}{% for item in items %}{% if item.year != lastyear %}{% unless forloop.first %}</div></div>{% endunless %}<div class="year-block"><div class="year-number">{{ item.year }}</div><div class="year-items">{% assign lastyear = item.year %}{% endif %}<a class="timeline-item" href="{{ site.github.url }}{{ item.url }}"><div><h3>{{ item.title }}</h3><p>{{ item.location }}</p></div><div class="timeline-date">{{ item.date_text }}</div></a>{% if forloop.last %}</div></div>{% endif %}{% endfor %}

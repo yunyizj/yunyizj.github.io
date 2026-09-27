@@ -192,3 +192,257 @@ button,input,textarea{font:inherit}
   .nav-dropdown.open .nav-dropdown-menu{display:block}
   .top-nav .nav-dropdown-menu a{padding:10px 0;color:var(--muted)}
 }
+
+
+/* ==================================================
+   v8 — navigation matched to the CZJH gifted-class site
+================================================== */
+:root{--header-height:88px}
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  min-height:var(--header-height);
+  padding:0 clamp(22px,4vw,72px);
+  display:flex;
+  align-items:center;
+  gap:clamp(25px,4vw,70px);
+  background:rgba(255,254,250,.96);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+.site-brand{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  margin:0;
+}
+
+.site-brand-zh{
+  font-size:16px;
+  font-weight:500;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+
+.top-nav{
+  min-width:0;
+  flex:1 1 auto;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:clamp(17px,2vw,34px);
+  white-space:nowrap;
+  overflow:visible;
+  margin:0;
+}
+
+.nav-item{
+  position:relative;
+  display:flex;
+  align-items:center;
+  align-self:stretch;
+}
+
+.top-nav .nav-link{
+  position:relative;
+  display:flex;
+  align-items:center;
+  height:100%;
+  padding:34px 0 31px;
+  font-size:13px;
+  font-weight:400;
+  letter-spacing:.05em;
+  color:rgba(11,20,32,.72);
+  transition:color .25s ease;
+}
+
+.top-nav .nav-link::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:100%;
+  bottom:24px;
+  height:1px;
+  background:var(--accent);
+  transition:right .3s cubic-bezier(.22,1,.36,1);
+}
+
+.top-nav .nav-link:hover,
+.nav-item:hover > .nav-link,
+.top-nav .nav-link.active{
+  color:var(--ink);
+}
+
+.top-nav .nav-link:hover::after,
+.nav-item:hover > .nav-link::after,
+.top-nav .nav-link.active::after{
+  right:0;
+}
+
+.top-nav .language-switch{
+  margin-left:4px;
+  padding-left:18px;
+  border-left:1px solid var(--line);
+  color:var(--accent);
+}
+
+/* Same dropdown language as the gifted-class teacher menu */
+.dropdown{
+  position:absolute;
+  top:calc(100% - 1px);
+  right:0;
+  width:250px;
+  padding:12px;
+  background:var(--white);
+  border:1px solid var(--line);
+  box-shadow:0 18px 50px rgba(11,20,32,.10);
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(-7px);
+  pointer-events:none;
+  transition:opacity .22s ease,transform .22s ease,visibility 0s linear .22s;
+}
+
+.nav-item:hover .dropdown,
+.nav-item:focus-within .dropdown{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+  pointer-events:auto;
+  transition:opacity .22s ease,transform .22s ease,visibility 0s;
+}
+
+.dropdown-label{
+  display:block;
+  padding:8px 10px 10px;
+  font-size:9px;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+
+.top-nav .dropdown a{
+  display:block;
+  padding:11px 10px;
+  border-top:1px solid rgba(11,20,32,.08);
+  font-size:14px;
+  line-height:1.45;
+  color:var(--ink);
+  transition:background .2s ease,padding-left .2s ease;
+}
+
+.top-nav .dropdown a::after{display:none}
+.top-nav .dropdown a:hover{
+  background:var(--paper);
+  padding-left:14px;
+}
+
+/* Homepage: denser, less empty */
+.page{
+  max-width:1220px;
+  margin:0 auto;
+  padding:0 clamp(22px,4vw,64px);
+}
+
+.hero{
+  min-height:0;
+  display:grid;
+  grid-template-columns:minmax(300px,390px) minmax(390px,560px);
+  gap:clamp(50px,6vw,88px);
+  align-items:center;
+  justify-content:center;
+  padding-top:clamp(58px,6vw,82px);
+  padding-bottom:clamp(62px,6vw,88px);
+}
+
+.hero-photo{
+  width:100%;
+  max-width:390px;
+  justify-self:end;
+}
+
+.hero-title{
+  font-size:clamp(34px,3.2vw,50px);
+  line-height:1.15;
+}
+
+.hero-name-en{
+  margin-top:16px;
+  font-size:clamp(18px,1.35vw,22px);
+}
+
+.hero-role{
+  margin-top:16px;
+  font-size:clamp(16px,1vw,18px);
+}
+
+.hero-email{margin-top:26px}
+.social-row{margin-top:18px}
+
+.site-footer{
+  border-top:1px solid var(--line);
+  padding:28px clamp(22px,4vw,72px);
+}
+
+.footer-inner{
+  max-width:1220px;
+  margin:0 auto;
+}
+
+.mobile-toggle{display:none}
+
+@media (max-width:980px){
+  .site-header{
+    align-items:stretch;
+    flex-direction:column;
+    gap:0;
+    padding-top:17px;
+  }
+  .site-brand{padding-bottom:12px}
+  .top-nav{
+    justify-content:flex-start;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .top-nav::-webkit-scrollbar{display:none}
+  .top-nav .nav-link{
+    padding:14px 4px 18px;
+    height:48px;
+  }
+  .top-nav .nav-link::after{bottom:11px}
+  .dropdown{top:100%}
+  .hero{
+    grid-template-columns:minmax(260px,340px) minmax(330px,1fr);
+    gap:42px;
+  }
+}
+
+@media (max-width:780px){
+  .site-header{
+    padding-left:18px;
+    padding-right:18px;
+  }
+  .site-brand-zh{font-size:14px}
+  .top-nav{gap:20px}
+  .top-nav .nav-link{font-size:12px}
+  .dropdown{display:none}
+  .hero{
+    grid-template-columns:1fr;
+    gap:34px;
+    padding-top:42px;
+    padding-bottom:54px;
+  }
+  .hero-photo{
+    max-width:420px;
+    justify-self:center;
+  }
+  .hero > div:last-child{
+    max-width:620px;
+    width:100%;
+    margin:0 auto;
+  }
+}
