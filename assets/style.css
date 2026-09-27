@@ -1076,63 +1076,165 @@ html[lang="en"] .experience-card-label{
   }
 }
 
-/* v13: learning tools */
-.tools-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  border-top:1px solid var(--line-strong);
-  padding-bottom:90px;
+/* ==================================================
+   v14 — Learning Tools
+   Visual language matched to the CZJH gifted-class site
+================================================== */
+.gifted-tools{
+  padding-top:clamp(72px,7vw,104px);
+  padding-bottom:clamp(84px,8vw,120px);
 }
-.tool-card{
-  display:grid;
-  grid-template-columns:72px 1fr auto;
-  gap:24px;
-  align-items:center;
-  padding:26px 0;
-  border-bottom:1px solid var(--line);
-  transition:padding-left .22s ease,color .22s ease;
+
+.tools-section-head{
+  margin-bottom:clamp(40px,5vw,64px);
 }
-.tool-card:hover{
-  padding-left:10px;
+
+.gifted-tools .section-title-block{
+  display:block;
+}
+
+.gifted-tools .section-kicker{
+  margin-bottom:12px;
   color:var(--accent);
+  font-size:10px;
+  letter-spacing:.20em;
+  text-transform:uppercase;
 }
-.tool-index{
-  font-size:11px;
-  letter-spacing:.12em;
-  color:var(--muted);
+
+.gifted-tools .section-title{
+  font-size:clamp(48px,6vw,82px);
+  font-weight:400;
+  line-height:1.05;
+  letter-spacing:.055em;
 }
-.tool-card h2{
-  font-size:clamp(22px,2vw,30px);
-  font-weight:500;
+
+.tools-card-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:clamp(28px,4vw,54px);
+  row-gap:0;
+  border-top:1px solid var(--line-strong);
+}
+
+.tools-card{
+  position:relative;
+  min-height:220px;
+  padding:26px 0 34px;
+  border-bottom:1px solid var(--line-strong);
   color:var(--ink);
+  transition:padding-left .24s ease,color .24s ease;
 }
-.tool-card p{
-  margin-top:4px;
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.7;
+
+.tools-card:nth-child(odd):not(.tools-card-wide){
+  padding-right:clamp(20px,2.5vw,40px);
 }
-.tool-arrow{
-  font-size:20px;
+
+.tools-card:nth-child(even){
+  padding-left:clamp(20px,2.5vw,40px);
+  border-left:1px solid var(--line);
+}
+
+.tools-card:hover{
   color:var(--accent);
 }
 
+.tools-card:nth-child(odd):not(.tools-card-wide):hover{
+  padding-left:10px;
+}
+
+.tools-card:nth-child(even):hover{
+  padding-left:calc(clamp(20px,2.5vw,40px) + 10px);
+}
+
+.tools-card-wide{
+  grid-column:1 / -1;
+  min-height:190px;
+  padding-right:0;
+}
+
+.tools-card-wide:hover{
+  padding-left:10px;
+}
+
+.tools-card-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:42px;
+}
+
+.tools-number{
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:.12em;
+}
+
+.tools-arrow{
+  color:var(--accent);
+  font-size:18px;
+}
+
+.tools-card h2{
+  max-width:800px;
+  color:var(--ink);
+  font-size:clamp(28px,2.7vw,42px);
+  font-weight:450;
+  line-height:1.15;
+  letter-spacing:.015em;
+}
+
+.tools-card p{
+  max-width:680px;
+  margin-top:13px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.8;
+}
+
 @media(max-width:780px){
-  .tools-grid{
-    padding-bottom:58px;
+  .gifted-tools{
+    padding-top:48px;
+    padding-bottom:60px;
   }
-  .tool-card{
-    grid-template-columns:42px 1fr auto;
-    gap:12px;
-    padding:20px 0;
+
+  .gifted-tools .section-title{
+    font-size:46px;
   }
-  .tool-card:hover{
+
+  .tools-section-head{
+    margin-bottom:34px;
+  }
+
+  .tools-card-grid{
+    grid-template-columns:1fr;
+  }
+
+  .tools-card,
+  .tools-card:nth-child(odd):not(.tools-card-wide),
+  .tools-card:nth-child(even),
+  .tools-card-wide{
+    grid-column:auto;
+    min-height:0;
+    padding:22px 0 28px;
+    border-left:0;
+  }
+
+  .tools-card:hover,
+  .tools-card:nth-child(odd):not(.tools-card-wide):hover,
+  .tools-card:nth-child(even):hover,
+  .tools-card-wide:hover{
     padding-left:0;
   }
-  .tool-card h2{
-    font-size:21px;
+
+  .tools-card-top{
+    margin-bottom:24px;
   }
-  .tool-card p{
-    font-size:12px;
+
+  .tools-card h2{
+    font-size:28px;
+  }
+
+  .tools-card p{
+    font-size:13px;
   }
 }
