@@ -1,7 +1,0 @@
----
-layout: default
-lang: zh
-title: "文章 | 張簡雲翊"
-en_url: /en/articles.html
----
-<main class="page"><section class="about-intro"><span class="kicker">Writing</span><h1 class="about-name">文章</h1><div class="about-summary">像誠正資優網站公告一樣，以 Markdown 新增文章即可。</div></section><section class="publication-list">{% assign zh_posts = site.posts | where:'lang','zh' %}{% if zh_posts.size > 0 %}{% for post in zh_posts %}<a class="publication" href="{{ post.url | relative_url }}"><div class="publication-year">{{ post.date | date:'%Y' }}</div><div><h3>{{ post.title }}</h3><p>{{ post.date | date:'%Y.%m.%d' }} · {{ post.category }}</p></div></a>{% endfor %}{% else %}<div class="empty-state">Coming soon</div>{% endif %}</section></main>

@@ -42,3 +42,14 @@ Facebook and LinkedIn are enabled on both language homepages. Instagram and ORCI
 
 ## Add photos to experience details
 Each experience detail page currently displays `Photo coming soon`. Add the desired image to `assets/`, then replace the placeholder in `_layouts/experience.html` if you want a shared image structure, or add a front-matter `image:` field and render it there.
+
+
+### Experience file naming
+Files in `_experiences` use English-only filenames for GitHub readability. The page titles and displayed content remain bilingual as before.
+
+
+## v2 layout update
+- Removed the article section and `_posts`.
+- Header brand is `張簡雲翊@Taiwan`; navigation is aligned right.
+- Homepage typography was resized for a cleaner editorial layout.
+- Facebook and LinkedIn use inline SVG icons.
