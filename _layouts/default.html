@@ -10,21 +10,47 @@
 <body>
 <header class="site-header">
   <a class="site-brand" href="{% if page.lang == 'en' %}{{ '/en/' | relative_url }}{% else %}{{ '/' | relative_url }}{% endif %}">
-    <span class="site-brand-zh">張簡雲翊@Taiwan</span>
+    {% if page.lang == 'en' %}
+      <span class="site-brand-zh">ZHANG JIAN, Yun-Yi@Taiwan</span>
+    {% else %}
+      <span class="site-brand-zh">張簡雲翊@Taiwan</span>
+    {% endif %}
   </a>
   <button class="mobile-toggle" aria-expanded="false" aria-label="Toggle navigation">Menu</button>
   <nav class="top-nav" aria-label="Primary navigation">
   {% if page.lang == 'en' %}
     <a class="{% if page.nav == 'home' %}active{% endif %}" href="{{ '/en/' | relative_url }}">Home</a>
     <a class="{% if page.nav == 'about' %}active{% endif %}" href="{{ '/en/about.html' | relative_url }}">About</a>
-    <a class="{% if page.nav == 'tools' %}active{% endif %}" href="{{ '/en/tools.html' | relative_url }}">Learning Tools</a>
+
+    <div class="nav-dropdown {% if page.nav == 'experience' %}active{% endif %}">
+      <button class="nav-dropdown-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+        Experience <span class="nav-caret">⌄</span>
+      </button>
+      <div class="nav-dropdown-menu" role="menu">
+        <a href="{{ '/en/academic-experience.html' | relative_url }}" role="menuitem">Academic Experience</a>
+        <a href="{{ '/en/education-experience.html' | relative_url }}" role="menuitem">Education Experience</a>
+      </div>
+    </div>
+
     <a class="{% if page.nav == 'publications' %}active{% endif %}" href="{{ '/en/publications.html' | relative_url }}">Publications</a>
+    <a class="{% if page.nav == 'tools' %}active{% endif %}" href="{{ '/en/tools.html' | relative_url }}">Learning Tools</a>
     <a class="language-switch" href="{{ page.zh_url | default: '/' | relative_url }}">中文</a>
   {% else %}
     <a class="{% if page.nav == 'home' %}active{% endif %}" href="{{ '/' | relative_url }}">首頁</a>
     <a class="{% if page.nav == 'about' %}active{% endif %}" href="{{ '/about.html' | relative_url }}">關於我</a>
-    <a class="{% if page.nav == 'tools' %}active{% endif %}" href="{{ '/tools.html' | relative_url }}">學習工具</a>
+
+    <div class="nav-dropdown {% if page.nav == 'experience' %}active{% endif %}">
+      <button class="nav-dropdown-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+        經歷 <span class="nav-caret">⌄</span>
+      </button>
+      <div class="nav-dropdown-menu" role="menu">
+        <a href="{{ '/academic-experience.html' | relative_url }}" role="menuitem">學術經歷</a>
+        <a href="{{ '/education-experience.html' | relative_url }}" role="menuitem">教育經歷</a>
+      </div>
+    </div>
+
     <a class="{% if page.nav == 'publications' %}active{% endif %}" href="{{ '/publications.html' | relative_url }}">發表</a>
+    <a class="{% if page.nav == 'tools' %}active{% endif %}" href="{{ '/tools.html' | relative_url }}">學習工具</a>
     <a class="language-switch" href="{{ page.en_url | default: '/en/' | relative_url }}">EN</a>
   {% endif %}
   </nav>
