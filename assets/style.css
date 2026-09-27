@@ -710,3 +710,368 @@ html[lang="en"] .kicker,
 html[lang="en"] .experience-card-label{
   display:none;
 }
+
+
+/* ==================================================
+   v12 — MOBILE LAYOUT
+   Follow the gifted-class site's compact mobile header:
+   brand on top, one horizontal scrollable navigation row,
+   no full-screen / vertical menu.
+================================================== */
+@media (max-width: 780px){
+
+  /* Header */
+  .site-header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:0 !important;
+    min-height:auto !important;
+    padding:14px 18px 0 !important;
+    background:rgba(255,254,250,.98);
+  }
+
+  .site-brand{
+    display:flex !important;
+    align-items:center;
+    padding:0 0 10px !important;
+    margin:0 !important;
+  }
+
+  .site-brand-zh{
+    font-size:14px !important;
+    line-height:1.2;
+    letter-spacing:.055em;
+  }
+
+  /* Never use the old vertical mobile menu */
+  .mobile-toggle{
+    display:none !important;
+  }
+
+  .top-nav,
+  .top-nav.open{
+    position:static !important;
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    width:100% !important;
+    padding:0 !important;
+    margin:0 !important;
+    gap:20px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    white-space:nowrap !important;
+    border:0 !important;
+    background:transparent !important;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .top-nav::-webkit-scrollbar{
+    display:none;
+  }
+
+  .nav-item{
+    flex:0 0 auto !important;
+    display:flex !important;
+    align-items:center !important;
+    align-self:auto !important;
+  }
+
+  .top-nav .nav-link,
+  .top-nav a{
+    width:auto !important;
+    height:46px !important;
+    display:flex !important;
+    align-items:center !important;
+    padding:0 2px !important;
+    border:0 !important;
+    border-bottom:0 !important;
+    font-size:12px !important;
+    letter-spacing:.04em;
+  }
+
+  .top-nav .nav-link::after{
+    display:block !important;
+    bottom:6px !important;
+  }
+
+  .top-nav .language-switch{
+    margin-left:0 !important;
+    padding-left:16px !important;
+    border-left:1px solid var(--line) !important;
+  }
+
+  /* Hover dropdowns do not make sense on touch devices */
+  .dropdown{
+    display:none !important;
+  }
+
+  .nav-arrow{
+    width:5px;
+    height:5px;
+    margin-left:6px;
+  }
+
+  /* Home */
+  .page{
+    width:100%;
+    max-width:none;
+    padding-left:20px !important;
+    padding-right:20px !important;
+  }
+
+  .hero{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:28px !important;
+    min-height:0 !important;
+    padding:34px 0 48px !important;
+  }
+
+  .hero-photo{
+    width:100% !important;
+    max-width:340px !important;
+    aspect-ratio:4/5 !important;
+    margin:0 auto !important;
+    justify-self:auto !important;
+  }
+
+  .hero-photo img{
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+  }
+
+  .hero > div:last-child{
+    width:100% !important;
+    max-width:340px !important;
+    margin:0 auto !important;
+  }
+
+  .hero-title,
+  .hero-title-en{
+    white-space:normal !important;
+    font-size:clamp(34px,10vw,43px) !important;
+    line-height:1.13 !important;
+    letter-spacing:.01em !important;
+  }
+
+  .hero-name-en{
+    margin-top:14px !important;
+    font-size:20px !important;
+    line-height:1.35;
+  }
+
+  .hero-role{
+    margin-top:14px !important;
+    font-size:16px !important;
+  }
+
+  .hero-role-en{
+    font-size:14px !important;
+  }
+
+  .hero-email{
+    margin-top:22px !important;
+    font-size:13px !important;
+    overflow-wrap:anywhere;
+  }
+
+  .social-row{
+    margin-top:16px !important;
+  }
+
+  /* About / general content */
+  .about-intro{
+    padding-top:48px !important;
+    padding-bottom:32px !important;
+  }
+
+  .about-name{
+    font-size:44px !important;
+    line-height:1.08 !important;
+    letter-spacing:.02em;
+  }
+
+  .about-en{
+    margin-top:12px !important;
+    font-size:22px !important;
+  }
+
+  .about-summary{
+    margin-top:18px !important;
+    font-size:14px !important;
+    line-height:1.8;
+  }
+
+  .about-email{
+    font-size:15px !important;
+  }
+
+  .cv-row{
+    grid-template-columns:1fr !important;
+    gap:14px !important;
+    padding:30px 0 !important;
+  }
+
+  .cv-label h2{
+    font-size:24px !important;
+  }
+
+  /* Experience / tabs */
+  .content-tabs{
+    padding-bottom:58px !important;
+  }
+
+  .tab-nav,
+  .centered-tab-nav{
+    justify-content:flex-start !important;
+    flex-wrap:nowrap !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    white-space:nowrap !important;
+    gap:0 !important;
+    margin-bottom:28px !important;
+    scrollbar-width:none;
+  }
+
+  .tab-nav::-webkit-scrollbar{
+    display:none;
+  }
+
+  .tab-button,
+  .centered-tab-nav .tab-button{
+    flex:0 0 auto !important;
+    margin:0 22px 0 0 !important;
+    padding:13px 0 12px !important;
+    font-size:13px !important;
+  }
+
+  .section-mini-head{
+    align-items:flex-start !important;
+    flex-direction:column !important;
+    gap:4px !important;
+    margin-bottom:22px !important;
+  }
+
+  .section-mini-head h2{
+    font-size:30px !important;
+  }
+
+  .year-block{
+    grid-template-columns:1fr !important;
+    gap:16px !important;
+    padding:34px 0 !important;
+  }
+
+  .year-number{
+    font-size:42px !important;
+  }
+
+  .timeline-item{
+    grid-template-columns:1fr !important;
+    gap:6px !important;
+    padding:18px 0 !important;
+  }
+
+  .timeline-item h3{
+    font-size:17px !important;
+  }
+
+  .timeline-date{
+    text-align:left !important;
+  }
+
+  .simple-row{
+    grid-template-columns:1fr !important;
+    gap:6px !important;
+    padding:18px 0 !important;
+  }
+
+  .experience-landing-grid{
+    grid-template-columns:1fr !important;
+    gap:14px !important;
+    padding-bottom:56px !important;
+  }
+
+  .experience-landing-card{
+    min-height:190px !important;
+    padding:26px !important;
+  }
+
+  .experience-landing-card h2{
+    font-size:30px !important;
+  }
+
+  /* Publications */
+  .publication,
+  .clickable-publications .publication{
+    grid-template-columns:64px 1fr auto !important;
+    gap:14px !important;
+    padding:22px 0 !important;
+  }
+
+  .publication-year{
+    font-size:14px !important;
+  }
+
+  .publication h3{
+    font-size:19px !important;
+  }
+
+  .publication p{
+    font-size:13px !important;
+  }
+
+  /* Detail pages */
+  .detail-head{
+    padding-top:44px !important;
+    padding-bottom:30px !important;
+  }
+
+  .detail-title{
+    font-size:clamp(34px,10vw,46px) !important;
+  }
+
+  .detail-meta{
+    display:grid !important;
+    gap:6px !important;
+  }
+
+  .detail-body{
+    grid-template-columns:1fr !important;
+    gap:26px !important;
+  }
+
+  /* Footer */
+  .site-footer{
+    padding:26px 20px !important;
+  }
+}
+
+@media (max-width: 420px){
+  .hero-photo,
+  .hero > div:last-child{
+    max-width:100% !important;
+  }
+
+  .hero-title,
+  .hero-title-en{
+    font-size:36px !important;
+  }
+
+  .about-name{
+    font-size:40px !important;
+  }
+
+  .top-nav{
+    gap:18px !important;
+  }
+}
