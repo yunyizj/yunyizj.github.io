@@ -1348,3 +1348,37 @@ html[lang="en"] .site-brand-en{
     letter-spacing:.11em;
   }
 }
+
+/* ==================================================
+   v17 — force bilingual brand onto two lines
+================================================== */
+.site-brand{
+  display:flex !important;
+  flex-direction:column !important;
+  flex-wrap:nowrap !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  gap:0 !important;
+}
+
+.site-brand-zh,
+.site-brand-en{
+  display:block !important;
+  width:auto !important;
+  white-space:nowrap !important;
+}
+
+.site-brand-en{
+  margin-top:6px !important;
+  line-height:1.15 !important;
+}
+
+@media(max-width:780px){
+  .site-brand{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+  }
+  .site-brand-en{
+    margin-top:5px !important;
+  }
+}
