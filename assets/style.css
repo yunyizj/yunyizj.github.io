@@ -1421,3 +1421,44 @@ html[lang="en"] .site-brand-en{
     letter-spacing:.05em !important;
   }
 }
+
+/* ==================================================
+   v20 — Related Links + subtle footer bar
+================================================== */
+.related-primary{
+  padding-bottom:0;
+}
+
+.related-tools-section{
+  padding-top:72px;
+  padding-bottom:90px;
+}
+
+.related-tools-head{
+  margin-bottom:28px;
+}
+
+.related-tools-head h2{
+  font-size:clamp(40px,5vw,68px);
+  font-weight:400;
+  line-height:1.08;
+  letter-spacing:.04em;
+}
+
+/* Slightly visible footer bar, similar to CZJH GATE site */
+.site-footer{
+  background:#f1f2f3 !important;
+  border-top:1px solid rgba(11,20,32,.08) !important;
+  color:rgba(11,20,32,.58) !important;
+}
+
+@media(max-width:780px){
+  .related-tools-section{
+    padding-top:54px;
+    padding-bottom:58px;
+  }
+
+  .related-tools-head h2{
+    font-size:38px;
+  }
+}

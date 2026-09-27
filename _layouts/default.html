@@ -31,7 +31,7 @@
     </div>
 
     <div class="nav-item"><a class="nav-link {% if page.nav == 'publications' %}active{% endif %}" href="/en/publications.html">Publications</a></div>
-    <div class="nav-item"><a class="nav-link {% if page.nav == 'tools' %}active{% endif %}" href="/en/tools.html">Learning Tools</a></div>
+    <div class="nav-item"><a class="nav-link {% if page.nav == 'tools' %}active{% endif %}" href="/en/tools.html">Related Links</a></div>
     <div class="nav-item"><a class="nav-link language-switch" href="{% if page.zh_url %}{{ page.zh_url }}{% else %}/{% endif %}">中文</a></div>
   {% else %}
     <div class="nav-item"><a class="nav-link {% if page.nav == 'home' %}active{% endif %}" href="/">首頁</a></div>
@@ -47,7 +47,7 @@
     </div>
 
     <div class="nav-item"><a class="nav-link {% if page.nav == 'publications' %}active{% endif %}" href="/publications.html">發表</a></div>
-    <div class="nav-item"><a class="nav-link {% if page.nav == 'tools' %}active{% endif %}" href="/tools.html">學習工具</a></div>
+    <div class="nav-item"><a class="nav-link {% if page.nav == 'tools' %}active{% endif %}" href="/tools.html">相關連結</a></div>
     <div class="nav-item"><a class="nav-link language-switch" href="{% if page.en_url %}{{ page.en_url }}{% else %}/en/{% endif %}">EN</a></div>
   {% endif %}
   </nav>
