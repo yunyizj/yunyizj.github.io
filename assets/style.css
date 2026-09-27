@@ -1382,3 +1382,42 @@ html[lang="en"] .site-brand-en{
     margin-top:5px !important;
   }
 }
+
+/* ==================================================
+   v18 — larger English line in bilingual site brand
+================================================== */
+.site-brand-en{
+  font-size:10px !important;
+  font-weight:500 !important;
+  letter-spacing:.10em !important;
+}
+
+@media(max-width:780px){
+  .site-brand-en{
+    font-size:9px !important;
+    letter-spacing:.09em !important;
+  }
+}
+
+/* ==================================================
+   v19 — Chinese and English site-brand lines are equal priority
+================================================== */
+.site-brand-zh,
+.site-brand-en{
+  font-size:16px !important;
+  font-weight:500 !important;
+  letter-spacing:.06em !important;
+  line-height:1.15 !important;
+}
+
+.site-brand-en{
+  margin-top:4px !important;
+}
+
+@media(max-width:780px){
+  .site-brand-zh,
+  .site-brand-en{
+    font-size:14px !important;
+    letter-spacing:.05em !important;
+  }
+}
