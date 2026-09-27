@@ -569,3 +569,110 @@ a.simple-row:hover strong{color:var(--accent)}
   .simple-row{grid-template-columns:1fr;gap:8px}
   .clickable-publications .publication{grid-template-columns:70px 1fr auto;gap:16px}
 }
+
+/* v10: homepage type scale */
+.hero-title{
+  font-size:clamp(42px,4.2vw,64px);
+  line-height:1.10;
+}
+.hero-name-en{
+  font-size:clamp(21px,1.65vw,28px);
+}
+.hero-role{
+  font-size:clamp(17px,1.15vw,20px);
+}
+
+/* v10: center the experience dropdown content */
+.dropdown{
+  text-align:center;
+}
+.dropdown-label{
+  text-align:center;
+}
+.top-nav .dropdown a{
+  text-align:center;
+}
+.top-nav .dropdown a:hover{
+  padding-left:10px;
+}
+
+/* v10: experience landing page */
+.experience-landing-head{
+  padding-bottom:34px;
+}
+.experience-landing-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px;
+  padding-bottom:90px;
+}
+.experience-landing-card{
+  position:relative;
+  min-height:250px;
+  padding:34px;
+  border:1px solid var(--line);
+  background:var(--paper-2);
+  transition:transform .22s ease,border-color .22s ease;
+}
+.experience-landing-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--accent);
+}
+.experience-card-label{
+  display:block;
+  margin-bottom:34px;
+  color:var(--accent);
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.experience-landing-card h2{
+  font-size:clamp(28px,3vw,42px);
+  font-weight:450;
+}
+.experience-landing-card p{
+  max-width:520px;
+  margin-top:14px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.8;
+}
+.experience-card-arrow{
+  position:absolute;
+  right:28px;
+  bottom:24px;
+  color:var(--accent);
+  font-size:24px;
+}
+
+/* v10: centered tab labels where appropriate */
+.centered-tab-nav{
+  justify-content:center;
+}
+.centered-tab-nav .tab-button{
+  margin-left:16px;
+  margin-right:16px;
+  padding-left:18px;
+  padding-right:18px;
+  text-align:center;
+}
+
+/* v10: about contact */
+.about-contact{
+  margin-top:26px;
+}
+.about-email{
+  display:inline-block;
+  color:var(--muted);
+  font-size:13px;
+  border-bottom:1px solid var(--line);
+}
+.about-contact .social-row{
+  margin-top:16px;
+}
+
+@media(max-width:780px){
+  .experience-landing-grid{
+    grid-template-columns:1fr;
+  }
+}
