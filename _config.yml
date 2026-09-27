@@ -1,7 +1,7 @@
 title: "張簡雲翊 | ZHANG JIAN, Yun-Yi"
 description: "Personal academic and teaching website of ZHANG JIAN, Yun-Yi"
-url: ""
-baseurl: ""
+url: "https://yunyizj.github.io"
+baseurl: "/yunyizj"
 markdown: kramdown
 permalink: /articles/:year/:month/:day/:title/
 collections:

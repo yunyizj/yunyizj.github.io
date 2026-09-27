@@ -53,3 +53,14 @@ Files in `_experiences` use English-only filenames for GitHub readability. The p
 - Header brand is `張簡雲翊@Taiwan`; navigation is aligned right.
 - Homepage typography was resized for a cleaner editorial layout.
 - Facebook and LinkedIn use inline SVG icons.
+
+
+## Current GitHub Pages deployment
+
+This package is configured for the repository:
+
+- GitHub user: `yunyizj`
+- Repository: `yunyizj`
+- Pages URL: `https://yunyizj.github.io/yunyizj/`
+
+If the repository is renamed to `yunyizj.github.io`, change `_config.yml` to `baseurl: ""`.
