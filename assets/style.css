@@ -1238,3 +1238,77 @@ html[lang="en"] .experience-card-label{
     font-size:13px;
   }
 }
+
+/* ==================================================
+   v15 — restore original learning-tools list style
+================================================== */
+.gifted-tools,
+.tools-card-grid,
+.tools-card,
+.tools-number,
+.tools-card-top,
+.tools-card-wide{
+  all:unset;
+}
+
+.tools-list{
+  display:block;
+  border-top:1px solid var(--line-strong);
+  padding-bottom:90px;
+}
+
+.tool-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:28px;
+  align-items:center;
+  padding:24px 0;
+  border-bottom:1px solid var(--line);
+  color:var(--ink);
+}
+
+.tool-row h2{
+  font-size:clamp(24px,2.2vw,32px);
+  font-weight:500;
+  line-height:1.2;
+}
+
+.tool-row p{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.75;
+}
+
+.tool-row-arrow{
+  color:var(--accent);
+  font-size:20px;
+  transition:transform .2s ease;
+}
+
+.tool-row:hover h2{
+  color:var(--accent);
+}
+
+.tool-row:hover .tool-row-arrow{
+  transform:translate(3px,-3px);
+}
+
+@media(max-width:780px){
+  .tools-list{
+    padding-bottom:58px;
+  }
+
+  .tool-row{
+    gap:16px;
+    padding:20px 0;
+  }
+
+  .tool-row h2{
+    font-size:22px;
+  }
+
+  .tool-row p{
+    font-size:12px;
+  }
+}
