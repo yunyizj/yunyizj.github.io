@@ -676,3 +676,37 @@ a.simple-row:hover strong{color:var(--accent)}
     grid-template-columns:1fr;
   }
 }
+
+/* v11: larger top navigation */
+.top-nav .nav-link{
+  font-size:14px;
+}
+
+/* v11: center academic/education tab labels consistently */
+.centered-tab-nav{
+  justify-content:center;
+}
+.centered-tab-nav .tab-button{
+  text-align:center;
+}
+
+/* v11: about email emphasis */
+.about-email{
+  font-size:16px;
+  line-height:1.6;
+}
+
+/* v11: experience landing is intentionally vertical */
+.experience-landing-grid{
+  grid-template-columns:1fr;
+  max-width:900px;
+}
+.experience-landing-card{
+  min-height:210px;
+}
+
+/* v11: remove small blue English labels on English pages */
+html[lang="en"] .kicker,
+html[lang="en"] .experience-card-label{
+  display:none;
+}
