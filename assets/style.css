@@ -1472,3 +1472,21 @@ html[lang="en"] .site-brand-en{
 }
 .experience-academic{order:1}
 .experience-education{order:2}
+
+/* ==================================================
+   v23 — footer color matched to CZJH GATE
+================================================== */
+.site-footer{
+  background:#f5f3ed !important;
+  border-top:1px solid rgba(11,20,32,.06) !important;
+  color:rgba(11,20,32,.58) !important;
+}
+
+/* ==================================================
+   v24 — exact CZJH GATE footer tone
+================================================== */
+.site-footer{
+  background:#f5f3ed !important;
+  border-top:1px solid rgba(11,20,32,.045) !important;
+  color:rgba(11,20,32,.56) !important;
+}
