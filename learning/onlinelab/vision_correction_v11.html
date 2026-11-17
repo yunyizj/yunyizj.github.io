@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>近視與遠視矯正</title>
+<style>
+:root{--ink:#17324c;--muted:#67829b;--blue:#1479c8;--line:#d6e3ed;--bg:#f2f6fa;--white:#fff;--orange:#e88b36;--green:#229b75}*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink)}button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible{outline:3px solid #63bafb;outline-offset:2px}.app{max-width:1680px;margin:auto;padding:16px 22px 28px}.heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.heading h1{font-size:clamp(24px,2.35vw,35px);margin:0;letter-spacing:.06em}.top-controls{display:flex;gap:12px;flex-wrap:wrap}.control-group{display:flex;flex-direction:column;gap:7px;padding:11px 13px;background:white;border:1px solid var(--line);border-radius:14px}.control-group .group-title{font-weight:700;font-size:14px}.buttons{display:flex;gap:6px;flex-wrap:wrap}.choice{border:1px solid #c7d7e6;border-radius:9px;padding:9px 14px;background:#fff;color:var(--ink);font-weight:700;white-space:nowrap}.choice:hover{background:#eef7ff}.choice.active{background:#dcefff;border-color:#1877c2;color:#0765a8;box-shadow:0 0 0 1px #1877c2 inset}.choice.active.condition{background:#fff0de;border-color:#e48a30;color:#a45706;box-shadow:0 0 0 1px #e48a30 inset}.panel{background:white;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 4px 15px #163c5a08}.view-header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:13px 20px 9px}.view-header h2,.eye-head h2{font-size:19px;margin:0}.focus-actions{display:flex;gap:9px}.focus-button{border-radius:10px;border:1px solid #bed5e7;background:#f5faff;font-weight:700;color:#245675;padding:9px 18px}.focus-button.active{background:#1676c4;color:white;border-color:#1676c4}.scene{position:relative;height:clamp(245px,22vw,315px);margin:0 18px 8px}.scene svg{width:100%;height:100%;display:block}.scene .object{cursor:pointer;outline:none;transition:opacity .2s}.scene #rabbit-object{cursor:grab;touch-action:none}.scene #rabbit-object.dragging{cursor:grabbing}.scene .object:hover{filter:drop-shadow(0 0 6px #4faaf6)}.scene .object:focus-visible{filter:drop-shadow(0 0 7px #1679cb)}.scene-label{font-size:16px;fill:#274f70;font-weight:700}.preview-wrap{position:absolute;left:29%;top:-36px;width:42%;height:42%;z-index:2;pointer-events:none}.preview-caption{position:absolute;left:10px;top:6px;z-index:3;color:#154770;font-weight:700;font-size:clamp(12px,1.1vw,16px);padding:5px 10px;background:#fffffff0;border-radius:8px}.preview{width:100%;height:100%;border:3px solid #4096d7;border-radius:13px;box-shadow:0 5px 18px #3a6c9426;background:#d4edff;display:block}.distance-note{font-size:13px;fill:#728da3}.eye-panel{margin-top:14px}.eye-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid var(--line)}.eye-head .status{font-size:14px;font-weight:700;color:#225f9e;background:#edf6ff;padding:7px 12px;border-radius:9px}.eye-layout{display:grid;grid-template-columns:minmax(0,1fr) 232px;gap:10px;align-items:stretch;padding:8px 14px 12px}.diagram-wrap{min-width:0;position:relative}.eye-canvas{display:block;width:100%;height:clamp(310px,30vw,440px);touch-action:pan-y}.key{display:flex;gap:15px;flex-wrap:wrap;justify-content:center;margin-top:2px;font-size:13px;color:#49677f}.key span{display:flex;align-items:center;gap:5px}.key i{width:24px;height:3px;border-radius:3px;display:inline-block}.side-panel{border:1px solid var(--line);background:#f9fcff;border-radius:13px;padding:14px;display:flex;flex-direction:column;gap:12px}.side-panel h3{font-size:16px;margin:0 0 3px}.accommodation{display:grid;gap:9px}.mini{border-radius:11px;border:1px solid #d9e7f0;background:white;padding:10px;display:flex;align-items:center;gap:13px}.mini.active{border-color:#3aa1e4;box-shadow:0 0 0 1px #3aa1e4 inset}.mini svg{flex-shrink:0;width:48px;height:61px}.mini strong{display:block;font-size:15px}.mini small{color:#607a90;font-size:12px;line-height:1.7}.lens-amount{border-top:1px solid var(--line);padding-top:12px;margin-top:auto}.meter{height:10px;background:#e1edf4;border-radius:6px;overflow:hidden;margin-top:9px}.meter>div{height:100%;width:0;background:linear-gradient(90deg,#7bc0f0,#1973bd);border-radius:6px;transition:width .4s}.output{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px;padding:12px 17px;background:#eff7fd;border-radius:10px;font-size:14px;font-weight:700}.output .fine{font-weight:400;color:#526f85}.side-panel.locked .mini{opacity:.45}.side-panel.locked .meter>div{background:#aab8c4}.footer-note{margin:9px 4px 0;font-size:12px;color:#72879a;line-height:1.6}@media(max-width:1150px){.eye-layout{grid-template-columns:1fr}.side-panel{display:grid;grid-template-columns:1fr 1fr}.eye-canvas{height:370px}}@media(max-width:720px){.app{padding:12px}.top-controls{width:100%}.control-group{width:100%}.choice{flex:1;padding:9px 6px;font-size:13px}.scene{height:260px;margin:0 4px}.preview-wrap{left:20%;width:58%;height:38%;top:-24px}.scene-label{font-size:19px}.focus-actions{width:100%;justify-content:stretch}.focus-button{flex:1;padding:9px}.eye-layout{padding:8px 4px}.side-panel{grid-template-columns:1fr}.eye-canvas{height:310px}.output{font-size:12px}}
+</style>
+</head>
+<body><main class="app">
+<header class="heading"><h1>近視與遠視矯正</h1><div class="top-controls"><section class="control-group" aria-label="眼睛狀態"><div class="group-title">眼睛狀態</div><div class="buttons" id="conditions"><button class="choice active condition" data-value="normal">正常眼</button><button class="choice" data-value="myopia">近視眼</button><button class="choice" data-value="hyperopia">遠視眼</button></div></section><section class="control-group" aria-label="配戴眼鏡"><div class="group-title">配戴眼鏡</div><div class="buttons" id="glasses"><button class="choice active" data-value="none">不戴眼鏡</button><button class="choice" data-value="concave">凹透鏡眼鏡</button><button class="choice" data-value="convex">凸透鏡眼鏡</button></div></section></div></header>
+<section class="panel" aria-label="觀察者的視野"><div class="view-header"><h2>看見的畫面</h2><div class="focus-actions" id="targets"><button class="focus-button active" data-value="rabbit">🐇 專注兔子</button><button class="focus-button" data-value="trees">🌳 專注樹林</button></div></div>
+<div class="scene"><svg viewBox="0 0 1450 270" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="從左至右：遠處樹林、近處兔子、最右側觀察者。點選兔子或樹林切換焦點。"><defs><linearGradient id="ground" x2="0" y2="1"><stop stop-color="#8ccf86"/><stop offset="1" stop-color="#4c9d5c"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="5"/></filter></defs><path d="M20 215H1430" stroke="#637d93" stroke-width="3"/><g class="object" id="tree-object" role="button" tabindex="0" aria-label="專注遠處樹林"><g fill="#7c5738"><path d="M94 206v-72h13v72M158 206v-98h15v98M219 206v-70h13v70"/></g><g fill="#55a85f" stroke="#34844a" stroke-width="2"><circle cx="91" cy="140" r="33"/><circle cx="126" cy="143" r="33"/><circle cx="103" cy="116" r="36"/><circle cx="160" cy="103" r="40"/><circle cx="191" cy="117" r="36"/><circle cx="222" cy="145" r="34"/><circle cx="244" cy="164" r="25"/></g><path d="M36 209q55-24 111 0q74-32 141 0Z" fill="url(#ground)"/><text x="159" y="252" class="scene-label" text-anchor="middle">遠物：樹林</text></g><g class="object" id="rabbit-object" role="button" tabindex="0" aria-label="拖曳兔子調整物距，或點選專注兔子" transform="translate(870,130)"><ellipse cx="40" cy="61" rx="45" ry="24" fill="#e6edec"/><ellipse cx="24" cy="-7" rx="13" ry="51" transform="rotate(-15,24,-7)" fill="#fff" stroke="#9ba5ae" stroke-width="2"/><ellipse cx="49" cy="-6" rx="12" ry="47" transform="rotate(10,49,-6)" fill="#fff" stroke="#9ba5ae" stroke-width="2"/><ellipse cx="24" cy="-6" rx="5" ry="36" transform="rotate(-15,24,-6)" fill="#f6c2c8"/><ellipse cx="49" cy="-6" rx="5" ry="33" transform="rotate(10,49,-6)" fill="#f6c2c8"/><ellipse cx="40" cy="38" rx="38" ry="39" fill="white" stroke="#9ba5ae" stroke-width="2"/><circle cx="28" cy="31" r="3.7" fill="#172b3a"/><path d="M18 40q7 8 15 1" fill="none" stroke="#a0aab3" stroke-width="2"/><circle cx="16" cy="37" r="4" fill="#f3adac"/><circle cx="79" cy="61" r="13" fill="white" stroke="#9ba5ae" stroke-width="2"/><text x="40" y="117" class="scene-label" text-anchor="middle">近物：兔子</text></g><g transform="translate(1257,20)"><path d="M-5 196q0-58 69-61q78 0 86 61" fill="#e89b49" stroke="#9a5832" stroke-width="3"/><path d="M39 126h54v45H39" fill="#f1bd91"/><ellipse cx="64" cy="77" rx="61" ry="74" fill="#f4c7a0" stroke="#b88057" stroke-width="2.5"/><path d="M4 67q-20-56 25-75q53-27 92 9q19 17 12 61Q117 30 91 32Q35 51 4 67" fill="#634a3d"/><circle cx="31" cy="87" r="4" fill="#283b4b"/><path d="M26 109q15 10 29-3" fill="none" stroke="#b36d56" stroke-width="3"/><path d="M51 90q-8 4-3 10h7" stroke="#ad7861" stroke-width="2" fill="none"/><g id="person-glasses" style="display:none" fill="none" stroke="#1678c6" stroke-width="5"><rect x="5" y="67" width="43" height="34" rx="9"/><rect x="60" y="67" width="37" height="34" rx="9"/><path d="M48 78q7-8 12 0M98 77l26-7"/></g><text x="68" y="245" class="scene-label" text-anchor="middle">觀察者</text></g></svg><div class="preview-wrap"><span class="preview-caption" id="preview-caption">聚焦：兔子</span><canvas class="preview" id="view-canvas" aria-label="模擬觀察者視野的清晰與模糊效果"></canvas></div></div></section>
+<section class="panel eye-panel"><div class="eye-head"><h2>眼球成像與水晶體調節</h2></div><div class="eye-layout"><div class="diagram-wrap"><canvas class="eye-canvas" id="eye-canvas" aria-label="依眼睛狀態與眼鏡種類更新的角膜、水晶體、視網膜及光路示意圖"></canvas><div class="key"><span><i style="background:#178ad9"></i>真實光線</span><span><i style="background:#ee9950"></i>理想聚焦點</span><span><i style="background:#bd7785"></i>視網膜</span></div><div class="output"><div id="focus-report">視網膜成像：清晰</div><div class="fine" id="ray-source">近物：兔子</div></div></div><aside class="side-panel"><h3>水晶體調節</h3><div class="accommodation"><div class="mini" id="near-mini"><svg viewBox="0 0 48 61"><path d="M24 5C4 14 4 47 24 56C44 47 44 14 24 5Z" fill="#d2f0ff" stroke="#2693d7" stroke-width="2"/><path d="M7 30l-5 0m39 0h5" stroke="#d67363" stroke-width="2"/></svg><div><strong>看近</strong><small>睫狀肌收縮<br>水晶體較厚、較凸</small></div></div><div class="mini" id="far-mini"><svg viewBox="0 0 48 61"><path d="M24 5C18 14 18 47 24 56C30 47 30 14 24 5Z" fill="#d2f0ff" stroke="#2693d7" stroke-width="2"/><path d="M8 30H1m39 0h7" stroke="#d67363" stroke-width="2"/></svg><div><strong>看遠</strong><small>睫狀肌放鬆<br>水晶體較薄、較平</small></div></div></div><div class="lens-amount"><strong style="font-size:14px">水晶體狀態</strong><div class="meter"><div id="accom-meter"></div></div><p id="accom-label" style="font-size:13px;color:#5d7a8f;margin:8px 0 0">—</p></div></aside></div></section><div class="footer-note"></div>
+</main>
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s); const state={condition:'normal',glasses:'none',target:'rabbit',accommodation:0,desired:0};const eyeCanvas=$('#eye-canvas'), eyeCtx=eyeCanvas.getContext('2d'),viewCanvas=$('#view-canvas'),viewCtx=viewCanvas.getContext('2d');const labels={normal:'正常眼',myopia:'近視眼',hyperopia:'遠視眼',none:'不戴眼鏡',concave:'凹透鏡眼鏡',convex:'凸透鏡眼鏡',rabbit:'看近',trees:'看遠'};
+const baseP=1/24, maxA=.0105, distances={rabbit:220,trees:Infinity}, glassGap=12;
+const rabbitScene={x:870,min:520,max:1120}, rabbitEl=$('#rabbit-object');
+function rabbitDistance(x){return Math.max(90,(1310-x)*0.5)}
+function moveRabbit(x){rabbitScene.x=clamp(x,rabbitScene.min,rabbitScene.max);rabbitEl.setAttribute('transform',`translate(${rabbitScene.x},130)`);distances.rabbit=rabbitDistance(rabbitScene.x);updateModel()}
+const fixedEyeLength=24;
+const baselinePower={normal:baseP,myopia:baseP+.0040,hyperopia:baseP-.009};
+// Spectacle power is measured at the spectacle plane, 12 mm ahead of the eye.
+// Transfer its vergence to the eye plane instead of simply adding the same power
+// at two different planes (which over-corrected the previous hyperopia preset).
+// Desired eye-plane correction is -deltaP, and Pg = deltaP/(1 + gap*deltaP)
+// for hyperopia (deltaP > 0); the same equation handles myopia (deltaP < 0).
+function spectaclePowerFor(deltaP){return deltaP/(1+glassGap*deltaP)}
+const correction={none:0,concave:spectaclePowerFor(-.0040),convex:spectaclePowerFor(.009)};
+function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
+function config(){
+  const L=fixedEyeLength, D=distances[state.target], pg=correction[state.glasses];
+  const pre=Number.isFinite(D)?1/(D-glassGap):0;
+  const s=(pre-pg)/(1+glassGap*(pre-pg));
+  const baseline=baselinePower[state.condition];
+  // Accommodation is solved afresh for each viewing distance and spectacle choice.
+  // A correctly matched pair of glasses leaves distance viewing at rest (A=0),
+  // while the same eye can still accommodate to see the rabbit up close.
+  const desired=clamp((1/L+s)-baseline,0,maxA);
+  return {L,D,pg,pre,desired,baseline,power:baseline+state.accommodation,idealPower:1/L+s};
+}
+function refresh(){document.querySelectorAll('#conditions .choice').forEach(b=>{b.classList.toggle('active',b.dataset.value===state.condition);b.classList.toggle('condition',b.dataset.value===state.condition)});document.querySelectorAll('#glasses .choice').forEach(b=>b.classList.toggle('active',b.dataset.value===state.glasses));document.querySelectorAll('#targets .focus-button').forEach(b=>b.classList.toggle('active',b.dataset.value===state.target));$('#person-glasses').style.display=state.glasses==='none'?'none':'block';$('#preview-caption').textContent='聚焦：'+(state.target==='rabbit'?'兔子':'樹林');$('#ray-source').textContent=state.target==='rabbit'?'兔子':'樹林';$('#near-mini').classList.toggle('active',state.target==='rabbit');$('#far-mini').classList.toggle('active',state.target==='trees');}
+function updateModel(){state.desired=config().desired;refresh();requestRender()}
+function choose(group,k){state[group]=k;updateModel()}
+for(let [id,key] of [['conditions','condition'],['glasses','glasses'],['targets','target']])$('#'+id).addEventListener('click',e=>{let b=e.target.closest('button[data-value]');if(b)choose(key,b.dataset.value)});
+// Click selects an object; dragging the rabbit changes its physical distance.
+let rabbitDragged=false, rabbitPointer=null, rabbitDownX=0, rabbitStartX=0;
+function localSceneX(event){const svg=rabbitEl.ownerSVGElement,point=svg.createSVGPoint();point.x=event.clientX;point.y=event.clientY;const inverse=svg.getScreenCTM()?.inverse();return inverse?point.matrixTransform(inverse).x:rabbitScene.x}
+rabbitEl.addEventListener('pointerdown',e=>{if(e.button!==0&&e.pointerType==='mouse')return;rabbitPointer=e.pointerId;rabbitDragged=false;rabbitDownX=localSceneX(e);rabbitStartX=rabbitScene.x;rabbitEl.setPointerCapture(e.pointerId);rabbitEl.classList.add('dragging');e.preventDefault()});
+rabbitEl.addEventListener('pointermove',e=>{if(e.pointerId!==rabbitPointer)return;let dx=localSceneX(e)-rabbitDownX;if(Math.abs(dx)>3)rabbitDragged=true;if(rabbitDragged){moveRabbit(rabbitStartX+dx);if(state.target!=='rabbit'){state.target='rabbit';updateModel()}}});
+function finishRabbit(e){if(e.pointerId!==rabbitPointer)return;rabbitPointer=null;rabbitEl.classList.remove('dragging');if(!rabbitDragged)choose('target','rabbit')}
+rabbitEl.addEventListener('pointerup',finishRabbit);rabbitEl.addEventListener('pointercancel',finishRabbit);
+rabbitEl.addEventListener('click',e=>{if(rabbitDragged){e.preventDefault();e.stopPropagation();rabbitDragged=false}});
+rabbitEl.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();state.target='rabbit';moveRabbit(rabbitScene.x+(e.key==='ArrowLeft'?-18:18))}else if(e.key==='Enter'||e.key===' '){e.preventDefault();choose('target','rabbit')}});
+let treeEl=$('#tree-object');treeEl.addEventListener('click',()=>choose('target','trees'));treeEl.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose('target','trees')}});
+function resize(canvas,ctx){let rect=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);return {w:rect.width,h:rect.height}}
+function line(ctx,x1,y1,x2,y2,color,width=2,dash=[]){ctx.beginPath();ctx.setLineDash(dash);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.setLineDash([])}
+function label(ctx,text,x,y,color='#315a76',size=17,align='center'){ctx.fillStyle=color;ctx.font=`600 ${size}px Arial, Microsoft JhengHei,sans-serif`;ctx.textAlign=align;ctx.fillText(text,x,y)}
+function drawEye(){let {w,h}=resize(eyeCanvas,eyeCtx),c=eyeCtx;c.clearRect(0,0,w,h); c.save();let scale=Math.min(w/1050,h/400),offsetX=(w-1050*scale)/2,offsetY=(h-400*scale)/2;c.translate(offsetX,offsetY);c.scale(scale,scale);
+// geometry: 12 px per equivalent mm, schematic cross section
+const cy=213,xEye=455,xGlass=311,pxmm=12;
+// The left-hand part of the eye diagram is a compressed schematic of object
+// distance, not a millimetre-to-pixel scale drawing.  Its source nevertheless
+// moves in the same direction as the draggable rabbit.
+const xStart=state.target==='rabbit' ? 76+165*(rabbitScene.x-rabbitScene.min)/(rabbitScene.max-rabbitScene.min) : 62;let m=config(),xRet=xEye+m.L*pxmm; let xBack=xRet+18;
+// diagram background and axis
+line(c,35,cy,1020,cy,'#b5c6d2',1,[7,7]);
+// fixed axial length; refractive power changes instead
+c.beginPath();c.moveTo(427,cy-142);c.bezierCurveTo(510,cy-207,xBack+22,cy-161,xBack,cy-55);c.quadraticCurveTo(xBack+22,cy,xBack,cy+55);c.bezierCurveTo(xBack+20,cy+162,505,cy+196,427,cy+142);c.bezierCurveTo(397,cy+76,394,cy-76,427,cy-142);c.closePath();let grad=c.createLinearGradient(420,80,xBack,320);grad.addColorStop(0,'#ffe6df');grad.addColorStop(1,'#f6bcae');c.fillStyle=grad;c.fill();c.strokeStyle='#a77687';c.lineWidth=5;c.stroke();
+// retina arc
+c.beginPath();c.moveTo(xRet-18,cy-103);c.quadraticCurveTo(xRet+20,cy,xRet-18,cy+103);c.strokeStyle='#bd7785';c.lineWidth=11;c.stroke();
+// optic nerve
+c.beginPath();c.moveTo(xBack-5,cy+32);c.quadraticCurveTo(xBack+53,cy+37,xBack+92,cy+58);c.lineTo(xBack+94,cy+82);c.quadraticCurveTo(xBack+38,cy+74,xBack-5,cy+49);c.closePath();c.fillStyle='#f2cfae';c.fill();c.strokeStyle='#a77687';c.lineWidth=3;c.stroke();
+// cornea
+c.beginPath();c.moveTo(427,cy-69);c.bezierCurveTo(378,cy-65,376,cy+65,427,cy+69);c.strokeStyle='#7bb5d4';c.lineWidth=6;c.stroke();
+// muscles / zonules
+for(let sign of [-1,1]){let y=cy+sign*77;line(c,445,y,468,cy+sign*52,'#e0808e',6);line(c,467,cy+sign*52,454,cy+sign*40,'#efc7b4',2);}
+// corrective glass
+if(state.glasses!=='none'){
+  // Concave: centre thinner than edges; convex: centre thicker than edges.
+  // Coordinates describe the two lens surfaces, not a pair of crossed curves.
+  const convex=state.glasses==='convex', top=cy-70, bottom=cy+70;
+  c.beginPath();
+  if(convex){
+    c.moveTo(xGlass-4,top);
+    c.bezierCurveTo(xGlass-23,cy-37,xGlass-23,cy+37,xGlass-4,bottom);
+    c.lineTo(xGlass+4,bottom);
+    c.bezierCurveTo(xGlass+23,cy+37,xGlass+23,cy-37,xGlass+4,top);
+  }else{
+    c.moveTo(xGlass-13,top);
+    c.bezierCurveTo(xGlass-2,cy-34,xGlass-2,cy+34,xGlass-13,bottom);
+    c.lineTo(xGlass+13,bottom);
+    c.bezierCurveTo(xGlass+2,cy+34,xGlass+2,cy-34,xGlass+13,top);
+  }
+  c.closePath();c.fillStyle='#bce8ff88';c.fill();c.strokeStyle='#1683d5';c.lineWidth=3;c.stroke();
+  label(c,convex?'凸透鏡':'凹透鏡',xGlass,cy-96,'#1478b9',16);
+}
+// lens shape based on actual accommodation
+// The visible crystalline lens shape follows accommodation alone.
+// Refractive errors in this example are carried by the baseline eye power
+// (e.g. corneal power), not by an arbitrary switch in lens morphology.
+let frac=clamp(state.accommodation/maxA,0,1);let width=12+38*frac;c.beginPath();c.moveTo(xEye,cy-65);c.bezierCurveTo(xEye+width,cy-34,xEye+width,cy+34,xEye,cy+65);c.bezierCurveTo(xEye-width,cy+34,xEye-width,cy-34,xEye,cy-65);c.closePath();c.fillStyle='#9cd7f1d8';c.fill();c.strokeStyle='#1884bc';c.lineWidth=3;c.stroke();
+// Draw a *continuous* incoming ray from the same source point.  Without
+// spectacles, it is one straight line right up to the eye's lens: no invented
+// refraction in empty space.  With spectacles, its direction changes at the
+// spectacles, then again at the eye lens.
+const rayInfo=[];
+const focusModelSlope = m.pre - m.pg;
+const focusModelY = 46 + glassGap*(focusModelSlope-m.pg*46 + m.pg*46); // only used to avoid a degenerate zero ray
+const referenceY = 46;
+const referenceEyeY = referenceY+glassGap*(m.pre*referenceY-m.pg*referenceY);
+const referenceAfter = m.pre*referenceY-m.pg*referenceY-m.power*referenceEyeY;
+const focusMm = Math.abs(referenceAfter)>1e-9 ? -referenceEyeY/referenceAfter : Infinity;
+const focusX = xEye+focusMm*pxmm;
+for(let i=-2;i<=2;i++){
+  const t=i/2;
+  const halfHeight=state.target==='rabbit'
+    ? Math.min(40,55*(xGlass-xStart)/(xEye-xStart))
+    : 32;
+  const yGlass=t*halfHeight; // screen-space displacement, positive above axis
+  // The point source is exactly on the axis; all incident rays begin here.
+  const incomingSlope=state.target==='rabbit' ? yGlass/(xGlass-xStart) : 0;
+  const yStart=state.target==='rabbit' ? 0 : yGlass;
+  // A spectacle lens changes slope; empty space does not.  The factor expresses
+  // a visualised thin-lens kick in the compressed schematic's screen units.
+  const afterGlassSlope=incomingSlope-m.pg*yGlass*.12;
+  const yEye=yGlass+(xEye-xGlass)*afterGlassSlope;
+  // The ray after the eye lens goes toward the *calculated* paraxial focus.
+  const afterEyeSlope=Number.isFinite(focusX) && Math.abs(focusX-xEye)>0.01
+    ? -yEye/(focusX-xEye) : -m.power*yEye/12;
+  const yRet=yEye+(xRet-xEye)*afterEyeSlope;
+  rayInfo.push({yStart,yGlass,yEye,yRet,afterEyeSlope});
+}
+for(const r of rayInfo){
+  const y0=cy-r.yStart,yg=cy-r.yGlass,ye=cy-r.yEye,yr=cy-r.yRet;
+  line(c,xStart,y0,xGlass,yg,'#168add',2.4);
+  line(c,xGlass,yg,xEye,ye,'#168add',2.4);
+  line(c,xEye,ye,xRet,yr,'#168add',2.4);
+}
+let vergenceError=m.idealPower-m.power;
+let blur=clamp(Math.abs(vergenceError)/.0038,0,1);
+let sharp=Math.abs(vergenceError)<.00055;
+if(Number.isFinite(focusX)&&focusX>110&&focusX<980){
+  if(focusX>xRet+2){
+    for(const r of [rayInfo[0],rayInfo[rayInfo.length-1]]){
+      line(c,xRet,cy-r.yRet,focusX,cy,'#d77d4b',2.3,[6,5]);
+    }
+  }
+  c.beginPath();c.arc(focusX,cy,6,0,Math.PI*2);
+  c.fillStyle=sharp?'#249a75':'#ec7c35';c.fill();
+  c.strokeStyle='#ffffff';c.lineWidth=1.5;c.stroke();
+}
+// A retinal blur disk is based on the ray bundle's non-zero transverse spread.
+let retinalRadius=Math.max(...rayInfo.map(r=>Math.abs(r.yRet)));
+let diskRadius=sharp?4:clamp(4+retinalRadius*2.6,7,31);
+c.beginPath();c.ellipse(xRet,cy,5,diskRadius,0,0,Math.PI*2);
+c.fillStyle=sharp?'#38bd87bb':'#e56b6b77';c.fill();
+c.strokeStyle=sharp?'#159c74':'#ce6161';c.lineWidth=2;c.stroke();
+// labels and markers
+label(c,'來自'+(state.target==='rabbit'?'兔子':'樹林')+'的光',78,64,'#1d78b7',18,'left');if(state.target==='rabbit'){c.beginPath();c.arc(xStart,cy,6,0,Math.PI*2);c.fillStyle='#ee9c31';c.fill();c.beginPath();c.arc(xStart,cy,10,0,Math.PI*2);c.strokeStyle='#ee9c3188';c.lineWidth=2;c.stroke();}label(c,'角膜',390,68,'#336684',16);line(c,393,77,411,cy-88,'#8095a7',1.5);label(c,'水晶體',xEye,54,'#12689c',18);line(c,xEye,63,xEye,cy-71,'#5796b9',1.6);label(c,'睫狀肌',505,358,'#ae6179',16);line(c,488,347,467,cy+65,'#c9819b',1.5);label(c,'視網膜',xRet+36,78,'#a24d6d',18);line(c,xRet+34,87,xRet+4,cy-95,'#ae7e8e',1.7);
+if(state.glasses==='none')label(c,'未配戴眼鏡',xGlass,cy-96,'#74889b',15);
+let result=sharp?'清晰':'模糊';$('#focus-report').textContent='視網膜：'+result;$('#accom-meter').style.width=(frac*100).toFixed(1)+'%';$('#accom-label').textContent=frac<.1?'水晶體較平':frac>.75?'水晶體明顯變凸':'水晶體適度變凸'; state.blurStrength=blur; c.restore();}
+function drawRabbit(c,x,y,s=1){c.save();c.translate(x,y);c.scale(s,s);c.fillStyle='#fff';c.strokeStyle='#9ca9b2';c.lineWidth=2.2;c.beginPath();c.ellipse(0,-19,10,33,-.2,0,Math.PI*2);c.ellipse(19,-18,10,31,.18,0,Math.PI*2);c.fill();c.stroke();c.beginPath();c.ellipse(6,26,42,31,0,0,Math.PI*2);c.fill();c.stroke();c.beginPath();c.ellipse(-6,-2,31,29,0,0,Math.PI*2);c.fill();c.stroke();c.fillStyle='#273c48';c.beginPath();c.arc(-17,-5,3.7,0,7);c.fill();c.fillStyle='#e6a7b1';c.beginPath();c.arc(-33,6,4.5,0,7);c.fill();c.restore()}
+function drawTrees(c,x,y,s=1){c.save();c.translate(x,y);c.scale(s,s);for(let [dx,scale] of [[-65,.8],[0,1.2],[72,.87]]){c.fillStyle='#775b43';c.fillRect(dx-7,-50*scale,14,65*scale);for(let [cx,cy,r] of [[dx-15,-67*scale,27*scale],[dx+14,-72*scale,30*scale],[dx,-93*scale,31*scale]]){c.fillStyle=['#408b54','#64a75a','#5ca566'][(Math.abs(dx)+Math.round(r))%3];c.beginPath();c.arc(cx,cy,r,0,Math.PI*2);c.fill();}}c.restore()}
+function drawPreview(){let {w,h}=resize(viewCanvas,viewCtx),c=viewCtx;let sky=c.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#bfe7fa');sky.addColorStop(.8,'#effbff');sky.addColorStop(1,'#7cc589');c.fillStyle=sky;c.fillRect(0,0,w,h);c.fillStyle='#e1edf2';c.beginPath();c.moveTo(0,h*.75);c.lineTo(w*.2,h*.51);c.lineTo(w*.46,h*.74);c.lineTo(w*.7,h*.56);c.lineTo(w,h*.76);c.closePath();c.fill();c.fillStyle='#a2d09a';c.fillRect(0,h*.78,w,h*.22);
+let b=state.blurStrength||0,treeBlur=(state.target==='rabbit'?2.4:0.2)+b*6,rabbitBlur=(state.target==='trees'?2.5:0.2)+b*6;
+c.save();c.filter=`blur(${treeBlur}px)`;drawTrees(c,w*.22,h*.79,Math.min(w/530,h/220)*1.1);c.restore();c.save();c.filter=`blur(${rabbitBlur}px)`;drawRabbit(c,w*(.58+.19*(rabbitScene.x-520)/600),h*.71,Math.min(w/530,h/220)*.8);c.restore();}
+let raf=0,last=0;function render(now){raf=0;let delta=Math.min((now-last||16)/1000,.06);last=now;let target=config().desired;let a=1-Math.exp(-delta*5);state.accommodation+=(target-state.accommodation)*a;if(Math.abs(target-state.accommodation)<.000015)state.accommodation=target;drawEye();drawPreview();if(Math.abs(target-state.accommodation)>.00001)requestRender();}
+function requestRender(){if(!raf)raf=requestAnimationFrame(render)}
+let ro=new ResizeObserver(requestRender);ro.observe(eyeCanvas);ro.observe(viewCanvas);updateModel();
+})();
+</script></body></html>

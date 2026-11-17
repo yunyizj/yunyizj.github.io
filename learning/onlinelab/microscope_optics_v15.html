@@ -1,0 +1,356 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>組合透鏡：顯微鏡 V13</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f0f4f8;color:#213348;font:15px Arial,'Microsoft JhengHei',sans-serif}main{max-width:1500px;margin:auto;padding:15px}h1{margin:0 0 14px;font-size:27px}.tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px;background:white;border:1px solid #dae3ed;border-radius:12px;margin-bottom:12px}.tool{touch-action:none;user-select:none;width:102px;height:105px;border:2px solid #d7dfe8;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:grab;background:#fafcff}.tool svg{width:48px;height:49px;pointer-events:none}.tool b{font-size:13px}.tool small{font-size:12px;color:#637084}.tool.ruler{background:#fff8e6}.tool:hover{border-color:#839eb9}.actions{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}button{font:700 14px Arial,'Microsoft JhengHei',sans-serif;border:1px solid #bfcedf;background:white;color:#233c54;padding:11px 13px;border-radius:8px;cursor:pointer}button:hover{background:#eaf4ff}button.active{background:#1767aa;color:white;border-color:#1767aa}button.purple{background:#774caa;color:white;border-color:#774caa}button:disabled{opacity:.42;cursor:not-allowed}.panel{background:#fff;border:1px solid #d5e0eb;border-radius:12px;overflow:hidden}.head{padding:11px 15px;border-bottom:1px solid #e6eaf0;display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}.head .hint{font-size:13px;color:#617488}.viewport{position:relative;height:min(66vh,620px);min-height:400px}canvas{height:100%;width:100%;display:block;touch-action:none}.lens-overlay{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}.lens-fixed{position:absolute;transform:translate(-50%,-50%);pointer-events:none}.lens-fixed svg{display:block;width:100%;height:100%;overflow:visible}.zoom{position:absolute;right:12px;top:12px;display:flex;gap:5px;padding:5px;background:#ffffffeb;border:1px solid #ced8e3;box-shadow:0 2px 7px #0001;border-radius:10px;z-index:2}.zoom button{padding:8px 11px}.bottom{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 15px;border-top:1px solid #e9edf2;font-size:14px;min-height:55px}.pill{padding:5px 10px;background:#e7f1ff;color:#135a99;border-radius:50px;font-weight:bold}.note{color:#5e7285}.ghost{position:fixed;z-index:999;pointer-events:none;background:#fff;border:2px solid #83a7d0;box-shadow:0 5px 15px #0003;border-radius:7px;padding:9px;font-weight:bold}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 16px;color:white;background:#234055;border-radius:8px;display:none;z-index:1000}.toast.show{display:block}@media(max-width:750px){main{padding:8px}.tool{width:82px;height:92px}.actions{margin-left:0}button{font-size:13px}.viewport{height:57vh;min-height:350px}h1{font-size:22px}}
+</style></head><body><main><h1>組合透鏡：顯微鏡</h1>
+<div class="tools" id="tools">
+<div class="tool" data-type="lens" data-f="5" role="button" tabindex="0"><svg viewBox="0 0 48 52"><path d="M24 3 Q32 26 24 49 Q16 26 24 3Z" fill="#5082d64b" stroke="#5082d6" stroke-width="2.5"/></svg><b style="color:#4370bf">透鏡 A</b><small>f = 5 mm</small></div>
+<div class="tool" data-type="lens" data-f="4" role="button" tabindex="0"><svg viewBox="0 0 48 52"><path d="M24 3 Q35 26 24 49 Q13 26 24 3Z" fill="#169c9c4b" stroke="#169c9c" stroke-width="2.5"/></svg><b style="color:#078787">透鏡 B</b><small>f = 4 mm</small></div>
+<div class="tool" data-type="lens" data-f="3" role="button" tabindex="0"><svg viewBox="0 0 48 52"><path d="M24 3 Q40 26 24 49 Q8 26 24 3Z" fill="#d18a2c4b" stroke="#d18a2c" stroke-width="2.5"/></svg><b style="color:#ad711d">透鏡 C</b><small>f = 3 mm</small></div>
+<div class="tool" data-type="lens" data-f="2" role="button" tabindex="0"><svg viewBox="0 0 48 52"><path d="M24 3 Q44 26 24 49 Q4 26 24 3Z" fill="#a365b94b" stroke="#a365b9" stroke-width="2.5"/></svg><b style="color:#9254a8">透鏡 D</b><small>f = 2 mm</small></div>
+<div class="tool ruler" data-type="ruler" role="button" tabindex="0"><svg viewBox="0 0 48 52"><rect x="17" y="2" width="14" height="48" rx="2" fill="#f4d784" stroke="#ab8c2b" stroke-width="2"/><path d="M17 8h11M17 14h6M17 20h11M17 26h6M17 32h11M17 38h6M17 44h11" stroke="#775c20" stroke-width="1.4"/></svg><b>直尺</b></div>
+<div class="tool symbol" data-type="role" data-role="objective" role="button" tabindex="0"><svg viewBox="0 0 48 52"><path d="M24 4 Q32 26 24 48 Q16 26 24 4Z" fill="#68b7ed55" stroke="#287fc6" stroke-width="2.5"/><path d="M6 14h11M6 38h11" stroke="#287fc6" stroke-width="2"/></svg><b>物鏡</b></div>
+<div class="tool symbol" data-type="role" data-role="eyepiece" role="button" tabindex="0"><svg viewBox="0 0 48 52"><path d="M24 7 Q34 26 24 45 Q14 26 24 7Z" fill="#e9a84d55" stroke="#ca8228" stroke-width="2.5"/><path d="M31 13h11M31 39h11" stroke="#ca8228" stroke-width="2"/></svg><b>目鏡</b></div>
+<div class="tool symbol" data-type="eye" role="button" tabindex="0"><svg viewBox="0 0 48 52"><path d="M3 26Q24 5 45 26Q24 47 3 26Z" fill="#ebf5ff" stroke="#577c9b" stroke-width="2.6"/><circle cx="24" cy="26" r="9" fill="#6fa9d5" stroke="#295477" stroke-width="2"/><circle cx="24" cy="26" r="4" fill="#203e5d"/></svg><b>眼睛</b></div>
+<div class="actions"><button data-ray-mode="all" class="active">全部光路</button><button data-ray-mode="physical">真實光路</button><button data-ray-mode="objective">物鏡光路</button><button data-ray-mode="eyepiece">目鏡光路</button><button data-ray-mode="none">隱藏光路</button><button id="virtual" disabled>看見虛像</button><button id="remove">移除選取</button><button id="reset">全部清除</button></div></div>
+<div class="panel"><div class="head"><b>光路圖區</b><span class="hint" id="hint">拖入兩片凸透鏡，依位置由左至右作為物鏡、目鏡</span></div><div class="viewport"><canvas id="scene"></canvas><div id="lensOverlay" class="lens-overlay" aria-hidden="true"></div><div class="zoom"><button id="out" title="縮小視野">－</button><button id="fit">適合視野</button><button id="in" title="放大視野">＋</button></div></div><div class="bottom" id="info"><span class="pill">等待放置透鏡</span></div></div></main><div class="toast" id="toast"></div>
+<script>
+(()=>{'use strict';
+const canvas=document.getElementById('scene'),ctx=canvas.getContext('2d'),info=document.getElementById('info'),hint=document.getElementById('hint'),virtualBtn=document.getElementById('virtual');
+const styles={5:{name:'A',color:'#5082d6',thick:7},4:{name:'B',color:'#169c9c',thick:11},3:{name:'C',color:'#d18a2c',thick:16},2:{name:'D',color:'#a365b9',thick:21}};
+const h0=.65;let W=900,H=480,axis=245,scale=27,origin=105,id=0,items=[],selected=null,drag=null,pan=null,toolDrag=null,rayMode='all',showVirtual=false,animationAt=null,animPending=false,toastTimer;
+const X=x=>origin+x*scale,Y=y=>axis-y*scale,invX=x=>(x-origin)/scale;
+function resize(){const r=canvas.getBoundingClientRect(),ow=W;W=r.width;H=r.height;let ratio=window.devicePixelRatio||1;canvas.width=Math.max(1,Math.round(W*ratio));canvas.height=Math.max(1,Math.round(H*ratio));ctx.setTransform(ratio,0,0,ratio,0,0);axis=H*.51;if(ow&&ow!==W)origin*=W/ow;draw()}
+function line(x1,y1,x2,y2,color='#8293a3',w=2,dash=[]){if(![x1,y1,x2,y2].every(Number.isFinite))return;ctx.save();ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=color;ctx.lineWidth=w;ctx.setLineDash(dash);ctx.stroke();ctx.restore()}
+// Text uses the same optical scale as lens geometry.
+// Defer labels to prevent overlap at each zoom level.
+let pendingLabels=[];
+const textZoom=()=>scale/27;
+function directLabel(x,y,s,color='#24374a',size=13,align='center',bold=false){
+ if(!Number.isFinite(x+y))return;
+ ctx.save();ctx.fillStyle=color;
+ ctx.font=(bold?'bold ':'')+Math.max(1,size*textZoom())+'px Arial,"Microsoft JhengHei",sans-serif';
+ ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(s,x,y);ctx.restore();
+}
+function label(x,y,s,color='#24374a',size=13,align='center',bold=false){
+ if(!Number.isFinite(x+y))return;
+ pendingLabels.push({x,y,s,color,size,align,bold,priority:/透鏡實像|透鏡虛像|中間實像|細菌/.test(s)?4:/^透鏡 |^f =/.test(s)?3:/^(F|2F)$/.test(s)?1:2});
+}
+function flushLabels(){
+ const boxes=[];
+ for(const z of pendingLabels.sort((a,b)=>b.priority-a.priority)){
+  ctx.save();ctx.font=(z.bold?'bold ':'')+Math.max(1,z.size*textZoom())+'px Arial,"Microsoft JhengHei",sans-serif';
+  const w=ctx.measureText(z.s).width+7*textZoom(),h=(z.size+5)*textZoom();
+  ctx.restore();
+  const px=z.align==='left'?z.x:z.align==='right'?z.x-w:z.x-w/2;
+  // Offset competing labels proportionally to optical zoom.
+  const shifts=(z.priority>=3?[0,-18,18,-36,36,-54,54]:[0,18,-18,36,-36,54,-54]).map(d=>d*textZoom());
+  let target=null;
+  for(const dy of shifts){
+   const py=z.y+dy;
+   const box={x:px,y:py-h/2,w,h};
+   if(box.y<1||box.y+box.h>H-1||box.x>W||box.x+box.w<0)continue;
+   if(boxes.every(b=>box.x+box.w<=b.x||b.x+b.w<=box.x||box.y+box.h<=b.y||b.y+b.h<=box.y)){
+     target={dy,box};break;
+   }
+  }
+  if(!target)continue;
+  boxes.push(target.box);
+  directLabel(z.x,z.y+target.dy,z.s,z.color,z.size,z.align,z.bold);
+ }
+ pendingLabels=[];
+}
+
+function segment(x1,y1,x2,y2,color,w=2,dash=[]){if(![x1,y1,x2,y2].every(Number.isFinite))return;let dx=x2-x1,dy=y2-y1,lo=0,hi=1;for(const [p,q] of [[-dx,x1],[dx,W-x1],[-dy,y1],[dy,H-y1]]){if(Math.abs(p)<1e-12){if(q<0)return}else{let r=q/p;if(p<0)lo=Math.max(lo,r);else hi=Math.min(hi,r)}}if(lo>hi)return;line(x1+dx*lo,y1+dy*lo,x1+dx*hi,y1+dy*hi,color,w,dash)}
+function bacterium(x,height,color='#2c936b',opacity=1){if(!Number.isFinite(x+height)||Math.abs(height)*scale>1e6)return;let px=X(x),heightPx=height*scale;ctx.save();ctx.translate(px,axis);ctx.scale(Math.max(.05,Math.abs(heightPx)/90),heightPx/90);ctx.globalAlpha=opacity;ctx.beginPath();ctx.moveTo(-11,-86);ctx.bezierCurveTo(-28,-92,-32,-74,-27,-53);ctx.bezierCurveTo(-23,-40,-24,-27,-22,-14);ctx.bezierCurveTo(-18,-3,8,0,18,-15);ctx.bezierCurveTo(25,-30,23,-54,18,-73);ctx.bezierCurveTo(12,-87,0,-91,-11,-86);ctx.closePath();ctx.fillStyle=color+'29';ctx.strokeStyle=color;ctx.lineWidth=3;ctx.fill();ctx.stroke();for(const [a,b,r] of [[-12,-67,5],[6,-73,4],[8,-48,5],[-8,-41,4],[3,-24,6]]){ctx.beginPath();ctx.arc(a,b,r,0,Math.PI*2);ctx.fillStyle=color;ctx.fill()}for(const [a,b,c,d] of [[-23,-65,-40,-63],[-25,-39,-42,-30],[-19,-13,-34,-4],[19,-71,38,-72],[22,-42,37,-27],[12,-12,27,6]]){ctx.beginPath();ctx.moveTo(a,b);ctx.quadraticCurveTo((a+c)/2,b-8,c,d);ctx.stroke()}ctx.restore()}
+function getLenses(){return items.filter(i=>i.type==='lens').sort((a,b)=>a.x-b.x)}
+function linkedRole(n){let ls=getLenses(),idx=ls.findIndex(l=>l.id===n.id);return idx===0?'objective':'eyepiece'}
+function drawMarker(n){let px=X(n.x),py=Y(n.y||0);if(n.type==='eye'){ctx.save();ctx.translate(px,py);ctx.beginPath();ctx.moveTo(-25,0);ctx.quadraticCurveTo(0,-22,25,0);ctx.quadraticCurveTo(0,22,-25,0);ctx.fillStyle='#eaf7ff';ctx.fill();ctx.strokeStyle=selected===n.id?'#f39a23':'#456e91';ctx.lineWidth=2.6;ctx.stroke();ctx.beginPath();ctx.arc(0,0,11,0,Math.PI*2);ctx.fillStyle='#82b0d2';ctx.fill();ctx.stroke();ctx.beginPath();ctx.arc(0,0,5,0,Math.PI*2);ctx.fillStyle='#27465c';ctx.fill();ctx.restore();label(px,py+29,'眼睛','#395c7c',12,'center',true)}else{const color=n.role==='objective'?'#217abd':'#bd781f',name=n.role==='objective'?'物鏡':'目鏡';ctx.save();ctx.beginPath();ctx.roundRect(px-29,py-15,58,30,7);ctx.fillStyle=n.role==='objective'?'#e7f3ff':'#fff0d9';ctx.strokeStyle=selected===n.id?'#f39a23':color;ctx.lineWidth=2;ctx.fill();ctx.stroke();ctx.restore();label(px,py,name,color,13,'center',true)}}
+function markerPos(n){if(n.type==='role'&&n.attach){const l=getLenses().find(z=>z.id===n.attach);if(l)return {x:l.x,y:Math.min(4.4,(axis-30)/scale)}}return{x:n.x,y:n.y||0}}
+function markerDraw(n){const q=markerPos(n);drawMarker({...n,x:q.x,y:q.y})}
+function calc(){
+ const ls=getLenses(),res=[];let objectX=0,objectH=h0;
+ for(let i=0;i<ls.length;i++){
+  const lens=ls[i],u=lens.x-objectX,f=lens.f;
+  if(i===1){const prev=res[0];if(!prev||prev.invalid||prev.far||prev.virtual||prev.imageX>=lens.x-1e-5){res.push({lens,index:i,invalid:true,reason:'中間實像尚未位於目鏡左側'});break}}
+  if(u<=1e-6){res.push({lens,index:i,invalid:true});break}
+  if(Math.abs(u-f)<1e-6){res.push({lens,index:i,u,far:true,f,objectX,objectH});break}
+  const v=f*u/(u-f),m=-v/u,imageX=lens.x+v,imageH=m*objectH;
+  res.push({lens,index:i,u,f,v,m,imageX,imageH,virtual:v<0,objectX,objectH});
+  objectX=imageX;objectH=imageH;
+ }
+ return res
+}
+// The lens geometry uses a fixed size in optical/world coordinates.
+// Therefore its onscreen width and height scale together with F / 2F spacing.
+const lensOverlay=document.getElementById('lensOverlay');
+function syncFixedLenses(){
+ const lenses=getLenses();
+ const live=new Set(lenses.map(n=>String(n.id)));
+ for(const el of [...lensOverlay.children])if(!live.has(el.dataset.id))el.remove();
+ for(const n of lenses){
+  const s=styles[n.f];let el=[...lensOverlay.children].find(e=>e.dataset.id===String(n.id));
+  if(!el){el=document.createElement('div');el.className='lens-fixed';el.dataset.id=String(n.id);lensOverlay.appendChild(el)}
+  const w=s.thick;
+  const zoomRatio=scale/27;
+  el.style.width=(64*zoomRatio)+'px';
+  el.style.height=(300*zoomRatio)+'px';
+  el.style.left=X(n.x)+'px';el.style.top=axis+'px';
+  const stroke=selected===n.id?4:2.5;
+  el.innerHTML=`<svg viewBox="0 0 64 300" width="64" height="300"><path d="M32 5 Q${32+w} 150 32 295 Q${32-w} 150 32 5Z" fill="${s.color}38" stroke="${s.color}" stroke-width="${stroke}"/></svg>`;
+ }
+}
+function lensShape(n,index){
+ const s=styles[n.f],x=X(n.x),half=145*(scale/27);
+ label(x,axis-half-25*textZoom(),'透鏡 '+s.name,s.color,13,'center',true);
+ label(x,axis+half+20*textZoom(),'f = '+n.f+' mm',s.color,12);
+ for(let dir of [-1,1])for(let mult of [1,2]){
+  let xx=X(n.x+dir*n.f*mult);if(xx<-20||xx>W+20)continue;
+  ctx.beginPath();ctx.arc(xx,axis,mult===1?3.8:3.2,0,2*Math.PI);
+  ctx.fillStyle=s.color;ctx.fill();
+  label(xx,axis+(mult===1?17:32)*textZoom(),mult===1?'F':'2F',s.color,12,'center',mult===1)
+ }
+}
+function niceStep(minimum){
+ // 1, 2, 5, 10... mm, with major labels separated by at least 48 screen px.
+ const exponent=Math.floor(Math.log10(Math.max(minimum,1e-9)));
+ const power=10**exponent;
+ for(const m of [1,2,5,10])if(m*power>=minimum-1e-10)return m*power;
+ return 10*power;
+}
+function readableNumber(value,step){
+ const digits=Math.max(0,Math.min(5,-Math.floor(Math.log10(step))+1));
+ return Number(value.toFixed(digits)).toString();
+}
+function ruler(n){
+ const x=X(n.x);
+ if(x<-75||x>W+75)return;
+ // The ruler is a screen-height instrument: zoom does NOT change its width or length.
+ // Only the numbered ticks use the world-to-screen scale, so measurement stays accurate.
+ const halfWidth=31,left=x-halfWidth,top=-10,bottom=H+10;
+ const major=niceStep(62/scale),minor=major/5;
+ const showMinor=minor*scale>=9;
+ ctx.save();
+ ctx.beginPath();ctx.roundRect(left,top,halfWidth*2,bottom-top,4);
+ ctx.fillStyle='#fff1bd';ctx.strokeStyle=selected===n.id?'#82590c':'#a78d43';
+ ctx.lineWidth=selected===n.id?3:1.5;ctx.fill();ctx.stroke();
+ ctx.beginPath();ctx.rect(left+1,0,halfWidth*2-2,H);ctx.clip();
+ const drawTicks=(step,isMajor)=>{
+  // Enumerate only ticks visible on screen, even after vertical panning.
+  const first=Math.ceil(((axis-H)/scale)/step-1e-9);
+  const last=Math.floor((axis/scale)/step+1e-9);
+  for(let k=first;k<=last;k++){
+   const val=k*step,yy=Y(val);
+   if(!isMajor&&Math.abs(val/major-Math.round(val/major))<1e-7)continue;
+   line(left+2,yy,left+(isMajor?17:9),yy,'#80621f',isMajor?1.5:1);
+   if(isMajor)directLabel(left+19,yy,readableNumber(val,major),'#624a13',11,'left',true);
+  }
+ };
+ if(showMinor)drawTicks(minor,false);
+ drawTicks(major,true);
+ ctx.restore();
+ // The zero mark is always registered with the optical axis, if in view.
+ if(axis>=0&&axis<=H)line(left-3,axis,x+halfWidth+3,axis,'#654d14',2);
+}
+// Two genuine principal rays for EACH lens, starting at that lens's actual object.
+// The outgoing ray lines are back-traced WITHOUT adjusting their slopes.
+const rayColors=['#207dc5','#df8730'];
+function principalRays(result){
+ if(!result||result.invalid||result.far||result.u<=0)return [];
+ const l=result.lens,ox=result.objectX,oh=result.objectH,x=l.x;
+ return [
+  {name:'平行主軸光線',color:rayColors[0],x0:ox,y0:oh,x1:x,y1:oh,outputSlope:-oh/l.f},
+  {name:'光心光線',color:rayColors[1],x0:ox,y0:oh,x1:x,y1:0,outputSlope:-oh/(x-ox)}
+ ];
+}
+function selectedVirtual(res,ls){
+ if(rayMode==='none')return null;
+ if(rayMode==='objective')return res[0]?.virtual?res[0]:null;
+ if(rayMode==='eyepiece')return res[1]?.virtual?res[1]:null;
+ if(ls.length===2)return res[1]?.virtual?res[1]:null;
+ return res[0]?.virtual?res[0]:null;
+}
+function drawStageRays(r, stage){
+ if(!r||r.invalid||r.far)return;
+ const rays=principalRays(r);if(rays.length<2)return;
+ for(const ray of rays){
+  // Both incident rays converge at or originate from the object apex.
+  segment(X(ray.x0),Y(ray.y0),X(ray.x1),Y(ray.y1),ray.color,2.65);
+  let end;
+  if(!r.virtual&&r.imageX>r.lens.x)end=r.imageX;
+  else end=invX(W)+2;
+  // Extend beyond a real image to show physical rays continuing to the right.
+  if(!r.virtual&&stage==='eyepiece')end=Math.max(end,invX(W)+1);
+  segment(X(ray.x1),Y(ray.y1),X(end),Y(ray.y1+ray.outputSlope*(end-ray.x1)),ray.color,2.65)
+ }
+}
+// Physically continuous rays: trace the SAME two rays through both lenses.
+// Each thin lens changes slope by -height/f; each segment joins without a gap.
+function drawPhysicalRays(res){
+ if(!res.length||!res[0]||res[0].invalid||res[0].far)return;
+ const first=res[0],second=res[1],l1=first.lens;
+ const rays=[{slope:0,color:rayColors[0]},{slope:-h0/l1.x,color:rayColors[1]}];
+ for(const ray of rays){
+  let x=0,y=h0,slope=ray.slope;
+  let nextX=l1.x,nextY=y+slope*(nextX-x);
+  segment(X(x),Y(y),X(nextX),Y(nextY),ray.color,2.85);
+  x=nextX;y=nextY;slope-=y/l1.f;
+  if(second&&!second.invalid&&!second.far){
+   nextX=second.lens.x;nextY=y+slope*(nextX-x);
+   segment(X(x),Y(y),X(nextX),Y(nextY),ray.color,2.85);
+   x=nextX;y=nextY;slope-=y/second.lens.f;
+   const end=second.virtual?invX(W)+2:Math.max(x,second.imageX);
+   segment(X(x),Y(y),X(end),Y(y+slope*(end-x)),ray.color,2.85);
+  }else{
+   const end=first.virtual?invX(W)+2:Math.max(x,first.imageX);
+   // If a lens is physically present before the first calculated image,
+   // stop at the intercepting lens rather than drawing through it unchanged.
+   const bounded=second?.lens?Math.min(end,second.lens.x):end;
+   segment(X(x),Y(y),X(bounded),Y(y+slope*(bounded-x)),ray.color,2.85);
+  }
+ }
+}
+function drawRayParts(res){
+ if(rayMode==='none')return;
+ if(rayMode==='physical'){drawPhysicalRays(res);return}
+ if(rayMode==='objective'||rayMode==='all')drawStageRays(res[0],'objective');
+ if(rayMode==='eyepiece'||rayMode==='all')drawStageRays(res[1],'eyepiece');
+}
+function virtualBacktrace(result){
+ if(!showVirtual||!result||!result.virtual||result.invalid||result.far)return;
+ const rays=principalRays(result);if(rays.length<2)return;
+ const x0=result.lens.x,target=result.imageX;
+ const progress=animationAt===null?1:Math.min(1,(performance.now()-animationAt)/1300);
+ const curr=x0+(target-x0)*progress;
+ for(const ray of rays){
+  // Mathematically this is the exact opposite direction of the drawn refracted ray.
+  segment(X(x0),Y(ray.y1),X(curr),Y(ray.y1+ray.outputSlope*(curr-x0)),ray.name==='平行主軸光線'?'#7646b8':'#b36bd2',3.1,[8,5]);
+ }
+ if(progress>=1){
+  const xx=X(result.imageX), yy=Y(result.imageH);
+  ctx.save();ctx.beginPath();ctx.arc(xx,yy,5,0,Math.PI*2);ctx.fillStyle='#804ac2';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();
+ } else schedule();
+}
+function isRealIntermediate(res){return res.length>0&&!res[0].invalid&&!res[0].far&&!res[0].virtual&&(!res[1]||res[0].imageX<res[1].lens.x)}
+function firstRealImage(res){return Boolean(res[0]&&!res[0].invalid&&!res[0].far&&!res[0].virtual&&Number.isFinite(res[0].imageX+res[0].imageH))}
+
+function draw(){
+ if(!W||!H)return;
+ pendingLabels=[];
+ ctx.clearRect(0,0,W,H);ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+ for(let x=(origin%50+50)%50;x<W;x+=50)line(x,0,x,H,'#f2f5f8',1);
+ for(let y=(axis%50+50)%50;y<H;y+=50)line(0,y,W,y,'#f2f5f8',1);
+ line(0,axis,W,axis,'#8a99a8',1.8);
+ const ls=getLenses(),res=calc(),first=res[0],second=res[1];
+ const objName=ls[0]?styles[ls[0].f].name:'',eyeName=ls[1]?styles[ls[1].f].name:'';
+ // The intermediate image remains visible when it is physically formed before the eyepiece.
+ if(firstRealImage(res)&&isRealIntermediate(res)){
+  bacterium(first.imageX,first.imageH,'#d14f4d',.88);
+  label(X(first.imageX),Y(first.imageH)+(first.imageH>0?-25:25)*textZoom(),objName+'透鏡實像','#bf3f48',13,'center',true)
+ }
+ if(second&&!second.invalid&&!second.far&&!second.virtual){
+  bacterium(second.imageX,second.imageH,'#d14f4d',.88);
+  label(X(second.imageX),Y(second.imageH)+(second.imageH>0?-20:20)*textZoom(),eyeName+'透鏡實像','#bf3f48',13,'center',true)
+ }
+ drawRayParts(res);
+ const currentVirtual=selectedVirtual(res,ls);
+ virtualBacktrace(currentVirtual);
+ if(showVirtual&&currentVirtual&&currentVirtual.virtual&&!currentVirtual.invalid&&!currentVirtual.far&&(animationAt===null||performance.now()-animationAt>=1300)){
+  bacterium(currentVirtual.imageX,currentVirtual.imageH,'#9352b3',.86);
+  label(X(currentVirtual.imageX),Y(currentVirtual.imageH)+(currentVirtual.imageH>0?-20:20)*textZoom(),styles[currentVirtual.lens.f].name+'透鏡虛像','#8145a6',14,'center',true)
+ }
+ bacterium(0,h0);label(X(0),Y(h0)-18*textZoom(),'細菌','#258661',14,'center',true);
+ for(const n of items){if(n.type==='ruler')ruler(n)}
+ ls.forEach((n,i)=>lensShape(n,i));
+ syncFixedLenses();
+ for(const n of items){if(n.type==='role'||n.type==='eye')markerDraw(n)}
+ flushLabels();
+ document.querySelectorAll('[data-ray-mode]').forEach(b=>b.classList.toggle('active',b.dataset.rayMode===rayMode));
+ const canVirtual=Boolean(currentVirtual&&currentVirtual.virtual&&!currentVirtual.invalid&&!currentVirtual.far&&principalRays(currentVirtual).length===2);
+ virtualBtn.disabled=!canVirtual;virtualBtn.classList.toggle('purple',Boolean(canVirtual&&showVirtual));virtualBtn.textContent=showVirtual?'隱藏虛像':'看見虛像';
+ info.replaceChildren();
+ function add(s,cl){const el=document.createElement('span');el.textContent=s;if(cl)el.className=cl;info.appendChild(el)}
+ if(!ls.length){add('等待放置透鏡','pill');hint.textContent='拖入兩片凸透鏡，左邊作為物鏡、右邊作為目鏡';return}
+ if(ls.length===1){add(objName+'透鏡','pill');if(first&&!first.invalid){add(first.far?'像位於無限遠':`${objName}透鏡${first.virtual?'虛像':'實像'} x=${first.imageX.toFixed(2)} mm`,'note')}hint.textContent='加入第二片透鏡即可觀察接續成像';return}
+ add(objName+'透鏡 → '+eyeName+'透鏡','pill');
+ if(first?.invalid||first?.far||!isRealIntermediate(res)){add('請調整透鏡位置','note')}
+ else{
+  add(`${objName}透鏡實像 x=${first.imageX.toFixed(2)} mm`,'note');
+  if(second&&!second.invalid)add(second.far?`${eyeName}透鏡出射光平行，最終像在無限遠`:`${eyeName}透鏡${second.virtual?'虛像':'實像'} x=${second.imageX.toFixed(2)} mm；總橫向倍率 ${Math.abs(first.m*second.m).toFixed(2)}×`,'note')
+ }
+ hint.textContent='物鏡形成中間實像，再以此實像作為目鏡的物體';
+}
+function schedule(){if(animPending)return;animPending=true;requestAnimationFrame(()=>{animPending=false;draw()})}
+function fit(includeVirtual=true){axis=H*.51;let xmin=-1,xmax=17,ymax=h0+1.6,ymin=-h0-1.6;const ls=getLenses(),res=calc();for(const n of ls){xmin=Math.min(xmin,n.x-2*n.f-.8);xmax=Math.max(xmax,n.x+2*n.f+.8)}for(const p of res){if(p.invalid||p.far||!Number.isFinite(p.imageX+p.imageH)||Math.abs(p.imageX)>300||Math.abs(p.imageH)>300)continue;if(p.virtual&&(!includeVirtual||!showVirtual))continue;xmin=Math.min(xmin,p.imageX-1);xmax=Math.max(xmax,p.imageX+1);ymax=Math.max(ymax,p.imageH+1);ymin=Math.min(ymin,p.imageH-1)}const pad=45,fitX=(W-pad*2)/Math.max(2,xmax-xmin),fitY=Math.min((axis-pad)/Math.max(.5,ymax),(H-axis-pad)/Math.max(.5,-ymin));scale=Math.max(1.1,Math.min(95,fitX,fitY));origin=pad-xmin*scale;draw()}
+function zoom(factor){const center=W/2,old=scale;scale=Math.min(200,Math.max(1.2,scale*factor));origin=center-(center-origin)*scale/old;draw()}
+function toast(s){let el=document.getElementById('toast');el.textContent=s;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1650)}
+function defaultLensX(f){
+ const lenses=getLenses();
+ if(!lenses.length)return Math.max(4.5, f*1.65);
+ const image=calc()[0];
+ if(image&&!image.invalid&&!image.far&&!image.virtual&&Number.isFinite(image.imageX)){
+  return image.imageX+Math.max(.75,f*.65);
+ }
+ return lenses[0].x+Math.max(7,3*lenses[0].f);
+}
+function defaultToolX(type,f){
+ if(type==='lens')return defaultLensX(Number(f));
+ if(type==='ruler')return getLenses()[0]?.x||2;
+ return getLenses().length?getLenses().at(-1).x+3:5;
+}
+function add(type,f,x){if(type==='lens'&&getLenses().length>=2){toast('最多放置兩片透鏡；可移除後更換');return}let obj={id:++id,type,f,x:Math.max(type==='lens'?.15:-1000,Math.min(1000,x))};if(type==='eye'){obj.y=0.75;const lenses=getLenses();if(lenses.length)obj.x=lenses[lenses.length-1].x+3.5;}else if(type==='role'){obj.role=typeof f==='string'?f:'objective';obj.y=2.7;const ls=getLenses();const near=ls.find(l=>Math.abs(X(l.x)-X(x))<65);if(near)obj.attach=near.id;const matching=ls.find((l,i)=>(obj.role==='objective'?i===0:i===1));if(matching){obj.attach=matching.id;obj.x=matching.x;}}items.push(obj);selected=obj.id;if(type==='lens'){showVirtual=false;animationAt=null;}draw()}
+function hit(px,py){for(let i=items.length-1;i>=0;i--){let n=items[i],pos=markerPos(n),x=X(pos.x);if(n.type==='eye'&&Math.abs(px-x)<30&&Math.abs(py-Y(pos.y))<28)return n;if(n.type==='role'&&Math.abs(px-x)<35&&Math.abs(py-Y(pos.y))<23)return n;if(n.type==='ruler'&&Math.abs(px-x)<23&&Math.abs(py-axis)<H*.5)return n;if(n.type==='lens'&&Math.abs(px-x)<Math.max((styles[n.f].thick+10)*(scale/27),12)&&Math.abs(py-axis)<145*(scale/27)+12)return n}return null}
+function pointer(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+// Dragging an instrument moves only that instrument; dragging blank canvas pans the view.
+canvas.style.cursor='grab';
+canvas.addEventListener('pointerdown',e=>{
+ if(e.button!==0&&e.pointerType==='mouse')return;
+ const p=pointer(e),n=hit(p.x,p.y);
+ e.preventDefault();
+ canvas.setPointerCapture(e.pointerId);
+ if(n){
+  selected=n.id;
+  drag={id:n.id,delta:p.x-X(markerPos(n).x),deltaY:p.y-Y(markerPos(n).y)};
+  pan=null;
+ }else{
+  selected=null;
+  pan={pointerId:e.pointerId,startX:p.x,startY:p.y,origin,axis};
+  drag=null;
+ }
+ canvas.style.cursor='grabbing';draw();
+});
+canvas.addEventListener('pointermove',e=>{
+ const p=pointer(e);
+ if(pan&&pan.pointerId===e.pointerId){
+  origin=pan.origin+p.x-pan.startX;
+  axis=pan.axis+p.y-pan.startY;
+  draw();
+ }else if(drag){
+  const n=items.find(z=>z.id===drag.id);
+  if(n){
+   n.x=Math.max(n.type==='lens'?.15:-1000,Math.min(1000,invX(p.x-drag.delta)));
+   if(n.type==='role'||n.type==='eye'){
+    n.y=(axis-(p.y-drag.deltaY))/scale;
+    if(n.type==='role')n.attach=null;
+   }
+   if(n.type==='lens'){showVirtual=false;animationAt=null;}
+   draw();
+  }
+ }else canvas.style.cursor=hit(p.x,p.y)?'grab':'grab';
+});
+function stopCanvasDrag(){
+ if(drag){
+  const n=items.find(z=>z.id===drag.id);
+  if(n?.type==='role'){
+   const near=getLenses().find(l=>Math.abs(X(l.x)-X(n.x))<70);
+   if(near){n.attach=near.id;n.x=near.x;n.y=2.7;}
+  }
+ }
+ drag=null;pan=null;canvas.style.cursor='grab';
+}
+canvas.addEventListener('pointerup',stopCanvasDrag);
+canvas.addEventListener('pointercancel',stopCanvasDrag);
+canvas.addEventListener('lostpointercapture',stopCanvasDrag);
+const ghost=document.createElement('div');ghost.className='ghost';ghost.style.display='none';document.body.appendChild(ghost);
+for(const t of document.querySelectorAll('.tool')){t.addEventListener('pointerdown',e=>{if(e.button!==0)return;e.preventDefault();toolDrag={t,startX:e.clientX,startY:e.clientY,moved:false};ghost.textContent=t.dataset.type==='ruler'?'直尺':t.dataset.type==='eye'?'眼睛':t.dataset.type==='role'?(t.dataset.role==='objective'?'物鏡':'目鏡'):`透鏡 ${styles[Number(t.dataset.f)].name}`;t.setPointerCapture(e.pointerId)});t.addEventListener('pointermove',e=>{if(!toolDrag||toolDrag.t!==t)return;if(Math.hypot(e.clientX-toolDrag.startX,e.clientY-toolDrag.startY)>6)toolDrag.moved=true;if(toolDrag.moved){ghost.style.display='block';ghost.style.left=e.clientX+12+'px';ghost.style.top=e.clientY+12+'px'}});t.addEventListener('pointerup',e=>{if(!toolDrag||toolDrag.t!==t)return;let moved=toolDrag.moved;toolDrag=null;ghost.style.display='none';const rect=canvas.getBoundingClientRect();if(e.clientX>=rect.left&&e.clientX<=rect.right&&e.clientY>=rect.top&&e.clientY<=rect.bottom)add(t.dataset.type,t.dataset.type==='role'?t.dataset.role:Number(t.dataset.f||0),invX(e.clientX-rect.left));else if(!moved){const f=t.dataset.type==='role'?t.dataset.role:Number(t.dataset.f||0);add(t.dataset.type,f,defaultToolX(t.dataset.type,f))}else toast('請拖曳至光路圖區')});t.addEventListener('pointercancel',()=>{toolDrag=null;ghost.style.display='none'});t.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();(()=>{const f=t.dataset.type==='role'?t.dataset.role:Number(t.dataset.f||0);add(t.dataset.type,f,defaultToolX(t.dataset.type,f))})()}})}
+document.querySelectorAll('[data-ray-mode]').forEach(b=>b.addEventListener('click',()=>{rayMode=b.dataset.rayMode; if(rayMode==='none'){showVirtual=false;animationAt=null;} draw()}));virtualBtn.addEventListener('click',()=>{if(virtualBtn.disabled)return;showVirtual=!showVirtual;animationAt=showVirtual?performance.now():null;if(showVirtual)fit(true);else draw();if(showVirtual)schedule()});document.getElementById('out').addEventListener('click',()=>zoom(.75));document.getElementById('in').addEventListener('click',()=>zoom(1.33));document.getElementById('fit').addEventListener('click',()=>fit(true));document.getElementById('remove').addEventListener('click',()=>{if(selected===null){toast('先選取要移除的透鏡或直尺');return}const removed=items.find(x=>x.id===selected);items=items.filter(x=>x.id!==selected);selected=null;if(removed?.type==='lens'){showVirtual=false;animationAt=null;}draw()});document.getElementById('reset').addEventListener('click',()=>{items=[];selected=null;rayMode='all';showVirtual=false;scale=27;origin=W*.12;axis=H*.51;draw()});window.addEventListener('keydown',e=>{if(e.key==='Delete'&&selected!==null){const removed=items.find(x=>x.id===selected);items=items.filter(x=>x.id!==selected);selected=null;if(removed?.type==='lens'){showVirtual=false;animationAt=null;}draw()}});window.addEventListener('resize',resize);resize();
+})();
+</script></body></html>
