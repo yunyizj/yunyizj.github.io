@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f7fb">
+<title>正負整數四則運算練習</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif;color:#18243b;background:#f6f7fb;font-synthesis:none}*{box-sizing:border-box}body{margin:0;min-height:100dvh}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.wrap{width:min(100% - 32px,760px);margin:0 auto;padding:32px 0 65px}.topline{font-weight:750;font-size:15px;color:#51678c;letter-spacing:.04em}.heading{font-size:clamp(28px,5.5vw,40px);letter-spacing:-.045em;margin:12px 0 8px;font-weight:850}.sub{line-height:1.7;color:#65748d;margin:0 0 26px}.surface{background:white;border:1px solid #e3e9f2;border-radius:24px;padding:clamp(20px,4vw,32px);box-shadow:0 12px 35px rgba(20,40,80,.055)}.sectiontitle{font-size:16px;font-weight:780;margin:0 0 13px}.choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.check{position:relative}.check input{position:absolute;opacity:0;inset:0}.check>span{display:flex;align-items:center;justify-content:center;gap:8px;border:2px solid #e2e9f2;background:#fbfcff;border-radius:15px;min-height:74px;font-size:17px;font-weight:800;transition:.15s}.check input:checked+span{color:#2359d4;border-color:#4e83f3;background:#eff5ff}.check input:focus-visible+span{outline:3px solid #8caffb;outline-offset:3px}.check .symbol{font-size:24px}.divider{height:1px;background:#edf0f6;margin:25px 0}.number{width:100%;height:58px;border:2px solid #dfe6f0;border-radius:14px;padding:0 16px;font-size:22px;font-weight:700;outline:0;color:#18243b}.number:focus{border-color:#477ce6;box-shadow:0 0 0 3px #477ce618}.hint{font-size:13px;color:#7b889b;line-height:1.65;margin:10px 0 0}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:26px}.btn{border:0;border-radius:13px;min-height:52px;padding:0 23px;font-weight:800;font-size:16px}.primary{background:#2563eb;color:#fff}.primary:hover:not(:disabled){background:#1d4ed8}.secondary{background:#eff3fa;color:#345079}.alert{font-size:14px;color:#b42332;min-height:20px;margin-top:12px}.hidden{display:none!important}.gamehead{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}.stat{border:1px solid #e0e7f0;border-radius:16px;padding:14px 17px;background:white}.statlabel{font-size:12px;color:#6d7b92;margin-bottom:5px}.statvalue{font-weight:850;font-size:23px;font-variant-numeric:tabular-nums}.progress{height:8px;background:#e6ebf4;border-radius:50px;margin:20px 0 29px;overflow:hidden}.progress>div{height:100%;width:0%;background:#407beb;transition:width .25s}.question-label{font-size:14px;color:#70809b;font-weight:700}.expression{display:flex;align-items:center;justify-content:center;min-height:128px;text-align:center;font-size:clamp(34px,7.3vw,58px);font-weight:800;letter-spacing:-.035em;margin:16px 0 26px;line-height:1.3;overflow-wrap:anywhere}.answer-label{display:block;font-weight:750;font-size:15px;margin-bottom:11px}.answer-input{width:100%;height:76px;border:2px solid #dfe6f0;border-radius:17px;padding:0 20px;font-size:33px;text-align:center;font-weight:750;outline:0;background:#fff;color:#16233b;appearance:textfield}.answer-input:focus{border-color:#477ce6;box-shadow:0 0 0 4px #477ce619}.answer-input::-webkit-inner-spin-button{display:none}.answer-input:disabled{background:#f8faff}.feedback{min-height:72px;margin:15px 0 0;padding:15px 17px;border-radius:14px;font-size:17px;font-weight:750;display:flex;align-items:center;line-height:1.5}.feedback.ok{background:#eaf8ee;color:#17713b}.feedback.bad{background:#fff0f0;color:#bd3434}.feedback.empty{visibility:hidden}.gameactions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px}.results-total{font-size:52px;font-weight:900;letter-spacing:-.05em;margin:0}.results-total small{font-size:20px;color:#71809b}.resultstats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:24px 0}.resulttile{background:#f7f9fd;border:1px solid #e4eaf4;border-radius:16px;padding:18px}.resulttile .name{font-size:14px;color:#66758b;font-weight:800}.resulttile .rate{font-size:27px;font-weight:850;margin-top:8px}.resulttile .detail{font-size:13px;color:#748196;margin-top:2px}.misses{margin:16px 0 0;display:grid;gap:10px;list-style:none;padding:0}.miss{background:#fbfcff;border:1px solid #e0e6f0;border-radius:15px;padding:16px 18px}.miss .expr{font-size:20px;font-weight:820}.miss .given{color:#c03737;font-size:15px;margin-top:7px}.miss .right{color:#2f6a47;font-size:15px;margin-top:4px}.summarytime{color:#64748b;font-weight:650;margin-top:7px}.emptylist{color:#5d718d;padding:22px 0}.foot{margin-top:22px;color:#8290a3;font-size:12px;line-height:1.7;text-align:center}@media(max-width:510px){.wrap{width:min(100% - 24px,760px);padding:22px 0 45px}.surface{border-radius:19px;padding:20px 17px}.choices{grid-template-columns:repeat(2,minmax(0,1fr))}.check span{min-height:65px}.gamehead{gap:8px}.stat{padding:12px}.statvalue{font-size:20px}.expression{min-height:105px}.gameactions .btn{padding:0 15px}.results-total{font-size:45px}.resulttile{padding:14px}.resulttile .rate{font-size:24px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
+
+.math-keypad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:14px auto 0;max-width:460px}
+.math-keypad button{min-height:59px;border:1px solid #cbdaf0;background:#f6f9ff;border-radius:13px;color:#1d3b6b;font-size:25px;font-weight:800;touch-action:manipulation}
+.math-keypad button:active{background:#dceafa}.math-keypad button:disabled{opacity:.45}
+.math-erase{display:block;margin:9px auto 2px;border:0;background:none;color:#2763bc;font-size:14px;padding:8px 20px;cursor:pointer}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<h1 class="heading" id="heading">正負整數四則運算</h1>
+<p class="sub" id="intro">選擇要練習的運算類型及題數，開始挑戰。</p>
+<section id="setup" class="surface">
+  <h2 class="sectiontitle">選擇練習運算</h2>
+  <div class="choices">
+    <label class="check"><input type="checkbox" value="add"><span><span class="symbol">＋</span>加法</span></label>
+    <label class="check"><input type="checkbox" value="sub"><span><span class="symbol">－</span>減法</span></label>
+    <label class="check"><input type="checkbox" value="mul"><span><span class="symbol">×</span>乘法</span></label>
+    <label class="check"><input type="checkbox" value="div"><span><span class="symbol">÷</span>除法</span></label>
+  </div>
+  <div class="divider"></div>
+  <label class="sectiontitle" for="count">練習題數</label>
+  <input class="number" id="count" type="number" min="1" max="500" step="1" value="20" inputmode="numeric">
+
+  <div id="setupError" class="alert" role="alert" aria-live="polite"></div>
+  <div class="actions"><button class="btn primary" id="start">開始練習</button></div>
+</section>
+<section id="game" class="hidden" aria-label="答題區">
+ <div class="gamehead">
+  <div class="stat"><div class="statlabel">練習時間</div><div id="timer" class="statvalue">00:00</div></div>
+  <div class="stat"><div class="statlabel">目前題數</div><div id="counter" class="statvalue">1 / 20</div></div>
+ </div>
+ <div class="surface">
+  <div class="question-label">請計算下列算式</div>
+  <div class="progress" aria-label="答題進度"><div id="progress"></div></div>
+  <div id="expression" class="expression"></div>
+  <form id="answerForm" autocomplete="off">
+    <label class="answer-label" for="answer">輸入整數答案</label>
+    <input id="answer" class="answer-input" type="text" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="輸入答案" aria-describedby="feedback">
+    <div class="math-keypad" id="mathKeypad" aria-label="數字鍵盤"></div><button class="math-erase" type="button" id="mathErase">⌫ 刪除一位</button><div id="feedback" class="feedback empty" aria-live="polite"></div>
+    <div class="gameactions">
+      <button type="button" class="btn secondary" id="quit">結束練習</button>
+      <button type="submit" class="btn primary" id="submitAnswer">送出答案</button>
+      <button type="button" class="btn primary hidden" id="next">下一題 →</button>
+    </div>
+  </form>
+ </div>
+</section>
+<section id="results" class="surface hidden">
+ <div class="question-label">練習完成</div>
+ <div class="results-total"><span id="score">0 / 20</span> <small>題答對</small></div>
+ <div class="summarytime" id="duration">總練習時間：00:00</div><div class="summarytime" id="mathFinishedAt"></div>
+ <div class="resultstats" id="resultstats"></div>
+ <h2 class="sectiontitle">錯題列表</h2>
+ <div id="wrongList"></div>
+ <div class="actions"><button class="btn primary" id="again">重新練習</button></div>
+</section>
+
+</main>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+for(const digit of ['7','8','9','4','5','6','1','2','3','+','0','-']){const b=document.createElement('button');b.type='button';b.textContent=digit==='-'?'−':digit;b.setAttribute('aria-label',digit==='-'?'負號':digit==='+'?'正號':digit);b.addEventListener('click',()=>{const inp=$('answer');if(inp.disabled)return;const s=inp.selectionStart??inp.value.length,e=inp.selectionEnd??s;if('+-'.includes(digit)){inp.value=digit+inp.value.replace(/^[+-]/,'');inp.focus();return}inp.setRangeText(digit,s,e,'end');inp.focus({preventScroll:true})});$('mathKeypad').append(b)}$('mathErase').onclick=()=>{const inp=$('answer');if(inp.disabled)return;let s=inp.selectionStart??inp.value.length,e=inp.selectionEnd??s;if(s===e&&s>0)s--;inp.setRangeText('',s,e,'end');inp.focus({preventScroll:true})};
+const labels={add:'加法',sub:'減法',mul:'乘法',div:'除法'};
+const marks={add:'+',sub:'−',mul:'×',div:'÷'};
+let questions=[],idx=0,records=[],startTime=0,endTime=0,timerId=null,advanceId=null,answered=false,finished=false;
+const rnd=(lo,hi)=>Math.floor(Math.random()*(hi-lo+1))+lo;
+const pick=a=>a[rnd(0,a.length-1)];
+// Draw digit-length combinations evenly, rather than drawing raw magnitudes.
+// This prevents one-digit operands from being overwhelmed by two/three-digit ones.
+const digitRanges={1:[1,9],2:[10,99],3:[100,999]};
+const patterns={
+ add:[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]],
+ sub:[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]],
+ mul:[[1,1],[1,2],[2,1],[2,2]],
+ div:[[1,1],[2,1],[2,2]]
+};
+// Each type uses shuffled cycles of all feasible digit-length pairs.
+const digitQueue={add:[],sub:[],mul:[],div:[]};
+function randomSign(n){return Math.random()<0.5?-n:n}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=rnd(0,i);[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
+function nextPattern(type){
+ if(!digitQueue[type].length)digitQueue[type]=shuffle(patterns[type].map(p=>p.slice()));
+ return digitQueue[type].pop();
+}
+const divisionPairs={};
+for(const [da,db] of patterns.div){
+ const pairs=[];
+ const [alo,ahi]=digitRanges[da], [blo,bhi]=digitRanges[db];
+ for(let a=alo;a<=ahi;a++)for(let b=blo;b<=bhi;b++){
+  if(a%b===0)pairs.push([a,b]);
+ }
+ divisionPairs[`${da}-${db}`]=pairs;
+}
+function makeQuestion(type){
+ const [da,db]=nextPattern(type);
+ let a,b,solution;
+ if(type==='div'){
+  const [dividend,divisor]=pick(divisionPairs[`${da}-${db}`]);
+  a=randomSign(dividend);b=randomSign(divisor);solution=a/b;
+ }else{
+  const [alo,ahi]=digitRanges[da],[blo,bhi]=digitRanges[db];
+  a=randomSign(rnd(alo,ahi));b=randomSign(rnd(blo,bhi));
+  solution=type==='add'?a+b:type==='sub'?a-b:a*b;
+ }
+ return {type,a,b,solution,display:`${show(a)} ${marks[type]} ${show(b)}`};
+}
+function show(n){return n<0?`(${n})`:String(n)}
+function duration(ms){let s=Math.floor(Math.max(0,ms)/1000);const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return (h?String(h).padStart(2,'0')+':':'')+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0')}
+function setPage(name){['setup','game','results'].forEach(id=>$(id).classList.toggle('hidden',id!==name));$('heading').textContent=name==='setup'?'正負整數四則運算':name==='game'?'運算練習':'練習結果';$('intro').classList.toggle('hidden',name!=='setup')}
+function updateTimer(){if(startTime&&!finished)$('timer').textContent=duration(Date.now()-startTime)}
+function clearTimers(){if(timerId!==null){clearInterval(timerId);timerId=null}if(advanceId!==null){clearTimeout(advanceId);advanceId=null}}
+function start(){const enabled=[...document.querySelectorAll('.check input:checked')].map(n=>n.value);const raw=$('count').value.trim(),n=Number(raw);let err='';
+ if(!enabled.length)err='請至少選擇一種運算類型。';else if(!raw||!Number.isInteger(n)||n<1||n>500)err='請輸入 1 至 500 的整數題數。';
+ $('setupError').textContent=err;if(err)return;
+ questions=Array.from({length:n},(_,i)=>makeQuestion(enabled[i%enabled.length]));
+ for(let i=questions.length-1;i>0;i--){const j=rnd(0,i);[questions[i],questions[j]]=[questions[j],questions[i]]}
+ records=[];idx=0;answered=false;finished=false;clearTimers();startTime=Date.now();endTime=0;
+ timerId=setInterval(updateTimer,250);setPage('game');displayQuestion();updateTimer();
+}
+function displayQuestion(){const q=questions[idx];answered=false;$('counter').textContent=`${idx+1} / ${questions.length}`;$('progress').style.width=`${idx/questions.length*100}%`;$('expression').textContent=q.display;$('answer').value='';$('answer').disabled=false;document.querySelectorAll('#mathKeypad button').forEach(b=>b.disabled=false);$('feedback').textContent='';$('feedback').className='feedback empty';$('submitAnswer').classList.remove('hidden');$('next').classList.add('hidden');$('answer').focus({preventScroll:true})}
+function submit(e){e.preventDefault();if(answered)return;const text=$('answer').value.trim();if(!/^[+-]?\d+$/.test(text)){$('feedback').className='feedback bad';$('feedback').textContent='請輸入有效的整數答案。';return}const value=Number(text);if(!Number.isSafeInteger(value)){$('feedback').className='feedback bad';$('feedback').textContent='請輸入有效的整數答案。';return}
+ const q=questions[idx],correct=value===q.solution;answered=true;records.push({...q,submitted:text,correct});$('answer').disabled=true;document.querySelectorAll('#mathKeypad button').forEach(b=>b.disabled=true);$('submitAnswer').classList.add('hidden');
+ $('feedback').className='feedback '+(correct?'ok':'bad');$('feedback').textContent=correct?'✓ 回答正確！':'✕ 回答錯誤，正確答案：'+q.solution;
+ if(correct){advanceId=setTimeout(next,500)}else{$('next').classList.remove('hidden');$('next').focus({preventScroll:true})}
+}
+function next(){if(!answered)return;clearTimeout(advanceId);advanceId=null;idx++;if(idx>=questions.length)finish();else displayQuestion()}
+function finish(){clearTimers();endTime=Date.now();finished=true;setPage('results');$('score').textContent=`${records.filter(r=>r.correct).length} / ${records.length}`;$('duration').textContent='總練習時間：'+duration(endTime-startTime);$('mathFinishedAt').textContent='完成時間：'+new Date(endTime).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',hour12:false}); saveMathSession();$('resultstats').replaceChildren();
+ const enabled=[...new Set(questions.map(q=>q.type))];for(const type of enabled){const rs=records.filter(r=>r.type===type),ok=rs.filter(r=>r.correct).length,rate=rs.length?Math.round(ok/rs.length*100):0,tile=document.createElement('div');tile.className='resulttile';const name=document.createElement('div');name.className='name';name.textContent=labels[type];const r=document.createElement('div');r.className='rate';r.textContent=rate+'%';const detail=document.createElement('div');detail.className='detail';detail.textContent=`${ok} / ${rs.length} 題正確`;tile.append(name,r,detail);$('resultstats').append(tile)}
+ const wrong=records.filter(r=>!r.correct);$('wrongList').replaceChildren();if(!wrong.length){const p=document.createElement('div');p.className='emptylist';p.textContent=records.length===questions.length?'全部答對！':'目前沒有錯題。';$('wrongList').append(p);return}const list=document.createElement('ol');list.className='misses';wrong.forEach((q,i)=>{const li=document.createElement('li');li.className='miss';const ex=document.createElement('div');ex.className='expr';ex.textContent=`${i+1}. ${q.display} = ?`;const given=document.createElement('div');given.className='given';given.textContent='你的答案：'+q.submitted;const right=document.createElement('div');right.className='right';right.textContent='正確答案：'+q.solution;li.append(ex,given,right);list.append(li)});$('wrongList').append(list)
+}
+async function saveMathSession(){const payload={subject:'math',completed:records.length===questions.length,total:questions.length,durationSeconds:Math.floor((endTime-startTime)/1000),questions:records.map(r=>({prompt:r.display+' = ?',type:r.type,answer:String(r.solution),submitted:r.submitted,correct:r.correct,attempts:[r.submitted],choices:[]}))};try{await window.schoolHubReady;await window.schoolHub?.saveSession(payload)}catch(e){console.warn('無法儲存練習紀錄',e);window.schoolHub?.showSaveError?.(e.message)}}
+$('start').addEventListener('click',start);$('answerForm').addEventListener('submit',submit);$('next').addEventListener('click',next);$('again').addEventListener('click',()=>{clearTimers();setPage('setup')});$('quit').addEventListener('click',()=>{if(!records.length){clearTimers();finished=true;setPage('setup')}else finish()});
+})();
+</script>
+<script type="module" src="./school-hub.js"></script>
+</body>
+</html>
