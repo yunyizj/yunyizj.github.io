@@ -1,0 +1,36 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>龍山國中｜學習入口</title><style>
+:root{font-family:system-ui,-apple-system,"Microsoft JhengHei",sans-serif;color:#182b4a;background:#f3f6fc}*{box-sizing:border-box}body{margin:0}main{max-width:950px;margin:auto;padding:24px 17px 70px}header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0 24px}h1{font-size:clamp(27px,5vw,40px);margin:8px 0 2px}h2{margin:20px 0 12px;font-size:22px}p{line-height:1.7}.muted{color:#687b97}.small{font-size:13px}.controls{display:flex;gap:9px;align-items:center;flex-wrap:wrap}button,.button{font:inherit;border:1px solid #cad8ef;padding:10px 15px;background:white;color:#2456aa;border-radius:11px;cursor:pointer;text-decoration:none}.primary{background:#285fd4;color:white;border-color:#285fd4}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.tile{background:white;border:1px solid #e2e8f3;border-radius:21px;padding:25px 21px;box-shadow:0 10px 25px #24416e0a;display:flex;flex-direction:column;gap:10px}.tile .emoji{font-size:46px}.tile h2{margin:0}.tile .button{margin-top:auto;text-align:center}.panel{background:#fff;border-radius:19px;border:1px solid #e3e9f4;padding:19px;margin-top:19px}.notice{color:#8a4b27;background:#fff7e8;border-radius:11px;padding:12px;margin:12px 0}.footer{margin-top:25px;text-align:center}.hidden{display:none!important}
+.dashboard-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.dashboard-top h2{margin:0}
+.mini-note{display:flex;align-items:center;gap:8px;color:#687b97;font-size:14px;margin:10px 0 0}.mini-note .icon{font-size:18px}
+.summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}.sum-card{background:#f7faff;border:1px solid #dde8f7;border-radius:18px;padding:16px 10px;text-align:center;min-width:0}.sum-card .icon{font-size:30px;line-height:1}.sum-card .label{display:block;margin-top:7px;color:#627998;font-size:13px}.sum-card .value{display:block;margin-top:6px;font-size:24px;font-weight:800;color:#1b3f84}.sum-card.records{background:#eef5ff;border-color:#cfe0fb}
+.quick-links{display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:15px}.quick-tip{background:#f9fbff;border:1px solid #e2e8f4;border-radius:16px;padding:14px 15px;display:flex;align-items:center;gap:10px}.quick-tip .icon{font-size:22px}
+@media(max-width:860px){.summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.cards{grid-template-columns:1fr}.tile{padding:22px}header{align-items:flex-start}.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quick-links{grid-template-columns:1fr}}
+</style></head><body><main><header><div><div class="muted small">LONGSHAN JUNIOR HIGH SCHOOL</div><h1>學習練習入口</h1><div class="muted">英文單字與正負整數四則運算</div></div><div class="controls"><span id="account" class="muted small">訪客模式</span><button id="authBtn" type="button">登入</button></div></header><div class="cards"><article class="tile"><div class="emoji">📖</div><h2>英文單字</h2><p class="muted">單字卡 · 選擇題 · 拼音題</p><a class="button primary" href="./voc_7th_1.html">開始英文練習</a></article><article class="tile"><div class="emoji">➗</div><h2>正負整數四則運算</h2><p class="muted">加減乘除 · 數字鍵盤</p><a class="button primary" href="./int_calc.html">開始數學練習</a></article></div><div class="panel"><div class="dashboard-top"><h2>我的學習檔案</h2><button id="detailsBtn" class="primary hidden">📊 詳細資料</button></div><p id="visitorHint" class="mini-note"><span class="icon">👤</span><span>登入即可查看個人獎牌與練習歷程</span></p><p id="setupHint" class="notice hidden">Firebase 尚未設定。請先填寫 firebase-config.js 並設定登入網域、Firestore 規則。</p><div id="accountPanel" class="hidden"><div id="summaryGrid" class="summary-grid"></div></div></div></main><script type="module">
+import {login,logout,getDashboard,showDashboard,onChange,configured} from './school-hub.js';
+const $=id=>document.getElementById(id);if(!configured)$('setupHint').classList.remove('hidden');
+$('authBtn').onclick=async()=>{try{if($('authBtn').dataset.logged==='yes')await logout();else await login()}catch(e){alert(e.message)}};
+$('detailsBtn').onclick=()=>showDashboard();
+function renderSummary(d){
+  const counts={daily:0,perfect:0,fifty:0};
+  for(const b of d.badges){if(counts[b.type]!==undefined)counts[b.type]++;}
+  const items=[
+    ['📅','每天練習',counts.daily],
+    ['🏆','完美作答',counts.perfect],
+    ['⭐','練習多多',counts.fifty],
+    ['📝','練習次數',d.sessions.length,'records']
+  ];
+  $('summaryGrid').innerHTML=items.map(([icon,label,value,extra])=>`<div class="sum-card ${extra||''}"><div class="icon">${icon}</div><span class="label">${label}</span><span class="value">${value}</span></div>`).join('');
+}
+onChange(async user=>{
+  $('account').textContent=user?.email||'訪客模式';
+  $('authBtn').textContent=user?'登出':'登入';
+  $('authBtn').dataset.logged=user?'yes':'no';
+  $('accountPanel').classList.toggle('hidden',!user);
+  $('visitorHint').classList.toggle('hidden',!!user);
+  $('detailsBtn').classList.toggle('hidden',!user);
+  if(user){
+    try{const d=await getDashboard();if(!user||$('authBtn').dataset.logged!=='yes')return;renderSummary(d);}catch(e){$('summaryGrid').innerHTML=`<div class="sum-card records" style="grid-column:1/-1"><div class="icon">⚠️</div><span class="label">讀取失敗</span><span class="value" style="font-size:16px">${e.message}</span></div>`}
+  }
+});
+</script></body></html>
