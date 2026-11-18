@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  function eligible() {
+   return request.auth != null
+    && request.auth.token.email_verified == true
+    && request.auth.token.firebase.sign_in_provider == 'google.com'
+    && request.auth.token.email is string
+    && request.auth.token.email.matches('^[^@]+@lsjh\\.tp\\.edu\\.tw$');
+  }
+  function owner(uid) { return eligible() && request.auth.uid == uid; }
+  function validSession(subject) {
+   return request.resource.data.keys().hasOnly(['subject','total','correctCount','completed','durationSeconds','questions','finishedAt','createdAt','version'])
+    && request.resource.data.subject == subject
+    && subject in ['english', 'math']
+    && request.resource.data.version == 1
+    && request.resource.data.total is int
+    && request.resource.data.total >= 1 && request.resource.data.total <= 500
+    && request.resource.data.correctCount is int
+    && request.resource.data.correctCount >= 0 && request.resource.data.correctCount <= request.resource.data.total
+    && request.resource.data.completed is bool
+    && request.resource.data.durationSeconds is int
+    && request.resource.data.durationSeconds >= 0 && request.resource.data.durationSeconds <= 86400
+    && request.resource.data.questions is list
+    && request.resource.data.questions.size() <= 500
+    && request.resource.data.finishedAt == request.time
+    && request.resource.data.createdAt == request.time;
+  }
+  match /users/{uid} {
+   allow read, write: if false;
+   match /englishSessions/{sessionId} {
+    allow get, list: if owner(uid);
+    allow create: if owner(uid) && validSession('english');
+    allow update, delete: if false;
+   }
+   match /mathSessions/{sessionId} {
+    allow get, list: if owner(uid);
+    allow create: if owner(uid) && validSession('math');
+    allow update, delete: if false;
+   }
+  }
+  match /{document=**} { allow read, write: if false; }
+ }
+}
