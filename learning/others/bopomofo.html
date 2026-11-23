@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f7fc">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://jhen-1993.github.io" crossorigin>
+<title>注音與漢字</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif;background:#f4f7fc;color:#19253a;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh}button{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid #82b2ff;outline-offset:3px}
+.wrap{width:min(calc(100% - 32px),850px);margin:auto;padding:26px 0 34px}.head{display:flex;align-items:center;gap:12px;margin-bottom:20px}.logo{width:47px;height:47px;border-radius:14px;background:#2269db;color:white;display:grid;place-items:center;font-size:27px;font-weight:850;flex:none}.head h1{font-size:24px;font-weight:820;margin:0}.panel{background:white;border:1px solid #e0e8f1;border-radius:22px;box-shadow:0 8px 30px #193b6e0a}
+.stage{padding:21px 20px 18px}.stage-head{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-bottom:6px}.stage-head h2{margin:0;font-size:19px;font-weight:820}.clear{border:0;background:#f0f4fa;border-radius:10px;color:#61738e;min-height:39px;padding:7px 17px;font-size:14px;font-weight:750;cursor:pointer}.clear:hover{background:#e6eef9}
+.compose{display:flex;align-items:center;justify-content:center;gap:44px;min-height:257px;padding:10px 0 16px}
+.vertical{width:130px;position:relative;display:flex;flex-direction:column;gap:8px;align-items:center;padding:17px 15px 6px;border-radius:19px;background:#f4f8ff;border:1px solid #dce9fb}
+.slot{width:99px;min-height:91px;border:2px dashed #a8c2e6;border-radius:13px;background:#fff;color:#1b57bb;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;padding:5px 3px;position:relative;transition:background .15s,border-color .15s}
+.slot:last-of-type{min-height:117px}.slot.filled{border:2px solid #8cb5ee;background:#fff}.slot.drag-over{border-color:#1768e6;background:#e4efff}.slot .symbol{font-size:52px;font-weight:850;line-height:1.08;white-space:nowrap}.slot.rhyme .symbol{font-size:45px}.slot.rhyme .symbol.stacked{font-size:41px;display:flex;flex-direction:column;line-height:.99;align-items:center;gap:1px}.slot .plus{font-size:34px;color:#b8cde9;font-weight:450;line-height:1.2}.slot .remove{position:absolute;top:-9px;right:-12px;display:none;place-items:center;width:25px;height:25px;border-radius:50%;background:#e7edf7;border:1px solid #cbd9ec;color:#607899;font-size:18px;line-height:1;box-shadow:0 2px 5px #213b6411}.slot.filled .remove{display:grid}
+.slot.no-initial{border:2px dashed transparent;background:transparent;color:transparent;min-height:91px}.slot.no-initial .plus{display:none}
+.tone-mark{position:absolute;font-weight:900;color:#2269db;line-height:1;font-size:35px;right:-24px;bottom:38px;pointer-events:none;z-index:3}.tone-mark:not(.neutral)[data-tone="1"],.tone-mark:not(.neutral)[data-tone="2"],.tone-mark:not(.neutral)[data-tone="3"]{width:26px;height:28px;font-size:0;right:-29px;bottom:38px}
+.tone-mark:not(.neutral)[data-tone="1"]::before,.tone-mark:not(.neutral)[data-tone="3"]::before{content:"";position:absolute;top:3px;left:11px;width:4px;height:22px;background:#2269db;border-radius:5px}
+.tone-mark[data-tone="1"]::before{transform:rotate(43deg)}
+.tone-mark[data-tone="3"]::before{transform:rotate(-43deg)}
+.tone-mark[data-tone="2"]::before,.tone-mark[data-tone="2"]::after{content:"";position:absolute;top:4px;width:4px;height:17px;background:#2269db;border-radius:5px}
+.tone-mark[data-tone="2"]::before{left:7px;transform:rotate(-40deg)}
+.tone-mark[data-tone="2"]::after{left:17px;transform:rotate(40deg)}
+.tone-mark.neutral{left:50%;right:auto;top:-20px;bottom:auto;transform:translateX(-50%);font-size:42px}
+.action-stack{display:flex;flex-direction:column;gap:13px;align-items:stretch;min-width:112px}.play-btn,.examples-btn{height:62px;border:0;border-radius:16px;display:grid;place-items:center;cursor:pointer;font-weight:800}.play-btn{background:#2269db;color:#fff;box-shadow:0 4px 12px #2368dc2b}.play-btn svg{width:29px;height:29px}.examples-btn{background:#e9f2ff;color:#1a5fc5;font-size:19px}.play-btn:disabled,.examples-btn:disabled{background:#eff2f6;color:#b4c0cf;box-shadow:none;cursor:not-allowed}
+.tones{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;max-width:570px;margin:1px auto 0}.tone{border:2px solid #dfE8f5;border-radius:12px;background:#fff;min-height:62px;padding:4px 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;color:#2c4a73}.tone .tone-icon{font-weight:850;font-size:27px;line-height:1.1;min-height:31px}.tone .tone-text{font-size:12px;font-weight:720;color:#74859c}.tone.active{background:#eaf3ff;color:#1559c6;border-color:#3079e6}.tone.active .tone-text{color:#246bd4}.tone:disabled{background:#f4f5f7;color:#c0c9d3;border-color:#eef0f3;cursor:not-allowed}.tone:disabled .tone-text{color:#c2cbd4}
+.bank{padding:16px 16px 18px;margin-top:15px}.strip-wrap{position:relative;display:flex;align-items:center;gap:8px}.strip-wrap+.strip-wrap{margin-top:14px}.strip-index{flex:0 0 26px;height:26px;border-radius:50%;background:#eaf2ff;color:#2565cc;display:grid;place-items:center;font-size:14px;font-weight:850}.rail{display:flex;align-items:stretch;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#c7d9f0 transparent;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding:5px 2px 12px;flex:1;min-width:0}.rail::-webkit-scrollbar{height:5px}.rail::-webkit-scrollbar-thumb{background:#c7d9f0;border-radius:10px}
+.card{touch-action:pan-x;flex:0 0 70px;width:70px;height:88px;border:2px solid #dfe7f3;background:#fff;border-radius:15px;display:flex;align-items:center;justify-content:center;cursor:grab;user-select:none;-webkit-user-select:none;scroll-snap-align:start;font-size:42px;font-weight:850;line-height:1;color:#213c64;position:relative;transition:background .12s,border .12s,color .12s}.card.combo{flex-basis:80px;width:80px;font-size:34px}.card .symbols{display:flex;flex-direction:column;justify-content:center;align-items:center;line-height:1.06;gap:0}.card.combo .symbols{font-size:33px}.card:active{cursor:grabbing}.card.selected{background:#eaf3ff;border-color:#367ce8;color:#1f63c8}.card:not(:disabled):hover{background:#f5f9ff;border-color:#8db6f3}.card:disabled{background:#f0f2f5;border-color:#ebeff3;color:#c3cbd5;opacity:.9;cursor:not-allowed}.rail-arrow{flex:0 0 28px;background:#f0f5fc;border:0;border-radius:50%;height:36px;display:grid;place-items:center;cursor:pointer;color:#5279b2;font-size:22px;font-weight:700}.rail-arrow:disabled{opacity:.4}.dragging-clone{position:fixed;z-index:100;pointer-events:none;background:#e9f3ff;border:2px solid #367ce8;border-radius:14px;box-shadow:0 11px 24px #234d8e35;font-size:35px;font-weight:850;color:#1858bb;width:69px;min-height:76px;display:grid;place-items:center;transform:translate(-50%,-50%);white-space:nowrap}
+.status{margin:8px 8px 0;text-align:center;font-size:14px;font-weight:750;color:#99652d;min-height:0}.status:empty{display:none}.sources{margin:15px 6px 0;color:#8a98aa;font-size:11px;line-height:1.65;text-align:center}.sources a{color:#758cad}
+.overlay{position:fixed;inset:0;background:#13274685;display:grid;place-items:center;z-index:200;padding:17px}.overlay.hidden{display:none}.dialog{width:min(100%,560px);background:white;border-radius:23px;box-shadow:0 24px 70px #10264537;max-height:min(86dvh,700px);overflow:auto;padding:20px;position:relative}.dialog-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.dialog-top strong{font-size:24px;font-weight:850}.close{width:40px;height:40px;border-radius:11px;background:#f1f4f9;color:#536886;border:0;font-size:25px;cursor:pointer}.word-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}.word-tile{border:2px solid #e0e8f4;background:#fff;border-radius:13px;min-height:98px;padding:9px 4px;cursor:pointer}.word-tile .char{display:block;font-size:37px;font-weight:850;line-height:1.27}.word-tile .phrase{font-size:14px;color:#59708e;font-weight:750}.word-tile.picked{border-color:#3f82e9;background:#eef5ff}.definition{margin-top:16px;border-radius:15px;padding:17px;background:#f5f8fd;min-height:95px}.def-phrase{font-size:25px;font-weight:850;color:#1e5dc0;margin-bottom:6px}.def-sentence{font-size:18px;line-height:1.75}.empty{color:#71839b;font-size:16px;padding:18px}
+@media(max-width:600px){.wrap{width:calc(100% - 20px);padding-top:15px}.head{margin-bottom:13px}.head h1{font-size:22px}.stage{padding:16px 12px 17px}.compose{min-height:248px;gap:34px}.bank{margin-top:12px;padding:13px 8px 14px}.strip-wrap{gap:5px}.strip-index{flex-basis:24px;width:24px;height:24px}.rail{gap:8px;padding-bottom:10px}.card{flex-basis:65px;width:65px;height:85px;font-size:39px}.card.combo{flex-basis:72px;width:72px}.card.combo .symbols{font-size:30px}.rail-arrow{display:none}.tones{gap:6px}.tone{min-height:61px}.tone .tone-text{font-size:11px}.action-stack{min-width:93px}.play-btn,.examples-btn{height:58px}.examples-btn{font-size:17px}.word-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}.dialog{padding:17px}}
+@media(max-width:355px){.compose{gap:22px}.action-stack{min-width:83px}.tones{gap:4px}.tone{border-radius:10px}.tone .tone-icon{font-size:25px}.tone .tone-text{font-size:10px}.card{flex-basis:62px;width:62px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+/* 頂端只留下清楚的兩個模式 */
+.mode-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:5px;background:#e8eef8;border-radius:15px;margin-bottom:15px}
+.mode-tab{border:0;background:transparent;color:#62748f;min-height:47px;font-size:18px;font-weight:800;border-radius:11px;cursor:pointer}
+.mode-tab.active{background:#fff;color:#2062c8;box-shadow:0 2px 12px #233b6415}
+/* 注音調號固定對齊下方主要發音，不會落到卡牌下緣 */
+.tone-mark,.tone-mark:not(.neutral)[data-tone="1"],.tone-mark:not(.neutral)[data-tone="2"],.tone-mark:not(.neutral)[data-tone="3"]{top:56%;bottom:auto;transform:translateY(-15%);right:-30px}
+.tone-mark.neutral{top:-20px;left:50%;right:auto;transform:translateX(-50%)}
+.vertical.single-sound .tone-mark:not(.neutral){top:26%;transform:translateY(-20%)}
+/* 單獨發音模式，字卡一張張獨立 */
+.reading{padding:23px}
+.reading-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:11px}
+.read-card{border:2px solid #dfe7f3;background:#fff;border-radius:15px;min-width:0;min-height:104px;color:#203b65;display:grid;place-items:center;cursor:pointer;font-size:46px;font-weight:800;transition:background .12s,border-color .12s}
+.read-card .symbols{display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.04}
+.read-card .read-stacked{font-size:34px}
+.read-card:hover{border-color:#83b0ed;background:#f5f9ff}
+.read-card.played{background:#e9f3ff;border-color:#367ce8;color:#155cc7}
+#composeMode[hidden],#readMode[hidden]{display:none!important}
+@media(max-width:600px){.mode-tab{min-height:45px;font-size:17px}.reading{padding:14px 12px}.reading-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.read-card{min-height:83px;font-size:38px;border-radius:12px}.read-card .read-stacked{font-size:28px}}
+@media(max-width:355px){.reading-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="head"><div class="logo" aria-hidden="true">ㄅ</div><h1>注音與漢字</h1></header>
+<nav class="mode-tabs" aria-label="學習模式"><button id="tabCompose" class="mode-tab active" type="button" aria-pressed="true">拼拼看</button><button id="tabRead" class="mode-tab" type="button" aria-pressed="false">唸一唸</button></nav>
+<div id="composeMode">
+<section class="panel stage" aria-label="拼音區">
+<div class="stage-head"><button class="clear" id="reset" type="button">清空</button></div>
+<div class="compose" id="compose">
+ <div class="vertical" id="vertical">
+   <button id="initialSlot" class="slot" data-target="initial" type="button" aria-label="第一格，可放ㄅ到ㄙ或ㄧㄨㄩ，點擊可播放"><span class="symbol plus">＋</span><span class="remove" aria-hidden="true">×</span></button>
+   <button id="rhymeSlot" class="slot rhyme" data-target="rhyme" type="button" aria-label="第二格，點擊播放已放入的卡牌"><span class="symbol plus">＋</span><span class="remove" aria-hidden="true">×</span></button>
+   <div id="toneMark" class="tone-mark" aria-hidden="true"></div>
+ </div>
+ <div class="action-stack">
+   <button class="play-btn" id="playFull" type="button" aria-label="聽拼好的讀音" title="聽讀音" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5a10 10 0 0 1 0 14"/></svg></button>
+   <button class="examples-btn" id="openExamples" type="button" disabled>舉例</button>
+ </div>
+</div>
+<div class="tones" id="toneButtons" aria-label="選擇聲調"></div>
+</section>
+<section class="panel bank" aria-label="注音卡牌">
+ <div class="strip-wrap"><span class="strip-index" aria-hidden="true">1</span><button class="rail-arrow" type="button" data-rail="initialRail" data-dir="-1" aria-label="上一組">‹</button><div class="rail" id="initialRail" aria-label="第一排卡牌，包含ㄧ、ㄨ、ㄩ"></div><button class="rail-arrow" type="button" data-rail="initialRail" data-dir="1" aria-label="下一組">›</button></div>
+ <div class="strip-wrap"><span class="strip-index" aria-hidden="true">2</span><button class="rail-arrow" type="button" data-rail="rhymeRail" data-dir="-1" aria-label="上一組">‹</button><div class="rail" id="rhymeRail" aria-label="第二排卡牌"></div><button class="rail-arrow" type="button" data-rail="rhymeRail" data-dir="1" aria-label="下一組">›</button></div>
+</section>
+</div>
+<section class="panel reading" id="readMode" hidden aria-label="唸一唸"><div class="reading-grid" id="readingGrid"></div></section>
+<div class="status" id="message" role="status" aria-live="polite"></div>
+<footer class="sources"><a href="https://language.moe.gov.tw/001/Upload/files/SITE_CONTENT/M0001/deploy/index.html" target="_blank" rel="noopener">讀音參考：教育部注音手冊</a> · <a href="https://github.com/hanziguru/pinyin-audio" target="_blank" rel="noopener">音節錄音來源</a></footer>
+</main>
+<div class="overlay hidden" id="overlay" role="presentation">
+ <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogName">
+  <div class="dialog-top"><strong id="dialogName">舉例</strong><button id="closeDialog" class="close" type="button" aria-label="關閉視窗">×</button></div>
+  <div id="wordTiles" class="word-tiles"></div><div id="definition" class="definition" hidden></div>
+ </section>
+</div>
+<script>
+'use strict';
+const INITIALS=[...'ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙ'];
+const MEDIALS=[...'ㄧㄨㄩ'];
+const FINALS=[...'ㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ'];
+const COMBOS='ㄧㄚ ㄧㄛ ㄧㄝ ㄧㄞ ㄧㄠ ㄧㄡ ㄧㄢ ㄧㄣ ㄧㄤ ㄧㄥ ㄨㄚ ㄨㄛ ㄨㄞ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄤ ㄨㄥ ㄩㄝ ㄩㄢ ㄩㄣ ㄩㄥ'.split(' ');
+const COMBO_CHARS=['鴨','唷','耶','崖','腰','優','煙','音','央','英','哇','窩','歪','威','彎','溫','汪','翁','約','冤','暈','雍'];
+const TONES=[{symbol:'',name:'一聲',short:'一'},{symbol:'ˊ',name:'二聲',short:'二'},{symbol:'ˇ',name:'三聲',short:'三'},{symbol:'ˋ',name:'四聲',short:'四'},{symbol:'˙',name:'輕聲',short:'輕'}];
+// 依國語常用音節整理的「無調」音節集合；不把任意聲韻拼接當成合法音節。
+// 各聲符後列的是可直接接續的韻或結合韻；空聲符亦有實際存在的音節。
+const RHYMES={
+ '∅':'ㄚ ㄛ ㄜ ㄞ ㄟ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄦ ㄧ ㄧㄚ ㄧㄛ ㄧㄝ ㄧㄞ ㄧㄠ ㄧㄡ ㄧㄢ ㄧㄣ ㄧㄤ ㄧㄥ ㄨ ㄨㄚ ㄨㄛ ㄨㄞ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄤ ㄨㄥ ㄩ ㄩㄝ ㄩㄢ ㄩㄣ ㄩㄥ',
+ 'ㄅ':'ㄚ ㄛ ㄞ ㄟ ㄠ ㄢ ㄣ ㄤ ㄥ ㄧ ㄧㄝ ㄧㄠ ㄧㄢ ㄧㄣ ㄧㄥ ㄨ',
+ 'ㄆ':'ㄚ ㄛ ㄞ ㄟ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄧ ㄧㄝ ㄧㄠ ㄧㄢ ㄧㄣ ㄧㄥ ㄨ',
+ 'ㄇ':'ㄚ ㄛ ㄜ ㄞ ㄟ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄧ ㄧㄝ ㄧㄠ ㄧㄡ ㄧㄢ ㄧㄣ ㄧㄥ ㄨ',
+ 'ㄈ':'ㄚ ㄛ ㄟ ㄡ ㄢ ㄣ ㄤ ㄥ ㄨ',
+ 'ㄉ':'ㄚ ㄜ ㄞ ㄟ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄧ ㄧㄝ ㄧㄠ ㄧㄡ ㄧㄢ ㄧㄥ ㄨ ㄨㄛ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄥ',
+ 'ㄊ':'ㄚ ㄜ ㄞ ㄟ ㄠ ㄡ ㄢ ㄤ ㄥ ㄧ ㄧㄝ ㄧㄠ ㄧㄢ ㄧㄥ ㄨ ㄨㄛ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄥ',
+ 'ㄋ':'ㄚ ㄜ ㄞ ㄟ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄧ ㄧㄝ ㄧㄠ ㄧㄡ ㄧㄢ ㄧㄣ ㄧㄤ ㄧㄥ ㄨ ㄨㄛ ㄨㄢ ㄨㄥ ㄩ ㄩㄝ',
+ 'ㄌ':'ㄚ ㄜ ㄞ ㄟ ㄠ ㄡ ㄢ ㄤ ㄥ ㄧ ㄧㄚ ㄧㄝ ㄧㄠ ㄧㄡ ㄧㄢ ㄧㄣ ㄧㄤ ㄧㄥ ㄨ ㄨㄛ ㄨㄢ ㄨㄣ ㄨㄥ ㄩ ㄩㄝ',
+ 'ㄍ':'ㄚ ㄜ ㄞ ㄟ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄨ ㄨㄚ ㄨㄛ ㄨㄞ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄤ ㄨㄥ',
+ 'ㄎ':'ㄚ ㄜ ㄞ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄨ ㄨㄚ ㄨㄛ ㄨㄞ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄤ ㄨㄥ',
+ 'ㄏ':'ㄚ ㄜ ㄞ ㄟ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄨ ㄨㄚ ㄨㄛ ㄨㄞ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄤ ㄨㄥ',
+ 'ㄐ':'ㄧ ㄧㄚ ㄧㄝ ㄧㄠ ㄧㄡ ㄧㄢ ㄧㄣ ㄧㄤ ㄧㄥ ㄩ ㄩㄝ ㄩㄢ ㄩㄣ ㄩㄥ',
+ 'ㄑ':'ㄧ ㄧㄚ ㄧㄝ ㄧㄠ ㄧㄡ ㄧㄢ ㄧㄣ ㄧㄤ ㄧㄥ ㄩ ㄩㄝ ㄩㄢ ㄩㄣ ㄩㄥ',
+ 'ㄒ':'ㄧ ㄧㄚ ㄧㄝ ㄧㄠ ㄧㄡ ㄧㄢ ㄧㄣ ㄧㄤ ㄧㄥ ㄩ ㄩㄝ ㄩㄢ ㄩㄣ ㄩㄥ',
+ 'ㄓ':'∅ ㄚ ㄜ ㄞ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄨ ㄨㄚ ㄨㄛ ㄨㄞ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄤ ㄨㄥ',
+ 'ㄔ':'∅ ㄚ ㄜ ㄞ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄨ ㄨㄚ ㄨㄛ ㄨㄞ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄤ ㄨㄥ',
+ 'ㄕ':'∅ ㄚ ㄜ ㄞ ㄟ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄨ ㄨㄚ ㄨㄛ ㄨㄞ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄤ',
+ 'ㄖ':'∅ ㄜ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄨ ㄨㄛ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄥ',
+ 'ㄗ':'∅ ㄚ ㄜ ㄞ ㄟ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄨ ㄨㄛ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄥ',
+ 'ㄘ':'∅ ㄚ ㄜ ㄞ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄨ ㄨㄛ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄥ',
+ 'ㄙ':'∅ ㄚ ㄜ ㄞ ㄠ ㄡ ㄢ ㄣ ㄤ ㄥ ㄨ ㄨㄛ ㄨㄟ ㄨㄢ ㄨㄣ ㄨㄥ'
+};
+const LEGAL=new Set();
+for(const [initial,rhymes] of Object.entries(RHYMES)) for(const rhyme of rhymes.split(' ')) LEGAL.add((initial==='∅'?'':initial)+(rhyme==='∅'?'':rhyme));
+// 完整漢字資料會在正式版本中整理；此處只收錄經人工編寫的常見示範。
+const EXAMPLES={};
+function add(base,tone,items){EXAMPLES[`${base}|${tone}`]=items.map(([char,word,sentence])=>({char,word,sentence}));}
+add('ㄅㄨ',0,[['逋','逋逃','逋逃指逃亡或躲避。']]);
+add('ㄅㄨ',1,[['醭','白醭','食物表面可能長出白醭。']]);
+add('ㄅㄨ',2,[['補','補充','喝水可以補充身體需要的水分。'],['捕','捕魚','漁夫出海捕魚。']]);
+add('ㄅㄨ',3,[['不','不是','這不是我的課本。'],['布','布料','這塊布料很柔軟。'],['步','腳步','請放慢腳步。'],['部','部分','這是題目的第一部分。']]);
+add('ㄇㄚ',0,[['媽','媽媽','媽媽正在看書。']]);
+add('ㄇㄚ',1,[['麻','麻布','這件衣服是麻布做的。']]);
+add('ㄇㄚ',2,[['馬','馬路','過馬路要看紅綠燈。'],['碼','號碼','請寫下你的號碼。']]);
+add('ㄇㄚ',3,[['罵','責罵','請不要隨意責罵別人。']]);
+add('ㄇㄚ',4,[['嗎','好嗎','我們一起去，好嗎？']]);
+add('ㄅㄚ',0,[['八','八個','桌上有八個蘋果。'],['巴','尾巴','小狗搖著尾巴。']]);
+add('ㄅㄚ',1,[['拔','拔河','我們在操場玩拔河。']]);
+add('ㄅㄚ',2,[['把','把手','請握好門上的把手。']]);
+add('ㄅㄚ',3,[['爸','爸爸','爸爸陪我去公園。'],['霸','霸道','不可以用霸道的方式要求別人。']]);
+add('ㄅㄚ',4,[['吧','走吧','我們一起走吧！']]);
+add('ㄆㄚ',0,[['趴','趴下','小貓趴在地板上。']]);
+add('ㄆㄚ',1,[['爬','爬山','星期天我們去爬山。']]);
+add('ㄆㄚ',3,[['怕','害怕','妹妹害怕打雷。']]);
+add('ㄉㄚ',0,[['搭','搭車','今天我搭公車上學。']]);
+add('ㄉㄚ',1,[['達','到達','我們終於到達目的地。']]);
+add('ㄉㄚ',2,[['打','打球','放學後一起打球。']]);
+add('ㄉㄚ',3,[['大','大小','這兩個箱子的大小不同。']]);
+add('ㄊㄚ',0,[['他','他們','他們都來參加活動。'],['她','她的','這是她的書包。']]);
+add('ㄊㄚ',2,[['塔','高塔','遠處有一座高塔。']]);
+add('ㄊㄚ',3,[['踏','踏步','大家跟著音樂踏步。']]);
+add('ㄋㄚ',1,[['拿','拿取','請小心拿取玻璃杯。']]);
+add('ㄋㄚ',2,[['哪','哪裡','你住在哪裡？']]);
+add('ㄋㄚ',3,[['那','那個','那個人是我的朋友。']]);
+add('ㄌㄚ',0,[['拉','拉開','請把窗簾拉開。']]);
+add('ㄌㄚ',2,[['喇','喇叭','汽車喇叭很響亮。']]);
+add('ㄌㄚ',3,[['辣','辣椒','這道菜加了辣椒。']]);
+add('ㄌㄚ',4,[['啦','好啦','好啦，我知道了。']]);
+add('ㄅㄛ',0,[['波','波浪','海面上有一道波浪。'],['播','播放','老師正在播放影片。']]);
+add('ㄅㄛ',1,[['伯','伯父','伯父帶來了水果。']]);
+add('ㄆㄛ',0,[['坡','山坡','羊群在山坡上吃草。']]);
+add('ㄆㄛ',1,[['婆','婆婆','婆婆正在澆花。']]);
+add('ㄆㄛ',2,[['頗','頗為','這個方法頗為有效。']]);
+add('ㄆㄛ',3,[['破','破掉','氣球突然破掉了。']]);
+add('ㄇㄛ',0,[['摸','觸摸','請勿觸摸展覽品。']]);
+add('ㄇㄛ',1,[['魔','魔術','他表演了神奇的魔術。']]);
+add('ㄇㄛ',3,[['墨','墨水','毛筆沾上了墨水。']]);
+add('ㄈㄚ',0,[['發','發現','我發現了一隻蝴蝶。']]);
+add('ㄈㄚ',1,[['罰','處罰','犯錯不一定要用處罰解決。']]);
+add('ㄈㄚ',2,[['法','方法','我們找到新的方法。']]);
+add('ㄍㄜ',0,[['哥','哥哥','哥哥正在寫功課。'],['歌','唱歌','全班一起唱歌。']]);
+add('ㄍㄜ',1,[['格','方格','請在方格中寫字。']]);
+add('ㄍㄜ',3,[['各','各種','市場裡有各種水果。']]);
+add('ㄎㄜ',0,[['科','科學','我喜歡自然科學。'],['顆','一顆','我撿到一顆石頭。']]);
+add('ㄎㄜ',1,[['咳','咳嗽','感冒時可能會咳嗽。']]);
+add('ㄎㄜ',2,[['可','可以','現在可以開始了。']]);
+add('ㄎㄜ',3,[['課','上課','我們準備開始上課。'],['客','客人','家裡來了客人。']]);
+add('ㄏㄜ',0,[['喝','喝水','運動後記得喝水。']]);
+add('ㄏㄜ',1,[['河','河流','這條河流很長。'],['合','合作','我們要一起合作。']]);
+add('ㄏㄜ',3,[['賀','祝賀','大家一起祝賀他。']]);
+add('ㄐㄧ',0,[['雞','母雞','母雞生了一顆蛋。'],['機','飛機','飛機飛過天空。']]);
+add('ㄐㄧ',1,[['急','著急','遇到問題不要著急。'],['集','集合','大家到操場集合。']]);
+add('ㄐㄧ',2,[['幾','幾個','你有幾個弟弟？'],['己','自己','自己的事情自己做。']]);
+add('ㄐㄧ',3,[['記','記得','請記得帶雨傘。'],['季','季節','春天是溫暖的季節。']]);
+add('ㄑㄧ',0,[['七','七天','一星期有七天。'],['期','日期','今天的日期是幾號？']]);
+add('ㄑㄧ',1,[['旗','國旗','國旗在風中飄揚。'],['騎','騎車','騎腳踏車要戴安全帽。']]);
+add('ㄑㄧ',2,[['起','起床','我每天七點起床。']]);
+add('ㄑㄧ',3,[['氣','空氣','空氣中含有氧氣。'],['器','機器','這台機器正在運轉。']]);
+add('ㄒㄧ',0,[['西','西方','西方的天空出現彩霞。'],['吸','呼吸','運動時呼吸會加快。']]);
+add('ㄒㄧ',1,[['習','學習','我喜歡學習新知識。']]);
+add('ㄒㄧ',2,[['洗','洗手','吃飯前要洗手。']]);
+add('ㄒㄧ',3,[['細','細心','他做事很細心。'],['戲','遊戲','大家一起玩遊戲。']]);
+add('ㄓ',0,[['知','知道','我知道問題的答案。'],['枝','樹枝','小鳥停在樹枝上。']]);
+add('ㄓ',1,[['直','直線','用尺畫出一條直線。']]);
+add('ㄓ',2,[['紙','白紙','請拿出一張白紙。'],['只','只有','今天只有三個人來。']]);
+add('ㄓ',3,[['至','至少','至少要喝一杯水。'],['志','志願','我的志願是當老師。']]);
+add('ㄔ',0,[['吃','吃飯','我們中午一起吃飯。']]);
+add('ㄔ',1,[['池','水池','水池裡有小魚。'],['遲','遲到','上學不要遲到。']]);
+add('ㄔ',2,[['尺','直尺','用直尺測量長度。']]);
+add('ㄔ',3,[['翅','翅膀','蝴蝶張開翅膀。']]);
+add('ㄕ',0,[['詩','詩歌','我們朗讀一首詩歌。'],['師','老師','老師正在講解題目。']]);
+add('ㄕ',1,[['十','十個','桌上有十個球。'],['時','時間','現在是什麼時間？']]);
+add('ㄕ',2,[['使','使用','請正確使用工具。'],['史','歷史','這本書介紹臺灣歷史。']]);
+add('ㄕ',3,[['是','不是','這不是我的鉛筆。'],['事','事情','這件事情很重要。']]);
+add('ㄖ',3,[['日','日出','今天清晨的日出很美。']]);
+add('ㄗ',0,[['資','資料','請收集相關資料。']]);
+add('ㄗ',2,[['子','子女','父母關心子女的成長。']]);
+add('ㄗ',3,[['字','漢字','我正在練習寫漢字。']]);
+add('ㄘ',0,[['疵','瑕疵','這件商品有一點瑕疵。']]);
+add('ㄘ',1,[['詞','詞語','我們學會了新的詞語。']]);
+add('ㄘ',2,[['此','因此','因此我們要更加小心。']]);
+add('ㄘ',3,[['次','一次','我們再試一次。']]);
+add('ㄙ',0,[['絲','絲線','這條絲線很細。'],['思','思考','遇到問題要先思考。']]);
+add('ㄙ',2,[['死','死亡','水分不足可能使植物死亡。']]);
+add('ㄙ',3,[['四','四個','桌上有四個杯子。']]);
+add('ㄧ',0,[['衣','衣服','這件衣服很乾淨。'],['一','一個','我有一個新朋友。']]);
+add('ㄧ',1,[['姨','阿姨','阿姨送我一本書。'],['移','移動','請把桌子移動一下。']]);
+add('ㄧ',2,[['椅','椅子','椅子放在桌子旁邊。']]);
+add('ㄧ',3,[['意','意思','這句話是什麼意思？'],['義','意義','這件事很有意義。']]);
+add('ㄨ',0,[['屋','房屋','山上有一間小房屋。']]);
+add('ㄨ',1,[['無','無法','這個問題目前無法解決。']]);
+add('ㄨ',2,[['五','五個','盒子裡有五個球。'],['舞','跳舞','大家在舞臺上跳舞。']]);
+add('ㄨ',3,[['物','動物','動物需要食物和水。'],['務','任務','我們完成了今天的任務。']]);
+add('ㄩ',0,[['迂','迂迴','我們沿著迂迴的山路前進。']]);
+add('ㄩ',1,[['魚','小魚','水裡有很多小魚。'],['於','關於','我們正在討論關於水的問題。']]);
+add('ㄩ',2,[['雨','下雨','外面正在下雨。'],['語','國語','我們正在學習國語。']]);
+add('ㄩ',3,[['玉','玉石','這塊玉石很漂亮。']]);
+add('ㄞ',0,[['哀','悲哀','他聽到消息後很悲哀。']]);
+add('ㄞ',1,[['癌','癌症','癌症需要由醫師診斷。']]);
+add('ㄞ',2,[['矮','高矮','這兩棵樹的高矮不同。']]);
+add('ㄞ',3,[['愛','愛心','大家用愛心幫助別人。']]);
+add('ㄦ',1,[['兒','兒童','公園裡有很多兒童。']]);
+add('ㄦ',2,[['耳','耳朵','我們用耳朵聽聲音。']]);
+add('ㄦ',3,[['二','第二','我坐在第二排。']]);
+add('ㄢ',0,[['安','安全','過馬路要注意安全。']]);
+add('ㄢ',3,[['暗','黑暗','夜晚的房間很黑暗。']]);
+add('ㄅㄠ',0,[['包','書包','書包裡有一本課本。']]);
+add('ㄅㄠ',1,[['雹','冰雹','天空突然下起冰雹。']]);
+add('ㄅㄠ',2,[['寶','寶物','他找到了一件寶物。']]);
+add('ㄅㄠ',3,[['抱','擁抱','媽媽給我一個擁抱。']]);
+add('ㄍㄨㄛ',0,[['鍋','鍋子','鍋子裡煮著熱湯。']]);
+add('ㄍㄨㄛ',1,[['國','國家','每個國家都有不同文化。']]);
+add('ㄍㄨㄛ',2,[['果','水果','每天要吃適量水果。']]);
+add('ㄍㄨㄛ',3,[['過','經過','我們經過一座公園。']]);
+add('ㄏㄨㄚ',0,[['花','花朵','花朵在陽光下盛開。']]);
+add('ㄏㄨㄚ',1,[['華','中華','我們認識中華文化。']]);
+add('ㄏㄨㄚ',3,[['畫','畫畫','妹妹喜歡畫畫。']]);
+add('ㄒㄧㄠ',0,[['消','消失','雲朵慢慢消失了。']]);
+add('ㄒㄧㄠ',2,[['小','小孩','小孩在公園玩耍。']]);
+add('ㄒㄧㄠ',3,[['笑','微笑','他露出開心的微笑。'],['校','學校','我們每天到學校上課。']]);
+add('ㄊㄧㄢ',0,[['天','天空','今天的天空很藍。']]);
+add('ㄊㄧㄢ',1,[['田','稻田','農夫在稻田裡工作。']]);
+add('ㄊㄧㄢ',2,[['舔','舔食','小貓正在舔食牛奶。']]);
+add('ㄊㄤ',0,[['湯','熱湯','晚餐有一碗熱湯。']]);
+add('ㄊㄤ',1,[['糖','砂糖','蛋糕裡加了一些砂糖。']]);
+add('ㄊㄤ',2,[['躺','躺下','請先在床上躺下。']]);
+add('ㄊㄤ',3,[['燙','燙傷','熱水可能造成燙傷。']]);
+add('ㄋㄧ',1,[['泥','泥土','植物的根長在泥土中。']]);
+add('ㄋㄧ',2,[['你','你好','你好，很高興認識你。']]);
+add('ㄋㄧ',3,[['逆','逆風','逆風走路比較吃力。']]);
+add('ㄏㄠ',2,[['好','很好','今天的天氣很好。']]);
+add('ㄏㄠ',3,[['號','號碼','請寫下自己的號碼。']]);
+add('ㄋㄧㄠ',2,[['鳥','小鳥','小鳥停在樹上。']]);
+add('ㄇㄧ',1,[['迷','迷路','在陌生地方不要亂跑，以免迷路。']]);
+add('ㄇㄧ',2,[['米','白米','這是用白米煮的飯。']]);
+add('ㄇㄧ',3,[['密','秘密','他告訴我一個秘密。']]);
+add('ㄧㄚ',0,[['鴨','鴨子','鴨子在池塘裡游泳。']]);
+add('ㄧㄛ',0,[['唷','唉唷','唉唷，我不小心撞到桌子了。']]);
+add('ㄧㄝ',1,[['爺','爺爺','爺爺在庭院散步。']]);
+add('ㄧㄞ',1,[['崖','山崖','站在山崖邊要注意安全。']]);
+add('ㄧㄠ',0,[['腰','腰部','彎腰時要注意姿勢。']]);
+add('ㄧㄡ',0,[['優','優點','每個人都有自己的優點。']]);
+add('ㄧㄢ',0,[['煙','煙霧','遠處升起一陣煙霧。']]);
+add('ㄧㄣ',0,[['音','音樂','我喜歡聽音樂。']]);
+add('ㄧㄤ',0,[['央','中央','教室中央有一張桌子。']]);
+add('ㄧㄥ',0,[['英','英文','我們在學習英文。']]);
+add('ㄨㄚ',0,[['蛙','青蛙','青蛙住在池塘附近。']]);
+add('ㄨㄛ',0,[['窩','鳥窩','樹上有一個鳥窩。']]);
+add('ㄨㄞ',0,[['歪','歪斜','這張椅子有點歪斜。']]);
+add('ㄨㄟ',0,[['威','威風','獅子看起來很威風。']]);
+add('ㄨㄢ',0,[['彎','彎曲','這條道路十分彎曲。']]);
+add('ㄨㄣ',0,[['溫','溫度','今天的溫度比較高。']]);
+add('ㄨㄤ',0,[['汪','汪洋','船在汪洋大海中航行。']]);
+add('ㄨㄥ',0,[['翁','老翁','一位老翁正在散步。']]);
+add('ㄩㄝ',0,[['約','約定','我們約定明天再見。']]);
+add('ㄩㄢ',0,[['冤','冤枉','不能隨便冤枉他人。']]);
+add('ㄩㄣ',0,[['暈','頭暈','他坐車時覺得頭暈。']]);
+add('ㄩㄥ',0,[['雍','雍容','她的舉止雍容大方。']]);
+add('ㄓㄨ',0,[['豬','小豬','農場裡有幾隻小豬。']]);
+add('ㄓㄨ',1,[['竹','竹子','竹子長得很高。']]);
+add('ㄓㄨ',2,[['主','主人','小狗跟著主人散步。']]);
+add('ㄓㄨ',3,[['住','住家','我的住家在學校附近。']]);
+add('ㄒㄩㄝ',1,[['學','學習','學習需要練習。']]);
+add('ㄒㄩㄝ',2,[['雪','白雪','山上覆蓋著白雪。']]);
+add('ㄓㄨㄤ',0,[['裝','服裝','這是一套整齊的服裝。']]);
+add('ㄓㄨㄤ',3,[['狀','形狀','這個物體的形狀很特別。']]);
+add('ㄨㄢ',2,[['碗','飯碗','把飯碗放在桌上。']]);
+add('ㄨㄢ',3,[['萬','一萬','一萬比一千大。']]);
+
+
+// 補充常用生活詞彙：每一筆皆明確標明注音、聲調、漢字與包含該字的詞語。
+// 可以保留合法音節；是否可選由完整的例字資料判斷，而非少量示範資料。
+const MORE_WORDS = "ㄅㄧ|0|逼:逼近\nㄅㄧ|2|比:比較,筆:鉛筆,彼:彼此\nㄅㄧ|3|必:必須,閉:關閉,畢:畢業,壁:牆壁\nㄅㄧ|1|鼻:鼻子\nㄅㄧㄝ|1|別:別人\nㄅㄧㄝ|0|憋:憋氣\nㄅㄧㄠ|0|標:標準,彪:彪悍\nㄅㄧㄠ|2|表:表示,錶:手錶\nㄅㄧㄢ|0|邊:旁邊,編:編號\nㄅㄧㄢ|2|扁:扁平\nㄅㄧㄢ|3|變:變化,便:方便,遍:一遍\nㄅㄧㄣ|0|賓:貴賓,濱:海濱\nㄅㄧㄥ|0|冰:冰箱,兵:士兵\nㄅㄧㄥ|2|餅:餅乾\nㄅㄧㄥ|3|病:生病,並:並且\nㄅㄟ|0|杯:杯子,悲:悲傷,背:背包\nㄅㄟ|2|北:北方\nㄅㄟ|3|被:被子\nㄅㄢ|0|班:班級,搬:搬家,斑:斑馬\nㄅㄢ|2|板:黑板,版:版本\nㄅㄢ|3|半:一半,辦:辦法,伴:同伴\nㄅㄣ|0|奔:奔跑\nㄅㄣ|2|本:書本\nㄅㄤ|0|幫:幫忙\nㄅㄤ|2|綁:綁好\nㄅㄤ|3|棒:棒球,磅:磅秤\nㄅㄥ|0|崩:崩塌\nㄅㄥ|2|繃:繃緊\nㄅㄥ|3|蹦:蹦跳\nㄆㄧ|0|批:批改,披:披風\nㄆㄧ|1|皮:皮膚,疲:疲勞,啤:啤酒\nㄆㄧ|2|匹:一匹\nㄆㄧ|3|屁:屁股,譬:譬如\nㄆㄧㄝ|0|撇:撇開,瞥:瞥見\nㄆㄧㄝ|2|撇:撇嘴\nㄆㄧㄠ|0|飄:飄動,飄:飄揚\nㄆㄧㄠ|1|瓢:水瓢\nㄆㄧㄠ|2|瞟:瞟一眼\nㄆㄧㄠ|3|漂:漂亮,票:車票\nㄆㄧㄢ|0|篇:一篇,偏:偏心\nㄆㄧㄢ|1|便:便宜\nㄆㄧㄢ|3|片:影片,騙:騙人\nㄆㄧㄣ|0|拼:拼圖\nㄆㄧㄣ|1|貧:貧窮\nㄆㄧㄣ|2|品:品質\nㄆㄧㄣ|3|聘:聘請\nㄆㄧㄥ|0|乒:乒乓\nㄆㄧㄥ|1|平:平安,瓶:瓶子,評:評分,蘋:蘋果\nㄆㄨ|0|鋪:鋪床\nㄆㄨ|1|葡:葡萄,蒲:蒲公英\nㄆㄨ|2|普:普通,譜:樂譜\nㄆㄨ|3|瀑:瀑布,鋪:店鋪\nㄆㄠ|0|拋:拋球\nㄆㄠ|1|袍:長袍\nㄆㄠ|2|跑:跑步\nㄆㄠ|3|泡:泡泡\nㄆㄢ|0|攀:攀爬\nㄆㄢ|1|盤:盤子\nㄆㄢ|3|盼:盼望,判:判斷\nㄆㄥ|0|砰:砰的一聲\nㄆㄥ|1|朋:朋友,蓬:蓬鬆,棚:棚架\nㄆㄥ|2|捧:捧起\nㄆㄥ|3|碰:碰到\nㄇㄧㄝ|3|滅:消滅\nㄇㄧㄠ|0|喵:喵喵叫\nㄇㄧㄠ|1|苗:樹苗,描:描寫\nㄇㄧㄠ|2|秒:秒鐘\nㄇㄧㄠ|3|廟:寺廟,妙:奇妙\nㄇㄧㄡ|3|謬:謬誤\nㄇㄧㄢ|1|棉:棉花,眠:睡眠\nㄇㄧㄢ|2|免:免費,勉:勉強\nㄇㄧㄢ|3|面:面具,麵:麵包\nㄇㄧㄣ|1|民:人民\nㄇㄧㄣ|2|敏:敏捷\nㄇㄧㄥ|1|明:明天,名:名字,鳴:鳥鳴\nㄇㄧㄥ|3|命:生命\nㄇㄨ|2|母:母親\nㄇㄨ|3|目:目標,木:木頭,幕:螢幕\nㄇㄞ|1|埋:埋起來\nㄇㄞ|2|買:買東西\nㄇㄞ|3|賣:賣東西,麥:小麥\nㄇㄟ|1|沒:沒有,梅:梅花,眉:眉毛\nㄇㄟ|2|美:美麗,每:每天\nㄇㄟ|3|妹:妹妹,魅:魅力\nㄇㄣ|1|門:大門\nㄇㄣ|4|們:我們\nㄇㄣ|0|悶:悶熱\nㄇㄤ|1|忙:幫忙,盲:盲人\nㄇㄠ|0|貓:小貓\nㄇㄠ|1|毛:毛衣,矛:矛盾\nㄇㄠ|3|帽:帽子,冒:冒險\nㄇㄡ|2|某:某人\nㄇㄛ|2|抹:塗抹\nㄇㄛ|3|末:週末,默:沉默\nㄈㄨ|0|夫:夫妻,膚:皮膚\nㄈㄨ|1|福:幸福,服:衣服,浮:漂浮\nㄈㄨ|2|府:政府,輔:輔導\nㄈㄨ|3|父:父親,富:富有,負:負責,付:付錢,附:附近\nㄈㄟ|0|飛:飛機,非:非常\nㄈㄟ|1|肥:肥皂\nㄈㄟ|3|費:費用,廢:廢紙,肺:肺部\nㄈㄢ|0|翻:翻書,帆:帆船\nㄈㄢ|1|凡:平凡,煩:麻煩,繁:繁忙\nㄈㄢ|2|反:反對,返:返回\nㄈㄢ|3|飯:吃飯,範:範圍,犯:犯錯\nㄈㄣ|0|分:分開,芬:芬芳\nㄈㄣ|1|墳:墳墓\nㄈㄣ|2|粉:粉紅色\nㄈㄣ|3|份:一份,奮:努力奮鬥\nㄈㄥ|0|風:風吹,封:信封,蜂:蜜蜂\nㄈㄥ|1|逢:相逢,縫:縫衣服\nㄈㄥ|2|諷:諷刺\nㄈㄥ|3|鳳:鳳梨,奉:奉獻\nㄉㄧㄝ|0|爹:爹地\nㄉㄧㄝ|1|跌:跌倒,疊:重疊,碟:光碟\nㄉㄧㄠ|0|雕:雕刻,叼:叼住\nㄉㄧㄠ|3|掉:掉下,吊:吊車,調:調查\nㄉㄧㄡ|0|丟:丟掉\nㄉㄧㄢ|0|顛:顛倒\nㄉㄧㄢ|2|點:點心,典:字典\nㄉㄧㄢ|3|電:電腦,店:商店,墊:墊子\nㄉㄧㄥ|0|丁:園丁,叮:叮嚀\nㄉㄧㄥ|2|頂:頭頂,鼎:鼎立\nㄉㄧㄥ|3|定:一定,訂:訂單\nㄉㄨㄛ|0|多:多少\nㄉㄨㄛ|1|奪:奪走\nㄉㄨㄛ|2|朵:花朵,躲:躲藏\nㄉㄨㄟ|0|堆:堆積\nㄉㄨㄟ|3|對:對錯,隊:隊伍\nㄉㄨㄢ|0|端:端正\nㄉㄨㄢ|2|短:長短\nㄉㄨㄢ|3|段:段落,斷:判斷\nㄉㄨㄣ|0|蹲:蹲下\nㄉㄨㄣ|3|盾:盾牌\nㄉㄨㄣ|3|頓:一頓飯\nㄉㄨㄥ|0|東:東西,冬:冬天\nㄉㄨㄥ|2|懂:聽懂\nㄉㄨㄥ|3|動:動物,洞:山洞,凍:冷凍\nㄉㄨ|0|都:都是,督:督促\nㄉㄨ|1|讀:讀書,毒:中毒\nㄉㄨ|2|賭:賭博,堵:堵住\nㄉㄨ|3|度:溫度,渡:渡河,肚:肚子\nㄉㄞ|0|呆:發呆\nㄉㄞ|3|帶:帶領,代:代表,袋:袋子,戴:戴帽子\nㄉㄢ|0|單:單字,擔:擔心\nㄉㄢ|2|膽:膽量\nㄉㄢ|3|蛋:雞蛋,但:但是,淡:清淡\nㄉㄥ|3|瞪:瞪眼\nㄉㄤ|0|當:當然\nㄉㄤ|2|黨:政黨,擋:擋住\nㄉㄤ|3|當:當作,盪:盪秋千\nㄉㄥ|0|燈:電燈,登:登山\nㄉㄥ|2|等:等待\nㄉㄥ|3|凳:板凳\nㄊㄧㄝ|0|貼:貼紙\nㄊㄧㄝ|2|鐵:鐵路\nㄊㄧㄠ|0|挑:挑選\nㄊㄧㄠ|1|條:麵條\nㄊㄧㄠ|3|跳:跳舞\nㄊㄧㄥ|0|聽:聽見,廳:客廳\nㄊㄧㄥ|1|停:停止,庭:家庭,亭:涼亭\nㄊㄧㄥ|2|挺:挺直\nㄊㄨㄛ|0|拖:拖地,託:拜託\nㄊㄨㄛ|1|駝:駱駝\nㄊㄨㄛ|2|妥:妥當\nㄊㄨㄛ|3|拓:開拓\nㄊㄨㄟ|0|推:推車\nㄊㄨㄟ|3|退:退後\nㄊㄨㄢ|1|團:團體\nㄊㄨㄣ|0|吞:吞下\nㄊㄨㄥ|0|通:通過\nㄊㄨㄥ|1|同:同學,童:兒童,銅:銅板\nㄊㄨㄥ|2|桶:水桶,統:統一\nㄊㄨㄥ|3|痛:疼痛\nㄊㄨ|0|凸:凸起\nㄊㄨ|1|圖:地圖,途:旅途\nㄊㄨ|2|土:泥土\nㄊㄨ|3|兔:兔子,吐:嘔吐\nㄋㄧㄝ|0|捏:捏緊\nㄋㄧㄡ|0|妞:小妞\nㄋㄧㄡ|1|牛:牛奶\nㄋㄧㄡ|2|扭:扭轉,鈕:按鈕\nㄋㄧㄢ|1|年:過年,黏:黏土\nㄋㄧㄢ|3|念:想念,唸:唸書\nㄋㄧㄣ|1|您:您好\nㄋㄧㄤ|1|娘:姑娘\nㄋㄧㄤ|3|釀:釀造\nㄋㄧㄥ|1|寧:安寧,凝:凝固\nㄋㄨㄛ|1|挪:挪動\nㄋㄨㄛ|3|諾:承諾\nㄋㄨㄥ|1|農:農夫,濃:濃度\nㄋㄨㄥ|3|弄:弄壞\nㄋㄨ|1|奴:奴隸\nㄋㄨ|3|怒:怒氣\nㄋㄩ|2|女:女生\nㄋㄩㄝ|3|虐:虐待\nㄋㄟ|3|內:內部\nㄋㄢ|1|男:男生,難:困難\nㄋㄢ|1|南:南方\nㄋㄢ|3|難:災難\nㄋㄤ|1|囊:錦囊\nㄋㄥ|1|能:能力\nㄌㄧㄚ|2|倆:我倆\nㄌㄧㄝ|3|列:排列,烈:熱烈,裂:破裂\nㄌㄧㄠ|0|撩:撩起\nㄌㄧㄠ|1|聊:聊天\nㄌㄧㄠ|2|了:了解\nㄌㄧㄠ|3|料:材料\nㄌㄧㄡ|0|溜:溜滑梯\nㄌㄧㄡ|1|流:河流,留:留下\nㄌㄧㄡ|2|柳:柳樹\nㄌㄧㄡ|3|六:六個\nㄌㄧㄢ|1|連:連接,蓮:蓮花,聯:聯絡\nㄌㄧㄢ|2|臉:洗臉\nㄌㄧㄢ|3|練:練習,戀:戀愛\nㄌㄧㄣ|1|林:森林,臨:面臨,鄰:鄰居,淋:淋雨\nㄌㄧㄤ|1|良:優良,涼:涼快\nㄌㄧㄤ|2|兩:兩個\nㄌㄧㄤ|3|量:重量,亮:明亮,輛:一輛車\nㄌㄧㄥ|1|零:零食,玲:玲瓏,鈴:鈴聲\nㄌㄧㄥ|2|領:領取\nㄌㄧㄥ|3|另:另外,令:命令\nㄌㄨㄛ|1|羅:羅列,螺:螺絲\nㄌㄨㄛ|2|裸:裸體\nㄌㄨㄛ|3|落:落下,駱:駱駝\nㄌㄨㄢ|2|卵:卵生\nㄌㄨㄢ|3|亂:亂七八糟\nㄌㄨㄣ|1|輪:車輪\nㄌㄨㄣ|3|論:討論\nㄌㄨㄥ|1|龍:恐龍,籠:鳥籠,隆:隆重,聾:耳聾\nㄌㄨ|1|爐:火爐\nㄌㄨ|3|路:馬路,錄:錄音,露:露水\nㄌㄩ|1|驢:驢子\nㄌㄩ|2|旅:旅行\nㄌㄩ|3|綠:綠色,律:法律\nㄌㄩㄝ|3|略:省略\nㄌㄞ|1|來:來到\nㄌㄞ|3|賴:依賴\nㄌㄟ|1|雷:打雷\nㄌㄟ|2|累:累積\nㄌㄟ|3|淚:眼淚,累:很累,類:種類\nㄌㄢ|1|藍:藍色,籃:籃球,蘭:蘭花\nㄌㄢ|2|懶:懶惰,覽:瀏覽\nㄌㄢ|3|爛:腐爛\nㄌㄤ|1|狼:野狼,郎:新郎\nㄌㄤ|3|浪:海浪\nㄌㄥ|2|冷:寒冷\nㄍㄨㄚ|0|瓜:西瓜,刮:刮風\nㄍㄨㄚ|2|寡:寡婦\nㄍㄨㄚ|3|掛:掛起\nㄍㄨㄞ|0|乖:乖巧\nㄍㄨㄞ|2|拐:拐彎\nㄍㄨㄞ|3|怪:奇怪\nㄍㄨㄟ|0|規:規則,歸:回歸\nㄍㄨㄟ|2|鬼:鬼怪,軌:軌道\nㄍㄨㄟ|3|貴:昂貴,桂:桂花\nㄍㄨㄢ|0|關:關門,官:官員,觀:觀察\nㄍㄨㄢ|2|管:水管,館:圖書館\nㄍㄨㄢ|3|慣:習慣,罐:罐頭,灌:灌水\nㄍㄨㄣ|2|滾:滾動\nㄍㄨㄣ|3|棍:木棍\nㄍㄨㄤ|0|光:陽光\nㄍㄨㄤ|2|廣:廣告\nㄍㄨㄤ|3|逛:逛街\nㄍㄨㄥ|0|工:工作,公:公園,功:功課,宮:宮殿\nㄍㄨㄥ|2|拱:拱門\nㄍㄨㄥ|3|共:共同,貢:貢獻\nㄍㄨ|0|姑:姑姑,孤:孤單\nㄍㄨ|2|古:古代,谷:山谷,鼓:鼓掌\nㄍㄨ|3|故:故事,顧:照顧,固:固定\nㄍㄞ|0|該:應該\nㄍㄞ|2|改:改正\nㄍㄞ|3|蓋:蓋子\nㄍㄢ|0|乾:乾燥,甘:甘甜\nㄍㄢ|2|敢:勇敢,感:感謝\nㄍㄢ|3|幹:幹部\nㄍㄣ|0|根:樹根,跟:跟著\nㄍㄤ|0|剛:剛好,鋼:鋼鐵\nㄍㄤ|3|槓:槓桿\nㄍㄥ|0|更:更換\nㄍㄥ|0|耕:耕田\nㄍㄥ|3|更:更加\nㄎㄨㄚ|0|誇:誇獎\nㄎㄨㄚ|3|跨:跨過\nㄎㄨㄛ|3|擴:擴大,闊:寬闊\nㄎㄨㄞ|3|快:快樂,塊:一塊,筷:筷子\nㄎㄨㄟ|0|虧:吃虧,盔:頭盔\nㄎㄨㄟ|1|葵:向日葵,魁:魁梧\nㄎㄨㄟ|3|愧:慚愧\nㄎㄨㄢ|0|寬:寬大\nㄎㄨㄢ|2|款:款式\nㄎㄨㄣ|0|昆:昆蟲\nㄎㄨㄣ|3|困:困難\nㄎㄨㄤ|0|框:方框\nㄎㄨㄤ|1|狂:狂風\nㄎㄨㄤ|3|礦:礦物,況:情況\nㄎㄨㄥ|0|空:天空\nㄎㄨㄥ|2|孔:孔洞,恐:恐龍\nㄎㄨㄥ|3|控:控制\nㄎㄨ|0|哭:哭泣\nㄎㄨ|2|苦:辛苦\nㄎㄨ|3|庫:倉庫,褲:褲子\nㄎㄞ|0|開:開門\nㄎㄞ|2|凱:凱旋\nㄎㄢ|0|看:看守,刊:刊物\nㄎㄢ|2|砍:砍樹\nㄎㄢ|3|看:看書\nㄎㄣ|2|肯:肯定,啃:啃咬\nㄎㄤ|0|康:健康\nㄎㄤ|0|慷:慷慨\nㄎㄤ|3|抗:抵抗\nㄎㄥ|0|坑:水坑\nㄏㄨㄛ|1|活:生活\nㄏㄨㄛ|2|火:火車,夥:夥伴\nㄏㄨㄛ|3|或:或者,貨:貨物,獲:獲得\nㄏㄨㄞ|1|懷:懷念\nㄏㄨㄞ|3|壞:壞掉\nㄏㄨㄟ|0|灰:灰色,揮:揮手,輝:光輝\nㄏㄨㄟ|1|回:回家\nㄏㄨㄟ|3|會:開會,惠:恩惠,繪:繪畫\nㄏㄨㄢ|0|歡:喜歡\nㄏㄨㄢ|1|還:還給,環:環保\nㄏㄨㄢ|3|換:更換,幻:幻想,患:患者\nㄏㄨㄣ|0|婚:結婚,昏:黃昏\nㄏㄨㄣ|1|魂:靈魂\nㄏㄨㄣ|3|混:混合\nㄏㄨㄤ|0|荒:荒野,慌:慌張\nㄏㄨㄤ|1|黃:黃色,皇:皇帝\nㄏㄨㄤ|2|謊:謊話\nㄏㄨㄤ|3|晃:搖晃\nㄏㄨㄥ|0|轟:轟隆,烘:烘乾\nㄏㄨㄥ|1|紅:紅色,洪:洪水,宏:宏偉,虹:彩虹\nㄏㄨ|0|呼:呼吸\nㄏㄨ|1|湖:湖水,胡:胡椒\nㄏㄨ|2|虎:老虎\nㄏㄨ|3|戶:戶口,護:保護,互:互相\nㄏㄞ|1|孩:孩子\nㄏㄞ|2|海:海洋\nㄏㄞ|3|害:害怕\nㄏㄟ|0|黑:黑色\nㄏㄢ|0|憨:憨厚\nㄏㄢ|1|寒:寒冷,含:包含\nㄏㄢ|2|喊:喊叫\nㄏㄢ|3|漢:漢字,汗:流汗\nㄏㄣ|2|很:很好\nㄏㄣ|3|恨:仇恨\nㄏㄤ|1|行:銀行,航:航空\nㄏㄥ|1|橫:橫線,衡:平衡\nㄐㄧㄚ|0|家:家庭,加:加油,佳:佳節\nㄐㄧㄚ|2|甲:甲蟲,假:假日\nㄐㄧㄚ|3|價:價格,架:書架,嫁:出嫁\nㄐㄧㄝ|0|接:接住,街:街道,階:階梯\nㄐㄧㄝ|1|節:節日,結:結果,傑:傑出\nㄐㄧㄝ|2|解:解開,姐:姐姐\nㄐㄧㄝ|3|界:世界,借:借書,介:介紹\nㄐㄧㄠ|0|交:交通,教:教書,澆:澆花,膠:膠水\nㄐㄧㄠ|2|腳:腳步,餃:水餃,角:角落\nㄐㄧㄠ|3|叫:叫聲,教:教室,較:比較\nㄐㄧㄡ|0|糾:糾正\nㄐㄧㄡ|2|九:九個,久:長久,酒:喝酒\nㄐㄧㄡ|3|救:救命,舊:舊書,就:就是\nㄐㄧㄢ|0|間:中間,尖:尖端,肩:肩膀\nㄐㄧㄢ|2|減:減法,簡:簡單,剪:剪刀\nㄐㄧㄢ|3|見:看見,件:一件,建:建立,鍵:鍵盤\nㄐㄧㄣ|0|金:金色,今:今天,斤:公斤\nㄐㄧㄣ|2|緊:緊張,錦:錦繡\nㄐㄧㄣ|3|進:進步,近:附近,禁:禁止\nㄐㄧㄤ|0|江:長江,將:將來\nㄐㄧㄤ|2|講:講話,獎:獎品\nㄐㄧㄤ|3|降:降落,醬:醬油\nㄐㄧㄥ|0|京:北京,經:經過,精:精神,驚:驚喜\nㄐㄧㄥ|2|井:水井,景:風景,警:警察\nㄐㄧㄥ|3|靜:安靜,鏡:鏡子,敬:尊敬\nㄐㄩ|0|居:居住\nㄐㄩ|1|菊:菊花,局:局部\nㄐㄩ|2|舉:舉手\nㄐㄩ|3|具:工具,句:句子,巨:巨大,聚:聚會\nㄐㄩㄝ|1|決:決定,覺:感覺,絕:絕對\nㄐㄩㄢ|0|捐:捐款\nㄐㄩㄢ|2|捲:捲髮\nㄐㄩㄢ|3|卷:考卷,倦:疲倦\nㄐㄩㄣ|0|軍:軍人,君:君子\nㄐㄩㄣ|3|菌:細菌\nㄐㄩㄥ|2|窘:困窘\nㄑㄧㄚ|0|掐:掐住\nㄑㄧㄚ|3|洽:洽談,恰:恰好\nㄑㄧㄝ|0|切:切菜\nㄑㄧㄝ|1|茄:茄子\nㄑㄧㄝ|2|且:而且\nㄑㄧㄝ|3|竊:偷竊\nㄑㄧㄠ|0|敲:敲門\nㄑㄧㄠ|1|橋:大橋,喬:喬木\nㄑㄧㄠ|2|巧:巧克力\nㄑㄧㄠ|3|翹:翹起\nㄑㄧㄡ|0|秋:秋天\nㄑㄧㄡ|1|球:籃球,求:要求\nㄑㄧㄢ|0|千:千萬,鉛:鉛筆,遷:搬遷\nㄑㄧㄢ|1|前:前面,錢:金錢\nㄑㄧㄢ|2|淺:深淺\nㄑㄧㄢ|3|欠:欠缺\nㄑㄧㄣ|0|親:親人\nㄑㄧㄣ|1|琴:鋼琴,勤:勤勞\nㄑㄧㄣ|2|寢:寢室\nㄑㄧㄤ|0|槍:手槍\nㄑㄧㄤ|1|牆:牆壁,強:強大\nㄑㄧㄤ|2|搶:搶先\nㄑㄧㄥ|0|青:青色,清:清楚,輕:輕鬆\nㄑㄧㄥ|1|情:心情,晴:晴天\nㄑㄧㄥ|2|請:請問\nㄑㄧㄥ|3|慶:慶祝\nㄑㄩ|0|區:區域\nㄑㄩ|2|取:取得,曲:歌曲\nㄑㄩ|3|趣:興趣,去:回去\nㄑㄩㄝ|0|缺:缺少\nㄑㄩㄝ|3|雀:麻雀,確:確定\nㄑㄩㄢ|0|圈:圓圈\nㄑㄩㄢ|1|全:全部,泉:泉水,權:權利\nㄑㄩㄢ|2|犬:小犬\nㄑㄩㄢ|3|勸:勸告\nㄑㄩㄣ|1|群:群體,裙:裙子\nㄑㄩㄥ|1|窮:貧窮\nㄒㄧㄚ|0|蝦:蝦子,瞎:瞎說\nㄒㄧㄚ|1|霞:晚霞\nㄒㄧㄚ|3|夏:夏天,下:下面\nㄒㄧㄝ|0|些:一些,歇:歇一會兒\nㄒㄧㄝ|1|鞋:鞋子\nㄒㄧㄝ|2|寫:寫字,血:流血\nㄒㄧㄝ|3|謝:謝謝,卸:卸下\nㄒㄧㄡ|0|休:休息,修:修理,羞:害羞\nㄒㄧㄡ|3|秀:優秀,袖:袖子\nㄒㄧㄢ|0|先:先生,仙:神仙,鮮:新鮮\nㄒㄧㄢ|2|險:危險,顯:明顯\nㄒㄧㄢ|3|線:線條,限:限制,現:現在,縣:縣市\nㄒㄧㄣ|0|心:心情,新:新聞,欣:欣賞\nㄒㄧㄣ|3|信:相信\nㄒㄧㄤ|0|香:香味,鄉:家鄉,相:相同\nㄒㄧㄤ|1|詳:詳細\nㄒㄧㄤ|2|想:想法,響:響亮\nㄒㄧㄤ|3|像:好像,向:方向,象:大象\nㄒㄧㄥ|0|星:星星,興:興奮\nㄒㄧㄥ|1|行:行走,形:形狀,型:模型\nㄒㄧㄥ|2|醒:醒來\nㄒㄧㄥ|3|姓:姓名,性:個性,幸:幸福\nㄒㄩ|0|需:需要,虛:謙虛,須:必須\nㄒㄩ|2|許:許多\nㄒㄩ|3|續:繼續,序:順序\nㄒㄩㄢ|0|宣:宣布\nㄒㄩㄢ|1|旋:旋轉\nㄒㄩㄢ|2|選:選擇\nㄒㄩㄢ|3|炫:炫耀\nㄒㄩㄣ|1|尋:尋找,巡:巡邏\nㄒㄩㄣ|3|訓:訓練,迅:迅速\nㄒㄩㄥ|0|凶:凶猛,兄:兄弟,胸:胸口\nㄒㄩㄥ|1|熊:熊貓,雄:英雄\nㄓㄨㄚ|0|抓:抓住\nㄓㄨㄛ|0|桌:桌子,捉:捉迷藏\nㄓㄨㄛ|1|卓:卓越,濁:混濁\nㄓㄨㄟ|0|追:追逐,錐:圓錐\nㄓㄨㄟ|3|墜:墜落\nㄓㄨㄢ|0|專:專心,磚:磚塊\nㄓㄨㄢ|2|轉:轉彎\nㄓㄨㄢ|3|賺:賺錢\nㄓㄨㄣ|2|準:準備\nㄓㄨㄤ|0|莊:莊園\nㄓㄨㄤ|3|壯:強壯,撞:撞到\nㄓㄨㄥ|0|中:中間,終:終點,鐘:時鐘\nㄓㄨㄥ|2|種:種子,腫:紅腫\nㄓㄨㄥ|3|重:重要,眾:觀眾\nㄔㄨㄛ|0|戳:戳破\nㄔㄨㄛ|3|綽:綽號\nㄔㄨㄞ|2|揣:揣測\nㄔㄨㄞ|3|踹:踹門\nㄔㄨㄟ|0|吹:吹風\nㄔㄨㄟ|1|垂:垂直,錘:鐵錘\nㄔㄨㄢ|0|川:四川,穿:穿衣\nㄔㄨㄢ|1|船:小船,傳:傳說\nㄔㄨㄢ|3|串:一串\nㄔㄨㄣ|0|春:春天\nㄔㄨㄣ|1|純:純淨,唇:嘴唇\nㄔㄨㄣ|2|蠢:愚蠢\nㄔㄨㄤ|0|窗:窗戶\nㄔㄨㄤ|1|床:床鋪\nㄔㄨㄤ|3|創:創作\nㄔㄨㄥ|0|充:充滿,沖:沖洗\nㄔㄨㄥ|1|重:重複,蟲:昆蟲\nㄔㄨㄥ|2|寵:寵物\nㄔㄨ|0|初:初中,出:出門\nㄔㄨ|1|除:除法,廚:廚房\nㄔㄨ|2|楚:清楚\nㄔㄨ|3|處:到處,觸:接觸\nㄕㄨㄚ|0|刷:刷牙\nㄕㄨㄚ|2|耍:玩耍\nㄕㄨㄛ|0|說:說話\nㄕㄨㄛ|3|碩:碩士\nㄕㄨㄞ|0|摔:摔倒,衰:衰弱\nㄕㄨㄞ|2|甩:甩動\nㄕㄨㄞ|3|帥:帥氣\nㄕㄨㄟ|2|水:水果\nㄕㄨㄟ|3|睡:睡覺\nㄕㄨㄢ|0|栓:門栓,拴:拴住\nㄕㄨㄢ|3|涮:涮火鍋\nㄕㄨㄣ|3|順:順利,瞬:瞬間\nㄕㄨㄤ|0|雙:雙手,霜:霜雪\nㄕㄨㄤ|2|爽:清爽\nㄕㄨ|0|書:書包,輸:輸贏,舒:舒服,殊:特殊\nㄕㄡ|1|熟:熟悉\nㄕㄨ|2|鼠:老鼠,暑:暑假\nㄕㄨ|3|數:數學,樹:樹木,術:技術\nㄖㄨㄛ|3|弱:弱小,若:假若\nㄖㄨㄟ|2|蕊:花蕊\nㄖㄨㄟ|3|瑞:瑞雪,銳:銳利\nㄖㄨㄢ|2|軟:柔軟\nㄖㄨㄣ|3|潤:潤滑\nㄖㄨㄥ|1|容:容易,榮:光榮,融:融合\nㄖㄨ|1|如:如果\nㄖㄨ|2|乳:牛乳\nㄖㄨ|3|入:進入\nㄗㄨㄛ|1|昨:昨天\nㄗㄨㄛ|2|左:左邊\nㄗㄨㄛ|3|作:工作,座:座位,做:做事\nㄗㄨㄟ|2|嘴:嘴巴\nㄗㄨㄟ|3|最:最好,罪:罪名\nㄗㄨㄢ|0|鑽:鑽洞\nㄗㄨㄢ|3|鑽:鑽石\nㄗㄨㄣ|0|尊:尊重\nㄗㄨㄥ|0|宗:祖宗,棕:棕色\nㄗㄨㄥ|2|總:總共\nㄗㄨㄥ|3|縱:縱向\nㄗㄨ|0|租:房租\nㄗㄨ|1|足:足球,族:民族\nㄗㄨ|2|祖:祖父,組:組合\nㄘㄨㄛ|0|搓:搓手\nㄘㄨㄛ|3|錯:錯誤,措:措施\nㄘㄨㄟ|0|催:催促\nㄘㄨㄟ|3|脆:清脆,翠:翠綠\nㄘㄨㄢ|3|竄:逃竄\nㄘㄨㄣ|0|村:村莊\nㄘㄨㄣ|1|存:保存\nㄘㄨㄣ|3|寸:尺寸\nㄘㄨㄥ|0|蔥:洋蔥\nㄘㄨㄥ|1|從:從前,叢:草叢\nㄘㄨ|0|粗:粗細\nㄘㄨ|3|醋:白醋\nㄙㄨㄛ|0|縮:縮小\nㄙㄨㄛ|2|所:所以,索:線索,鎖:鎖門\nㄙㄨㄟ|0|雖:雖然\nㄙㄨㄟ|1|隨:隨便\nㄙㄨㄟ|2|髓:骨髓\nㄙㄨㄟ|3|歲:年歲,碎:碎片\nㄙㄨㄢ|0|酸:酸甜\nㄙㄨㄢ|3|算:算術,蒜:大蒜\nㄙㄨㄣ|0|孫:孫子\nㄙㄨㄣ|2|損:損壞,筍:竹筍\nㄙㄨㄥ|0|松:松樹,鬆:輕鬆\nㄙㄨㄥ|3|送:送人,頌:歌頌\nㄙㄨ|0|蘇:蘇醒\nㄙㄨ|1|俗:風俗\nㄙㄨ|3|素:素食,速:速度\nㄜ|1|鵝:白鵝,額:額頭\nㄜ|3|惡:惡意,餓:肚子餓\nㄠ|0|凹:凹凸\nㄠ|1|熬:熬夜\nㄠ|2|襖:棉襖\nㄠ|3|傲:驕傲\nㄡ|0|歐:歐洲\nㄡ|2|偶:偶爾\nㄤ|1|昂:高昂\nㄧㄝ|2|野:野外,也:也許\nㄧㄝ|3|夜:夜晚,葉:樹葉,業:作業\nㄧㄠ|1|搖:搖動,遙:遙遠\nㄧㄠ|2|咬:咬一口\nㄧㄠ|3|要:需要,藥:藥物\nㄧㄡ|1|油:汽油,游:游泳\nㄧㄡ|2|有:所有,友:朋友\nㄧㄡ|3|又:又來,右:右邊,幼:幼稚\nㄧㄢ|1|顏:顏色,言:語言,鹽:食鹽\nㄧㄢ|2|眼:眼睛\nㄧㄢ|3|燕:燕子,厭:討厭\nㄧㄣ|0|因:因為,陰:陰天\nㄧㄣ|1|銀:銀行\nㄧㄣ|2|引:引導,飲:飲料\nㄧㄣ|3|印:印章\nㄧㄤ|1|羊:山羊,洋:海洋,陽:太陽\nㄧㄤ|2|養:養育\nㄧㄤ|3|樣:一樣\nㄧㄥ|0|應:應該\nㄧㄥ|1|營:營養,贏:輸贏,迎:歡迎\nㄧㄥ|2|影:電影\nㄧㄥ|3|硬:堅硬\nㄨㄚ|0|挖:挖土\nㄨㄚ|1|娃:娃娃\nㄨㄚ|2|瓦:瓦片\nㄨㄛ|2|我:我們\nㄨㄛ|3|握:握手,臥:臥室\nㄨㄞ|3|外:外面\nㄨㄟ|1|圍:包圍\nㄨㄟ|2|尾:尾巴,偉:偉大\nㄨㄟ|3|為:因為,味:味道,位:位子\nㄨㄢ|1|完:完成,玩:玩具\nㄨㄢ|2|晚:晚上\nㄨㄣ|1|文:文章,聞:新聞\nㄨㄣ|2|吻:親吻,穩:穩定\nㄨㄣ|3|問:問題\nㄨㄤ|1|王:國王\nㄨㄤ|2|往:往前\nㄨㄤ|3|忘:忘記,望:希望\nㄨㄥ|0|嗡:嗡嗡\nㄩㄝ|3|月:月亮,越:超越,閱:閱讀,樂:音樂\nㄩㄢ|1|圓:圓形,原:原本,元:元旦,園:公園\nㄩㄢ|2|遠:遠方\nㄩㄢ|3|願:願望,院:醫院\nㄩㄣ|1|雲:白雲,勻:均勻\nㄩㄣ|2|允:允許\nㄩㄣ|3|運:運動,孕:懷孕\nㄩㄥ|2|勇:勇敢,永:永遠,泳:游泳\nㄩㄥ|3|用:使用\nㄨㄟ|0|微:微笑\nㄅㄞ|1|白:白色\nㄅㄞ|2|百:百分,擺:擺放\nㄅㄞ|3|拜:拜訪,敗:失敗\nㄆㄞ|0|拍:拍照\nㄆㄞ|1|排:排隊,牌:牌子\nㄆㄞ|3|派:派對\nㄆㄟ|1|陪:陪伴,賠:賠錢\nㄆㄟ|3|配:配合\nㄆㄡ|0|剖:解剖\nㄆㄣ|0|噴:噴水\nㄆㄣ|1|盆:花盆\nㄆㄤ|1|旁:旁邊\nㄆㄤ|3|胖:肥胖\nㄇㄜ|4|麼:什麼\nㄇㄢ|1|蠻:蠻橫\nㄇㄢ|2|滿:滿足\nㄇㄢ|3|慢:慢慢,漫:漫畫\nㄇㄥ|1|萌:萌芽,蒙:蒙面\nㄇㄥ|2|猛:猛烈\nㄇㄥ|3|夢:夢想\nㄈㄛ|1|佛:佛像\nㄈㄡ|2|否:是否\nㄈㄤ|0|方:方向,芳:芳香\nㄈㄤ|1|房:房子,防:預防\nㄈㄤ|2|訪:拜訪,仿:模仿\nㄈㄤ|3|放:放學\nㄉㄜ|1|德:道德,得:得到\nㄉㄜ|4|的:我的\nㄉㄠ|0|刀:小刀\nㄉㄠ|2|倒:倒下,島:小島\nㄉㄠ|3|到:到達,道:道路,倒:倒水\nㄉㄡ|0|都:首都\nㄉㄡ|2|斗:北斗,抖:抖動\nㄉㄡ|3|豆:豆腐,逗:逗笑\nㄉㄧ|0|低:低頭,滴:水滴\nㄉㄧ|1|敵:敵人,笛:笛子\nㄉㄧ|2|底:底部,抵:抵達\nㄉㄧ|3|地:地面,弟:弟弟\nㄊㄜ|3|特:特別\nㄊㄞ|0|胎:輪胎\nㄊㄞ|1|臺:舞臺,抬:抬頭\nㄊㄞ|3|太:太陽,態:態度\nㄊㄠ|0|掏:掏出\nㄊㄠ|1|桃:桃子,逃:逃跑\nㄊㄠ|2|討:討論\nㄊㄠ|3|套:一套\nㄊㄡ|0|偷:偷偷\nㄊㄡ|1|頭:頭髮\nㄊㄡ|3|透:透明\nㄊㄢ|0|貪:貪心,灘:沙灘\nㄊㄢ|1|談:談話,彈:彈琴\nㄊㄢ|2|坦:坦白\nㄊㄢ|3|探:探索\nㄊㄥ|1|疼:疼痛,騰:騰空\nㄊㄧ|0|踢:踢球\nㄊㄧ|1|提:提問,題:題目\nㄊㄧ|2|體:身體\nㄊㄧ|3|替:代替\nㄋㄜ|4|呢:你呢\nㄋㄞ|2|奶:牛奶\nㄋㄞ|3|耐:忍耐\nㄋㄠ|2|腦:大腦\nㄋㄠ|3|鬧:熱鬧\nㄋㄣ|3|嫩:嫩芽\nㄋㄨㄢ|2|暖:溫暖\nㄌㄜ|3|樂:快樂\nㄌㄜ|4|了:好了\nㄌㄠ|0|撈:撈起\nㄌㄠ|1|勞:勞動,牢:牢固\nㄌㄠ|2|老:老師\nㄌㄡ|1|樓:大樓\nㄌㄡ|2|摟:摟抱\nㄌㄡ|3|漏:漏水,露:露出\nㄌㄧ|1|離:距離,梨:梨子\nㄌㄧ|2|裡:裡面,理:道理,禮:禮物\nㄌㄧ|3|力:力氣,利:利用,立:站立,麗:美麗\nㄍㄟ|2|給:給予\nㄍㄠ|0|高:高興,糕:蛋糕\nㄍㄠ|2|稿:草稿\nㄍㄠ|3|告:告訴\nㄍㄡ|0|勾:勾選,溝:水溝\nㄍㄡ|2|狗:小狗\nㄍㄡ|3|夠:足夠,購:購買\nㄎㄚ|0|咖:咖啡\nㄎㄚ|2|卡:卡片\nㄎㄠ|2|考:考試,烤:烤肉\nㄎㄠ|3|靠:依靠\nㄎㄡ|2|口:口水\nㄎㄡ|3|扣:扣子\nㄏㄚ|0|哈:哈哈\nㄏㄡ|1|猴:猴子,喉:喉嚨\nㄏㄡ|3|後:後面,厚:厚度\nㄓㄚ|0|渣:豆渣,扎:扎針\nㄓㄚ|2|眨:眨眼\nㄓㄚ|3|炸:炸雞,詐:詐騙\nㄓㄜ|0|遮:遮住\nㄓㄜ|1|哲:哲學,折:折紙\nㄓㄜ|2|者:作者\nㄓㄜ|3|這:這裡\nㄓㄞ|0|摘:摘花\nㄓㄞ|1|宅:住宅\nㄓㄞ|2|窄:狹窄\nㄓㄞ|3|債:欠債\nㄓㄠ|0|招:招手\nㄓㄠ|2|找:找人,沼:沼澤\nㄓㄠ|3|照:照片,罩:口罩\nㄓㄡ|0|周:周圍,州:加州,舟:小舟\nㄓㄡ|1|軸:車軸\nㄓㄡ|2|肘:手肘\nㄓㄡ|3|晝:白晝,皺:皺紋\nㄓㄢ|0|沾:沾水\nㄓㄢ|2|展:展開\nㄓㄢ|3|站:車站,戰:戰爭,占:占有\nㄓㄣ|0|真:真的,針:針線,珍:珍惜\nㄓㄣ|2|診:診所,枕:枕頭\nㄓㄣ|3|震:地震,鎮:鄉鎮\nㄓㄤ|0|張:張開,章:文章\nㄓㄤ|2|掌:手掌,長:長大\nㄓㄤ|3|帳:帳號,障:障礙\nㄓㄥ|0|爭:爭取,蒸:蒸發\nㄓㄥ|2|整:整齊\nㄓㄥ|3|正:正確,證:證明,政:政府,症:症狀\nㄔㄚ|0|插:插花,叉:叉子,差:差別\nㄔㄚ|1|茶:喝茶,查:檢查\nㄔㄜ|0|車:汽車\nㄔㄜ|2|扯:拉扯\nㄔㄜ|3|徹:徹底\nㄔㄞ|0|拆:拆開\nㄔㄞ|1|柴:木柴\nㄔㄠ|0|超:超人,抄:抄寫\nㄔㄠ|1|朝:朝代,潮:潮汐\nㄔㄠ|2|炒:炒菜,吵:吵鬧\nㄔㄡ|0|抽:抽屜\nㄔㄡ|1|仇:仇恨,愁:發愁\nㄔㄡ|2|醜:醜陋\nㄔㄡ|3|臭:臭味\nㄔㄢ|0|摻:摻入\nㄔㄢ|1|纏:纏繞\nㄔㄢ|2|產:產品,鏟:鏟子\nㄔㄢ|3|顫:顫抖\nㄔㄣ|1|沉:沉默,陳:陳列,晨:早晨\nㄔㄣ|3|趁:趁機,襯:襯衫\nㄔㄤ|0|昌:昌盛\nㄔㄤ|1|長:長度,常:常常\nㄔㄤ|2|場:操場,廠:工廠\nㄔㄤ|3|唱:唱歌\nㄔㄥ|0|稱:稱呼,撐:撐傘\nㄔㄥ|1|成:成功,城:城市,誠:誠實,乘:乘法,程:過程\nㄔㄥ|2|逞:逞強\nㄔㄥ|3|秤:磅秤\nㄕㄚ|0|沙:沙子,殺:殺菌\nㄕㄚ|2|傻:傻瓜\nㄕㄜ|1|舌:舌頭,蛇:蛇皮\nㄕㄜ|2|捨:捨不得\nㄕㄜ|3|設:設計,社:社會,射:射擊\nㄕㄞ|0|篩:篩選\nㄕㄞ|3|曬:曬太陽\nㄕㄟ|1|誰:是誰\nㄕㄠ|0|燒:燒開,稍:稍微\nㄕㄠ|2|少:多少\nㄕㄠ|3|少:少年,紹:介紹\nㄕㄡ|0|收:收拾\nㄕㄡ|2|手:雙手,首:首先,守:守護\nㄕㄡ|3|受:接受,瘦:瘦小,壽:長壽\nㄕㄢ|0|山:高山,衫:襯衫\nㄕㄢ|2|閃:閃電\nㄕㄢ|3|善:善良,扇:扇子\nㄕㄣ|0|身:身體,深:深入,伸:伸手\nㄕㄣ|1|神:精神,什:什麼\nㄕㄣ|2|沈:姓沈,審:審查\nㄕㄣ|3|慎:謹慎\nㄕㄤ|0|商:商店,傷:受傷\nㄕㄤ|2|賞:欣賞\nㄕㄤ|3|上:上課\nㄕㄥ|0|生:生日,聲:聲音,升:上升\nㄕㄥ|1|繩:繩子\nㄕㄥ|2|省:省電\nㄕㄥ|3|勝:勝利,聖:神聖\nㄖㄜ|3|熱:熱水\nㄖㄠ|1|饒:饒恕\nㄖㄠ|2|擾:干擾\nㄖㄠ|3|繞:環繞\nㄖㄡ|1|柔:溫柔,揉:揉眼睛\nㄖㄡ|3|肉:牛肉\nㄖㄢ|1|然:然後,燃:燃燒\nㄖㄢ|2|染:染色\nㄖㄣ|1|人:人類,仁:仁愛\nㄖㄣ|2|忍:忍耐\nㄖㄣ|3|認:認識,任:任務\nㄖㄤ|2|嚷:喧嚷\nㄖㄤ|3|讓:讓路\nㄖㄥ|0|扔:扔掉\nㄖㄥ|1|仍:仍然\nㄗㄚ|1|砸:砸壞\nㄗㄜ|1|則:規則,責:責任,擇:選擇,澤:光澤\nㄗㄞ|0|栽:栽種,災:災難\nㄗㄞ|2|載:記載\nㄗㄞ|3|在:現在,再:再見\nㄗㄟ|1|賊:小賊\nㄗㄠ|0|遭:遭遇,糟:糟糕\nㄗㄠ|2|早:早上,澡:洗澡\nㄗㄠ|3|造:製造\nㄗㄡ|2|走:走路\nㄗㄡ|3|奏:演奏\nㄗㄢ|1|咱:咱們\nㄗㄢ|3|暫:暫時,讚:讚美,贊:贊成\nㄗㄣ|2|怎:怎麼\nㄗㄤ|0|髒:骯髒\nㄗㄤ|3|藏:西藏,葬:埋葬\nㄗㄥ|0|增:增加\nㄗㄥ|3|贈:贈送\nㄘㄚ|0|擦:擦乾\nㄘㄜ|3|冊:手冊,側:側面,測:測量,策:策略\nㄘㄞ|0|猜:猜謎\nㄘㄞ|1|才:才能,財:財產\nㄘㄞ|2|採:採集,彩:色彩,踩:踩到\nㄘㄞ|3|菜:青菜\nㄘㄠ|0|操:操場,糙:粗糙\nㄘㄠ|2|草:草地\nㄘㄡ|3|湊:湊齊\nㄘㄢ|0|參:參加,餐:午餐\nㄘㄢ|1|殘:殘障\nㄘㄢ|2|慘:悲慘\nㄘㄢ|3|燦:燦爛\nㄘㄤ|0|倉:倉庫,蒼:蒼白\nㄘㄤ|1|藏:收藏\nㄘㄥ|1|層:樓層\nㄘㄥ|3|蹭:蹭到\nㄙㄚ|0|撒:撒謊\nㄙㄚ|2|灑:灑水\nㄙㄜ|3|色:顏色,澀:苦澀\nㄙㄞ|0|塞:塞車\nㄙㄞ|3|賽:比賽\nㄙㄠ|0|騷:騷擾\nㄙㄠ|2|掃:打掃,嫂:嫂嫂\nㄙㄡ|0|搜:搜尋,艘:一艘\nㄙㄡ|3|嗽:咳嗽\nㄙㄢ|0|三:三個\nㄙㄢ|2|傘:雨傘\nㄙㄢ|3|散:散步\nㄙㄣ|0|森:森林\nㄙㄤ|0|桑:桑樹\nㄙㄤ|2|嗓:嗓子\nㄙㄤ|3|喪:喪失\nㄙㄥ|0|僧:僧人\nㄚ|0|啊:啊呀\nㄣ|0|恩:感恩";
+for (const line of MORE_WORDS.split('\n')) {
+  const [base, toneText, definitions] = line.split('|');
+  if (!LEGAL.has(base) || !/^[0-4]$/.test(toneText)) continue;
+  const key=base+'|'+toneText;
+  const items=EXAMPLES[key]||(EXAMPLES[key]=[]);
+  for(const pair of definitions.split(',')) {
+    const sep=pair.indexOf(':');
+    if(sep<1)continue;
+    const char=pair.slice(0,sep),word=pair.slice(sep+1);
+    if(!char||!word||!word.includes(char))continue;
+    if(!items.some(x=>x.char===char&&x.word===word))items.push({char,word,sentence:''});
+  }
+}
+
+const $=id=>document.getElementById(id);
+const FIRST_CARDS=[...INITIALS,...MEDIALS];
+const RYME_CARDS=[...MEDIALS,...FINALS,...COMBOS];
+const state={initial:'',rhyme:'',tone:0};
+let currentAudio=null,drag=null,suppressClick=null,previousFocus=null,messageTimer=null;
+const MOE_ROOT='https://jhen-1993.github.io/Zhuyora/audio/';
+const SYLLABLE_AUDIO_ROOT='https://cdn.jsdelivr.net/gh/hanziguru/pinyin-audio@main/dist/';
+const moeFile={};
+// 教育部手冊錄音順序：21 個聲符、13 個基本韻符、3 個介符。
+[...INITIALS,...FINALS,...MEDIALS].forEach((symbol,i)=>moeFile[symbol]=`F${i+1}.WAV`);
+const PINYIN_INITIALS={ 'ㄅ':'b','ㄆ':'p','ㄇ':'m','ㄈ':'f','ㄉ':'d','ㄊ':'t','ㄋ':'n','ㄌ':'l','ㄍ':'g','ㄎ':'k','ㄏ':'h','ㄐ':'j','ㄑ':'q','ㄒ':'x','ㄓ':'zh','ㄔ':'ch','ㄕ':'sh','ㄖ':'r','ㄗ':'z','ㄘ':'c','ㄙ':'s' };
+const ZERO_RHYME={
+'ㄧ':'yi','ㄧㄚ':'ya','ㄧㄛ':'yo','ㄧㄝ':'ye','ㄧㄞ':'yai','ㄧㄠ':'yao','ㄧㄡ':'you','ㄧㄢ':'yan','ㄧㄣ':'yin','ㄧㄤ':'yang','ㄧㄥ':'ying',
+'ㄨ':'wu','ㄨㄚ':'wa','ㄨㄛ':'wo','ㄨㄞ':'wai','ㄨㄟ':'wei','ㄨㄢ':'wan','ㄨㄣ':'wen','ㄨㄤ':'wang','ㄨㄥ':'weng',
+'ㄩ':'yu','ㄩㄝ':'yue','ㄩㄢ':'yuan','ㄩㄣ':'yun','ㄩㄥ':'yong'};
+const WITH_INITIAL={
+'ㄧ':'i','ㄧㄚ':'ia','ㄧㄛ':'io','ㄧㄝ':'ie','ㄧㄞ':'iai','ㄧㄠ':'iao','ㄧㄡ':'iu','ㄧㄢ':'ian','ㄧㄣ':'in','ㄧㄤ':'iang','ㄧㄥ':'ing',
+'ㄨ':'u','ㄨㄚ':'ua','ㄨㄛ':'uo','ㄨㄞ':'uai','ㄨㄟ':'ui','ㄨㄢ':'uan','ㄨㄣ':'un','ㄨㄤ':'uang','ㄨㄥ':'ong',
+'ㄩ':'ü','ㄩㄝ':'üe','ㄩㄢ':'üan','ㄩㄣ':'ün','ㄩㄥ':'iong'};
+const SIMPLE={'ㄚ':'a','ㄛ':'o','ㄜ':'e','ㄝ':'ê','ㄞ':'ai','ㄟ':'ei','ㄠ':'ao','ㄡ':'ou','ㄢ':'an','ㄣ':'en','ㄤ':'ang','ㄥ':'eng','ㄦ':'er'};
+const PREFERRED_TONE={'ㄆㄧㄠ':3,'ㄅㄨ':3,'ㄇㄚ':0,'ㄨㄛ':2,'ㄋㄧ':2,'ㄏㄠ':2,'ㄒㄩㄝ':1,'ㄖ':3};
+// Two-slot spelling: ㄧ+ㄚ is the same syllable as the compound rhyme ㄧㄚ,
+// and ㄆ+ㄧㄠ is a normal consonant plus compound rhyme.
+// Top slot accepts the 21 consonants OR the three medials when no consonant is used.
+function syllable(){return state.initial+state.rhyme;}
+function valid(base){return LEGAL.has(base);}
+const ENABLED_BASES=new Set([...LEGAL].filter(base=>TONES.some((_,tone)=>(EXAMPLES[`${base}|${tone}`]||[]).some(x=>x.char&&x.word&&x.word.includes(x.char)))));
+function playableSyllable(base){return ENABLED_BASES.has(base);}
+// The tapped card can be selected if it either completes a word or can be completed
+// with a SECOND card. Precomputing that avoids second-order errors when switching order.
+const FIRST_CHOICES=new Set([...ENABLED_BASES].flatMap(base=>FIRST_CARDS.filter(ch=>base===ch||base.startsWith(ch))));
+const SECOND_CHOICES=new Set([...ENABLED_BASES].flatMap(base=>RYME_CARDS.filter(ch=>base===ch||base.endsWith(ch))));
+function hasSample(initial,rhyme){return playableSyllable(initial+rhyme);}
+// A first-slot medial must pair only with a bare final, not with a compound rhyme.
+function allowedPair(initial,rhyme){
+ if(!initial||!rhyme)return true;
+ if(MEDIALS.includes(initial))return FINALS.includes(rhyme);
+ return INITIALS.includes(initial)&&RYME_CARDS.includes(rhyme);
+}
+// Normalizes an independent two-character rhyme into a top medial and a bottom final;
+// ensures that ㄧㄚ is always shown as [ㄧ] / [ㄚ] on this screen.
+function normalizedSelection(group,sym){
+ let first=state.initial, second=state.rhyme;
+ if(group==='initial'){
+   // A vowel-onset compound may already be shown as [ㄧ]/[ㄠ].
+   // If the pupil then chooses ㄆ, prefer [ㄆ]/[ㄧㄠ], not [ㄆ]/[ㄠ].
+   if(INITIALS.includes(sym)&&MEDIALS.includes(first)){
+     if(second){
+       const whole=first+second;
+       if(COMBOS.includes(whole)&&playableSyllable(sym+whole))second=whole;
+     }else if(playableSyllable(sym+first))second=first;
+   }
+   first=sym;
+ } else if(!first&&MEDIALS.includes(sym)) {
+   first=sym;second='';
+ } else if(!first&&sym.length>1&&MEDIALS.includes(sym[0])){
+   // After choosing ㄧㄚ alone, display the real two-symbol spelling ㄧ above ㄚ.
+   first=sym[0];second=sym.slice(1);
+ }else second=sym;
+ return {initial:first,rhyme:second};
+}
+function canPick(group,sym){
+ const proposed=normalizedSelection(group,sym),a=proposed.initial,r=proposed.rhyme;
+ if(a&&r)return allowedPair(a,r)&&hasSample(a,r);
+ if(a) return [...ENABLED_BASES].some(base=>base===a || base.startsWith(a) && RYME_CARDS.some(x=>base===a+x&&allowedPair(a,x)));
+ if(r) return hasSample('',r)||FIRST_CARDS.some(x=>hasSample(x,r)&&allowedPair(x,r));
+ return false;
+}
+function availableTones(base){if(!valid(base))return TONES.map(()=>false);return TONES.map((_,idx)=>(EXAMPLES[`${base}|${idx}`]||[]).some(item=>item.char&&item.word));}
+function normalizeTone(){const base=syllable(),options=availableTones(base);if(!options[state.tone]){const preferred=PREFERRED_TONE[base];state.tone=preferred!=null&&options[preferred]?preferred:(options.indexOf(true)>=0?options.indexOf(true):0);}}
+function pinyin(initial,rhyme){
+ if(MEDIALS.includes(initial))return ZERO_RHYME[initial+rhyme]||'';
+ if(!initial)return ZERO_RHYME[rhyme]||SIMPLE[rhyme]||'';
+ const prefix=PINYIN_INITIALS[initial];if(!prefix)return '';
+ if(!rhyme)return ['ㄓ','ㄔ','ㄕ','ㄖ','ㄗ','ㄘ','ㄙ'].includes(initial)?prefix+'i':'';
+ if(SIMPLE[rhyme])return prefix+SIMPLE[rhyme];
+ let r=WITH_INITIAL[rhyme];if(!r)return '';
+ if(r.startsWith('ü')&&['ㄐ','ㄑ','ㄒ'].includes(initial))r='u'+r.slice(1);
+ if(r==='iong'&&['ㄐ','ㄑ','ㄒ'].includes(initial))return prefix+r;
+ if(r==='ü'&&['ㄋ','ㄌ'].includes(initial))return prefix+'ü';
+ // ㄅㄛ/ㄆㄛ/ㄇㄛ ㄈㄛ are written bo,po,mo,fo; ㄨㄥ is -ong after consonants.
+ return prefix+r;
+}
+// 降低延遲：相同網址共用解碼快取、跳過音檔兩端靜音、略微加快但不改變聲調。
+let audioContext=null,activeSource=null,playSeq=0,activeMedia=null;
+const audioCache=new Map(),mediaCache=new Map();
+const AUDIO_RATE=1.16;
+function flashMessage(msg){clearTimeout(messageTimer);$('message').textContent=msg;messageTimer=setTimeout(()=>$('message').textContent='',2400);}
+function pauseAudio(){playSeq++;try{activeSource?.stop()}catch(_){}activeSource=null;if(activeMedia){activeMedia.pause();activeMedia=null;}if(currentAudio){currentAudio.pause();currentAudio=null;}if(window.speechSynthesis)window.speechSynthesis.cancel();}
+function context(){if(!audioContext){const A=window.AudioContext||window.webkitAudioContext;if(A)audioContext=new A();}if(audioContext?.state==='suspended')audioContext.resume().catch(()=>{});return audioContext;}
+function getBuffer(url){if(audioCache.has(url))return audioCache.get(url);const ctx=context();if(!ctx)return Promise.reject(Error('no AudioContext'));
+ const p=fetch(url,{cache:'force-cache'}).then(r=>{if(!r.ok)throw Error('audio '+r.status);return r.arrayBuffer()}).then(ab=>ctx.decodeAudioData(ab));
+ audioCache.set(url,p);return p;}
+function trimTimes(buf){const x=buf.getChannelData(0),rate=buf.sampleRate;let peak=0;for(let i=0;i<x.length;i+=32)peak=Math.max(peak,Math.abs(x[i]));let threshold=Math.max(.0015,peak*.022),start=0,end=x.length-1,step=Math.max(1,Math.floor(rate*.005));
+ let quiet=0;for(let i=0;i<x.length;i+=step){let m=0;for(let j=i;j<Math.min(i+step,x.length);j+=4)m=Math.max(m,Math.abs(x[j]));if(m>=threshold){start=Math.max(0,i-Math.floor(rate*.025));break;}quiet=i;}
+ for(let i=x.length-1;i>=0;i-=step){let m=0;for(let j=i;j>=Math.max(0,i-step);j-=4)m=Math.max(m,Math.abs(x[j]));if(m>=threshold){end=Math.min(x.length-1,i+Math.floor(rate*.040));break;}}
+ if((end-start)/rate<.15)return [0,buf.duration];return [start/rate,(end+1)/rate];}
+function playbackBuffer(buf,seq){if(seq!==playSeq)return;const ctx=context();const source=ctx.createBufferSource();const gain=ctx.createGain();source.buffer=buf;source.playbackRate.value=1;gain.gain.value=.96;source.connect(gain);gain.connect(ctx.destination);const [a,b]=trimTimes(buf);activeSource=source;source.onended=()=>{if(activeSource===source)activeSource=null;};source.start(0,a,Math.max(.10,b-a));}
+function mediaPlay(url,seq,onFail){if(seq!==playSeq)return;let audio=mediaCache.get(url);if(!audio){audio=new Audio();audio.preload='auto';audio.src=url;mediaCache.set(url,audio);}activeMedia=audio;audio.playbackRate=AUDIO_RATE;if('preservesPitch' in audio)audio.preservesPitch=true;try{audio.currentTime=0;}catch(_){}let done=false;let timeoutId=null;const fail=()=>{if(done||seq!==playSeq)return;done=true;clearTimeout(timeoutId);audio.pause();audio.onerror=null;onFail();};audio.onerror=fail;const success=()=>{done=true;clearTimeout(timeoutId);};timeoutId=setTimeout(fail,2200);try{const result=audio.play();if(result?.then)result.then(success,fail);}catch(e){fail();}}
+// 瀏覽器的合成語音僅在來源音檔無法播放時使用；以人工校對過的例字作為發音依據。
+const FALLBACK_CHARS={'ㄧㄚ':'鴨','ㄧㄞ':'崖','ㄧㄛ':'唷','ㄧㄝ':'耶','ㄧㄠ':'腰','ㄧㄡ':'優','ㄧㄢ':'煙','ㄧㄣ':'音','ㄧㄤ':'央','ㄧㄥ':'英','ㄨㄚ':'蛙','ㄨㄛ':'窩','ㄨㄞ':'歪','ㄨㄟ':'威','ㄨㄢ':'彎','ㄨㄣ':'溫','ㄨㄤ':'汪','ㄨㄥ':'翁','ㄩㄝ':'約','ㄩㄢ':'冤','ㄩㄣ':'暈','ㄩㄥ':'雍'};
+function aiVoiceExample(base,tone){return EXAMPLES[`${base}|${tone}`]?.[0]?.char||((!base||base.length<=1)?'':FALLBACK_CHARS[base])||'';}
+function synthesizedFallback(base,tone,seq){if(seq!==playSeq)return;const text=aiVoiceExample(base,tone);if(!text||!window.speechSynthesis){flashMessage('這個讀音暫時無法播放');return;}
+ const utter=new SpeechSynthesisUtterance(text);utter.lang='zh-TW';utter.rate=1.05;utter.pitch=1;
+ const voices=window.speechSynthesis.getVoices();utter.voice=voices.find(v=>v.lang.toLowerCase()==='zh-tw')||voices.find(v=>v.lang.toLowerCase().startsWith('zh'))||null;
+ utter.onerror=()=>{if(seq===playSeq)flashMessage('目前沒有可用的發音');};window.speechSynthesis.speak(utter);
+}
+function playUrls(urls,base='',tone=0){pauseAudio();const seq=playSeq;const candidates=[...new Set(urls)];let i=0;
+ function next(){if(seq!==playSeq)return;if(i>=candidates.length){synthesizedFallback(base,tone,seq);return;}const url=candidates[i++];
+ getBuffer(url).then(buf=>playbackBuffer(buf,seq)).catch(()=>mediaPlay(url,seq,next));}
+ next();}
+function syllableUrls(pin,tone){if(!pin)return [];const keys=[pin.replaceAll('ü','v'),pin.replaceAll('ü','u')];return [...new Set(keys)].map(s=>`${SYLLABLE_AUDIO_ROOT}${encodeURIComponent(s)}${tone+1}.mp3`);}
+function playCard(group,symbol){if(group==='initial'||symbol.length===1){const f=moeFile[symbol];if(f)playUrls([MOE_ROOT+f],symbol,0);return;}
+ const tone=availableTones(symbol).indexOf(true);const chosen=tone>=0?tone:(symbol==='ㄧㄞ'?1:0);playUrls(syllableUrls(pinyin('',symbol),chosen),symbol,chosen);}
+function playComposed(){const base=syllable();if(!valid(base)||!availableTones(base)[state.tone])return;playUrls(syllableUrls(pinyin(state.initial,state.rhyme),state.tone),base,state.tone);}
+// 首次開啟時預先快取開頭可見的卡牌；網路慢時不阻塞畫面。
+function warmAudio(){const urls=[...INITIALS.slice(0,8),...MEDIALS,...FINALS.slice(0,5)].map(x=>MOE_ROOT+moeFile[x]);urls.forEach((url,i)=>setTimeout(()=>{if(!audioCache.has(url))getBuffer(url).catch(()=>{});},350+i*90));}
+function iconNode(str,stack){const el=document.createElement('span');el.className='symbol'+(!str?' plus':'')+(stack?' stacked':'');if(!str){el.textContent='＋';return el;}
+ if(stack){for(const ch of str){const item=document.createElement('span');item.textContent=ch;el.append(item);}}else el.textContent=str;return el;}
+function fillSlot(key,value){const el=$(key==='initial'?'initialSlot':'rhymeSlot');const oldSymbol=el.querySelector('.symbol');oldSymbol.replaceWith(iconNode(value,key==='rhyme'&&value.length>1));el.classList.toggle('filled',!!value);el.classList.toggle('no-initial',key==='initial'&&!value&&!!state.rhyme);el.setAttribute('aria-label',value?`${value}，點擊再聽一次；點右上角叉號可移除`:'點選下方卡牌放入');}
+function render(){normalizeTone();fillSlot('initial',state.initial);fillSlot('rhyme',state.rhyme);$('vertical').classList.toggle('single-sound',!!state.initial&&!state.rhyme);
+ const base=syllable(), complete=valid(base),tones=availableTones(base);
+ const mark=$('toneMark');mark.textContent=complete?(state.tone===0?'':TONES[state.tone].symbol):'';mark.classList.toggle('neutral',state.tone===4);mark.dataset.tone=String(state.tone);
+ for(const b of $('toneButtons').children){const i=Number(b.dataset.tone);b.disabled=!complete||!tones[i];b.classList.toggle('active',complete&&i===state.tone&&tones[i]);b.setAttribute('aria-pressed',String(complete&&i===state.tone&&tones[i]));}
+ $('playFull').disabled=!complete||!tones[state.tone];
+ $('openExamples').disabled=!complete||!tones[state.tone];
+ document.querySelectorAll('.card').forEach(b=>{const group=b.dataset.group,sym=b.dataset.symbol,available=canPick(group,sym);b.disabled=!available;b.classList.toggle('selected',state[group]===sym);b.setAttribute('aria-label',`${sym}${available?'':'，目前無法選擇'}`)});
+}
+function applyCard(group,sym,play=true){if(!canPick(group,sym))return;const wasComplete=playableSyllable(syllable());const target=normalizedSelection(group,sym);state.initial=target.initial;state.rhyme=target.rhyme;if(!wasComplete&&playableSyllable(syllable())){const preferred=PREFERRED_TONE[syllable()];if(preferred!=null)state.tone=preferred;}render();if(play)playCard(group,sym);}
+function reset(){pauseAudio();state.initial='';state.rhyme='';state.tone=0;render();}
+function createBank(railId,symbols,group){const rail=$(railId);for(const sym of symbols){const b=document.createElement('button');b.type='button';b.className='card'+(sym.length>1?' combo':'');b.dataset.group=group;b.dataset.symbol=sym;
+ const display=document.createElement('span');display.className='symbols';if(sym.length>1){for(const ch of sym){const v=document.createElement('span');v.textContent=ch;display.append(v);}}else display.textContent=sym;b.append(display);
+ b.addEventListener('click',()=>{if(suppressClick?.button===b&&performance.now()<suppressClick.until)return;applyCard(group,sym,true);});
+ b.addEventListener('pointerdown',e=>beginDrag(e,b));
+ rail.append(b);}}
+function setupTones(){const tones=[['','一聲'],['ˊ','二聲'],['ˇ','三聲'],['ˋ','四聲'],['˙','輕聲']];tones.forEach(([sym,label],i)=>{const b=document.createElement('button');b.className='tone';b.type='button';b.dataset.tone=i;b.setAttribute('aria-label',label);b.innerHTML=`<span class="tone-icon">${sym}</span><span class="tone-text">${label}</span>`;b.addEventListener('click',()=>{if(b.disabled)return;state.tone=i;render();});$('toneButtons').append(b);});}
+function exampleOpen(){const base=syllable(),key=`${base}|${state.tone}`,items=(EXAMPLES[key]||[]).filter(item=>item.char&&item.word);if(!items.length)return;previousFocus=document.activeElement;
+ $('dialogName').textContent=`${state.tone===4?'˙'+base:base+TONES[state.tone].symbol} · 舉例`;
+ const words=$('wordTiles');words.replaceChildren();$('definition').hidden=true;
+ items.forEach((item,index)=>{const b=document.createElement('button');b.type='button';b.className='word-tile';b.innerHTML=`<span class="char"></span><span class="phrase"></span>`;b.querySelector('.char').textContent=item.char;b.querySelector('.phrase').textContent=item.word;b.addEventListener('click',()=>{
+  [...words.children].forEach(x=>x.classList.remove('picked'));b.classList.add('picked');$('definition').hidden=false;$('definition').replaceChildren();const phrase=document.createElement('div');phrase.className='def-phrase';phrase.textContent=item.word;$('definition').append(phrase);if(item.sentence){const sentence=document.createElement('div');sentence.className='def-sentence';sentence.textContent=item.sentence;$('definition').append(sentence);}
+ });words.append(b);});$('overlay').classList.remove('hidden');document.body.style.overflow='hidden';$('closeDialog').focus();}
+function exampleClose(){$('overlay').classList.add('hidden');document.body.style.overflow='';previousFocus?.focus();}
+function beginDrag(e,button){if(button.disabled||e.button!==0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,button,group:button.dataset.group,symbol:button.dataset.symbol,active:false,clone:null};}
+function moveDrag(e){if(!drag||drag.id!==e.pointerId)return;const d=drag,dx=e.clientX-d.x,dy=e.clientY-d.y;
+ // 水平移動交給原生捲動；垂直往上才啟動拖曳卡牌。
+ if(!d.active){if(Math.abs(dx)>10&&Math.abs(dx)>Math.abs(dy)){drag=null;return;}if(Math.abs(dy)<11)return;d.active=true;try{d.button.setPointerCapture(e.pointerId)}catch(_){}const clone=document.createElement('div');clone.className='dragging-clone';clone.textContent=d.symbol;document.body.append(clone);d.clone=clone;}
+ if(d.active){if(e.cancelable)e.preventDefault();d.clone.style.left=e.clientX+'px';d.clone.style.top=e.clientY+'px';document.querySelectorAll('.slot').forEach(el=>el.classList.remove('drag-over'));const target=document.elementFromPoint(e.clientX,e.clientY);const slot=target?.closest('.slot');if(slot&&(slot.dataset.target===d.group||(slot.dataset.target==='initial'&&d.group==='rhyme'&&MEDIALS.includes(d.symbol)&&canPick('initial',d.symbol))))slot.classList.add('drag-over');}}
+function endDrag(e){if(!drag||drag.id!==e.pointerId)return;const d=drag;drag=null;document.querySelectorAll('.slot').forEach(x=>x.classList.remove('drag-over'));if(!d.active)return;d.clone?.remove();suppressClick={button:d.button,until:performance.now()+180};const dest=document.elementFromPoint(e.clientX,e.clientY)?.closest('.slot');if(dest){if(dest.dataset.target===d.group)applyCard(d.group,d.symbol,true);else if(dest.dataset.target==='initial'&&d.group==='rhyme'&&MEDIALS.includes(d.symbol))applyCard('initial',d.symbol,true);}}
+
+function setupModes(){const setMode=mode=>{pauseAudio();const compose=mode==='compose';$('composeMode').hidden=!compose;$('readMode').hidden=compose;for(const [id,selected] of [['tabCompose',compose],['tabRead',!compose]]){const b=$(id);b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected));}};
+ $('tabCompose').addEventListener('click',()=>setMode('compose'));
+ $('tabRead').addEventListener('click',()=>setMode('read'));
+ const grid=$('readingGrid');for(const symbol of [...INITIALS,...MEDIALS,...FINALS,...COMBOS]){const b=document.createElement('button');b.type='button';b.className='read-card';b.setAttribute('aria-label',`聽 ${symbol} 的發音`);const span=document.createElement('span');span.className='symbols'+(symbol.length>1?' read-stacked':'');for(const ch of symbol){const el=document.createElement('span');el.textContent=ch;span.append(el);}b.append(span);b.addEventListener('click',()=>{grid.querySelectorAll('.read-card.played').forEach(e=>e.classList.remove('played'));b.classList.add('played');playCard(INITIALS.includes(symbol)?'initial':'rhyme',symbol);});grid.append(b);}}
+createBank('initialRail',FIRST_CARDS,'initial');createBank('rhymeRail',RYME_CARDS,'rhyme');setupTones();setupModes();render();setTimeout(warmAudio,150);
+$('reset').addEventListener('click',reset);$('playFull').addEventListener('click',playComposed);$('openExamples').addEventListener('click',exampleOpen);$('closeDialog').addEventListener('click',exampleClose);$('overlay').addEventListener('click',e=>{if(e.target===$('overlay'))exampleClose();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('overlay').classList.contains('hidden'))exampleClose();});
+for(const [key,id] of [['initial','initialSlot'],['rhyme','rhymeSlot']]){$(id).addEventListener('click',e=>{if(!state[key])return;const rect=e.currentTarget.getBoundingClientRect();if(e.clientX>rect.right-30&&e.clientY<rect.top+24){state[key]='';render();pauseAudio();return;}playCard(key,state[key]);});}
+for(const b of document.querySelectorAll('.rail-arrow'))b.addEventListener('click',()=>$(b.dataset.rail).scrollBy({left:Number(b.dataset.dir)*310,behavior:'smooth'}));
+document.addEventListener('pointermove',moveDrag,{passive:false});document.addEventListener('pointerup',endDrag);document.addEventListener('pointercancel',e=>{if(drag?.clone)drag.clone.remove();drag=null;document.querySelectorAll('.slot').forEach(x=>x.classList.remove('drag-over'));});
+</script>
+</body></html>
